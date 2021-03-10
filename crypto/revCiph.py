@@ -1,5 +1,5 @@
 message = "when the imposter is sus"
-tras = ""
+traslated = ""
 
 i = len(message) - 1
 
