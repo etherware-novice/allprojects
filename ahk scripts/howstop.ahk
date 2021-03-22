@@ -3,22 +3,39 @@
 SendMode Input  ; Recommended for new scripts due to its superior speed and reliability.
 SetWorkingDir %A_ScriptDir%  ; Ensures a consistent starting directory.
 
+help() {
+	#IfWinActive,ahk_exe discord.exe
+	Send, {BACKSPACE}
+	Send, {BACKSPACE}
+	Send, {BACKSPACE}
+	Send, ^k
+	SendRaw, #how-log
+	Send, {Enter}
+	Send, how log bot stopped @candycane {Enter} from saying how {Enter}
+	Send, ^k
+	SendRaw, #advice
+	Send, {Enter}
+	Send, shut up and read this
+
+	return
+}
+
 :*:how::
-Send, {BACKSPACE}
-Send, {BACKSPACE}
-Send, {BACKSPACE}
+help()
+return
 
 :*:h-::
-Send, {BACKSPACE}
-Send, {BACKSPACE}
-Send, {BACKSPACE}
+help()
+return
 
 :*:ho-::
-Send, {BACKSPACE}
-Send, {BACKSPACE}
-Send, {BACKSPACE}
+help()
+return
 
 :*:..::
-Send, {BACKSPACE}
-Send, {BACKSPACE}
-Send, {BACKSPACE}
+help()
+return
+
+^k::
+Send, ctrl k sent
+
