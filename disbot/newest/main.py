@@ -18,7 +18,7 @@ def main():
 
 	@bot.event
 	async def on_ready():
-	    
+
 	    guild = discord.utils.get(bot.guilds, name=GUILD)
 
 	    print(
@@ -27,7 +27,7 @@ def main():
 	    )
 
 	    await bot.change_presence(activity=discord.Game(name='candycane\'s bot :)'))
-	    
+
 
 
 	@bot.command(name='reload', help='Reloads the python commands')
