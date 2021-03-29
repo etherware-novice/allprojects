@@ -25,6 +25,8 @@ def main():
 	    	f'{bot.user} is connected to the following guild:\n'
 	        f'{guild.name}(id: {guild.id})'
 	    )
+
+	    await bot.change_presence(activity=discord.Game(name='candycane\'s bot :)'))
 	    
 
 
