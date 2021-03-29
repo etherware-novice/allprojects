@@ -39,8 +39,7 @@ def main():
 		elif state == 2: brn = "discordbotnew3andknuckles"
 
 		os.system(f"git checkout {brn}")
-
-os.system(f"git pull origin")
+		os.system(f"git pull origin")
 
 		print(f'[{ctx.guild.name}]: User [{ctx.author}] used [restart] command on state {state}')
 		await channel.send(f'[{ctx.guild.name}]: User [{ctx.author}] used [restart] command on state {state}')
