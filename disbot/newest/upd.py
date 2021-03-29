@@ -48,4 +48,4 @@ def setup(bot):
 
 def log(ctx, cmd):
 	print(f'{[ctx.guild.name]}: User [{ctx.author}] used [{cmd}] command in #{ctx.channel}')
-
+	print(f'[{ctx.guild.name}]: User [{ctx.author}] used [{cmd}] command on state {state}')

@@ -16,6 +16,8 @@ def main():
 
 	bot = commands.Bot(command_prefix='!')
 
+	channel = bot.get_channel("825935386684686346")
+
 	@bot.event
 	async def on_ready():
 
@@ -41,7 +43,9 @@ def main():
 os.system(f"git pull origin")
 
 		print(f'[{ctx.guild.name}]: User [{ctx.author}] used [restart] command on state {state}')
+		await channel.send(f'[{ctx.guild.name}]: User [{ctx.author}] used [restart] command on state {state}')
 		await ctx.send(f'{ctx.author} reloaded the bot.')
+
 		bot.reload_extension("upd")
 
 	bot.load_extension("upd")
