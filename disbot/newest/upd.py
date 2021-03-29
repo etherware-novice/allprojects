@@ -49,7 +49,7 @@ class General(commands.Cog):
 		await log(ctx, "dnd dice")
 
 
-	@Bot.event
+	@commands.command
 	async def on_message(ctx, message):
 		print("12")
 
