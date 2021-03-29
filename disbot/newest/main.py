@@ -36,7 +36,7 @@ def main():
 		if state == 1: brn == "master"
 		elif state == 2: brn = "discordbotnew3andknuckles"
 
-		os.system(f"git pull origin {brn}")
+		os.system(f"git checkout {brn}")
 		print(f'[{ctx.guild.name}]: User [{ctx.author}] used [restart] command on state {state}')
 		await ctx.send(f'{ctx.author} reloaded the bot.')
 		bot.reload_extension("upd")
