@@ -28,7 +28,7 @@ class General(commands.Cog):
 		response =  random.randint(0, 500)
 		await ctx.send(response)
 		#await ctx.send('new')
-		log(ctx, "rng")
+		await log(ctx, "rng")
 
 	@commands.command(name='dndr', help="Returns a certain number of dice with modifiers")
 	async def dnd(self, ctx, size:int, num:int, mod:int):
