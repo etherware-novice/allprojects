@@ -42,11 +42,11 @@ class General(commands.Cog):
 		await ctx.send(f'{numsum} + {mod}')
 		numsum += mod
 		await ctx.send(numsum)
-		log(ctx, "dnd dice")
+		await log(ctx, "dnd dice")
 
 def setup(bot):
 	bot.add_cog(General(bot))
 
-def log(ctx, cmd):
+async def log(ctx, cmd):
 	print(f'{[ctx.guild.name]}: User [{ctx.author}] used [{cmd}] command in #{ctx.channel}')
 	await channel.send(f'[{ctx.guild.name}]: User [{ctx.author}] used [{cmd}] command in #{ctx.channel}')
