@@ -18,7 +18,7 @@ def main():
 
 	@bot.event
 	async def on_ready():
-	    
+
 	    guild = discord.utils.get(bot.guilds, name=GUILD)
 
 	    print(
@@ -27,7 +27,7 @@ def main():
 	    )
 
 	    await bot.change_presence(activity=discord.Game(name='candycane\'s bot :)'))
-	    
+
 
 
 	@bot.command(name='reload', help='Reloads the python commands')
@@ -36,7 +36,8 @@ def main():
 		if state == 1: brn == "master"
 		elif state == 2: brn = "discordbotnew3andknuckles"
 
-		os.system(f"git pull origin {brn}")
+		os.system(f"git checkout {brn}")
+		os.system(f"git pull origin")
 		print(f'[{ctx.guild.name}]: User [{ctx.author}] used [restart] command on state {state}')
 		await ctx.send(f'{ctx.author} reloaded the bot.')
 		bot.reload_extension("upd")
