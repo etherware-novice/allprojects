@@ -12,11 +12,16 @@ from dotenv import load_dotenv
 
 # todo: add log channel
 
+
+
 class General(commands.Cog):
 	def __init__(self, bot):
 		self.bot = bot
+		print("abc")
 
-	async def on_member_join(member):
+	@commands.Cog.listener()
+	async def on_member_join(self, member):
+		print("tst")
 		await member.send(
 				f'Hi {member.name}, welcome to my test server!'
 			)
@@ -26,8 +31,8 @@ class General(commands.Cog):
 	async def randreturn(self, ctx):
 		response =  random.randint(0, 500)
 		await ctx.send(response)
-		await ctx.send('new')
-		log(ctx, "rng")
+		#await ctx.send('new')
+		await log(ctx, "rng")
 
 	@commands.command(name='dndr', help="Returns a certain number of dice with modifiers")
 	async def dnd(self, ctx, size:int, num:int, mod:int):
@@ -41,11 +46,14 @@ class General(commands.Cog):
 		await ctx.send(f'{numsum} + {mod}')
 		numsum += mod
 		await ctx.send(numsum)
-		log(ctx, "dnd dice")
+		await log(ctx, "dnd dice")
 
 def setup(bot):
 	bot.add_cog(General(bot))
 
-def log(ctx, cmd):
+async def log(ctx, cmd):
 	print(f'{[ctx.guild.name]}: User [{ctx.author}] used [{cmd}] command in #{ctx.channel}')
-
+	
+	bot = ctx.bot
+	channel = bot.get_channel(825935386684686346)
+	await channel.send(f'[{ctx.guild.name}]: User [{ctx.author}] used [{cmd}] command in #{ctx.channel}')

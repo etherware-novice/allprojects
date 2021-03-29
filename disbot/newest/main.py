@@ -14,7 +14,9 @@ def main():
 	TOKEN = os.getenv('DISCORD_TOKEN')
 	GUILD = os.getenv('DISCORD_GUILD')
 
-	bot = commands.Bot(command_prefix='!')
+	bot = commands.Bot(command_prefix='!', intents=intents)
+
+	channel = bot.get_channel("825935386684686346")
 
 	@bot.event
 	async def on_ready():
@@ -32,16 +34,18 @@ def main():
 
 	@bot.command(name='reload', help='Reloads the python commands')
 	async def relbot(ctx, state=0):
-                brn = "HEAD"
-                if state == 1: brn = "master"
-                elif state == 2: brn = "discordbotnew3andknuckles"
+		brn = "HEAD"
+		if state == 1: brn = "master"
+		elif state == 2: brn = "discordbotnew3andknuckles"
 
-                os.system(f"git checkout {brn}")
-                os.system(f"git pull origin")
+		os.system(f"git checkout {brn}")
+		os.system(f"git pull origin")
 
-                print(f'[{ctx.guild.name}]: User [{ctx.author}] used [restart] command on state {state}')
-                await ctx.send(f'{ctx.author} reloaded the bot.')
-                bot.reload_extension("upd")
+		print(f'[{ctx.guild.name}]: User [{ctx.author}] used [restart] command on state {state}')
+		await channel.send(f'[{ctx.guild.name}]: User [{ctx.author}] used [restart] command on state {state}')
+		await ctx.send(f'{ctx.author} reloaded the bot.')
+
+		bot.reload_extension("upd")
 
 	bot.load_extension("upd")
 	bot.run(TOKEN)
