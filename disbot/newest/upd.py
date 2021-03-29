@@ -10,6 +10,8 @@ import asyncio
 from datetime import datetime
 from dotenv import load_dotenv
 
+
+
 class General(commands.Cog):
 	def __init__(self, bot):
 		self.bot = bot
@@ -25,7 +27,7 @@ class General(commands.Cog):
 		response =  random.randint(0, 500)
 		await ctx.send(response)
 		#await ctx.send('new')
-		print(f'[now]: User [{ctx.author}] used [rng] command in  #{ctx.channel}')
+		log(ctx, "rng")
 
 	@commands.command(name='dndr', help="Returns a certain number of dice with modifiers")
 	async def dnd(self, ctx, size:int, num:int, mod:int):
@@ -39,7 +41,10 @@ class General(commands.Cog):
 		await ctx.send(f'{numsum} + {mod}')
 		numsum += mod
 		await ctx.send(numsum)
-		print(f'[now]: User [{ctx.author}] used [dnd dice] command in #{ctx.channel}')
+		log(ctx, "dnd dice")
 
 def setup(bot):
 	bot.add_cog(General(bot))
+
+def log(ctx, cmd):
+	print(f'{[ctx.guild.name]}: User [{ctx.author}] used [{cmd}] command in #{ctx.channel}')

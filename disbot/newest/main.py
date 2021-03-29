@@ -30,7 +30,7 @@ def main():
 
 	@bot.command(name='reload', help='Reloads the python commands')
 	async def relbot(ctx):
-		print(f'[now]: User [{ctx.author}] used [restart] command')
+		print(f'[{ctx.guild.name}]: User [{ctx.author}] used [restart] command')
 		await ctx.send(f'{ctx.author} reloaded the bot.')
 		bot.reload_extension("upd")
 
