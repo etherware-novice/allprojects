@@ -51,6 +51,7 @@ class General(commands.Cog):
 
 	@Bot.event
 	async def on_message(ctx, message):
+		print("12")
 
 		if "weem" in message.content:
 			await message.delete(message)
