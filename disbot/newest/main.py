@@ -1,34 +1,39 @@
-import upd
-import os
+def main():
+	import os
 
-import discord
-import random
-import asyncio
-from datetime import datetime
-from dotenv import load_dotenv
-intents = discord.Intents.default()
-intents.members = True
+	import discord
+	import random
+	from discord.ext import commands
+	import asyncio
+	from datetime import datetime
+	from dotenv import load_dotenv
+	intents = discord.Intents.default()
+	intents.members = True
 
-load_dotenv()
-TOKEN = os.getenv('DISCORD_TOKEN')
-GUILD = os.getenv('DISCORD_GUILD')
+	load_dotenv()
+	TOKEN = os.getenv('DISCORD_TOKEN')
+	GUILD = os.getenv('DISCORD_GUILD')
 
-client = discord.Client(intents=intents)
+	bot = commands.Bot(command_prefix='!')
 
-@client.event
-async def on_ready():
-    
-    guild = discord.utils.get(client.guilds, name=GUILD)
+	@bot.event
+	async def on_ready():
+	    
+	    guild = discord.utils.get(bot.guilds, name=GUILD)
 
-    print(
-    	f'{client.user} is connected to the following guild:\n'
-        f'{guild.name}(id: {guild.id})'
-    )
-    await inloop()
-
-async def inloop():
-
-	upd.commands(client)
+	    print(
+	    	f'{bot.user} is connected to the following guild:\n'
+	        f'{guild.name}(id: {guild.id})'
+	    )
+	    
 
 
-client.run(TOKEN)
+	@bot.command(name='reload', help='Reloads the python commands')
+	async def relbot(ctx):
+		print(f'[now]: User [{ctx.author}] used [restart] command')
+		await ctx.send(f'{ctx.author} reloaded the bot.')
+		bot.reload_extension("upd")
+
+	bot.load_extension("upd")
+	bot.run(TOKEN)
+main()

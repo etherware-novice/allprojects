@@ -1,35 +1,45 @@
 #def timeup(format):
 #	return datetime.now.strftime(format)
 
-def commands(client):
-	import os
-	import discord
-	import random
-	from datetime import datetime
-	from dotenv import load_dotenv
-#	intents = discord.Intents.default()
-#	intents.members = True
+from discord.ext import commands
+import os
+import discord
+import random
+from discord.ext import commands
+import asyncio
+from datetime import datetime
+from dotenv import load_dotenv
 
-	load_dotenv()
-	TOKEN = os.getenv('DISCORD_TOKEN')
-	GUILD = os.getenv('DISCORD_GUILD')
+class General(commands.Cog):
+	def __init__(self, bot):
+		self.bot = bot
 
-#	client = discord.Client(intents=intents)
-
-	@client.event
 	async def on_member_join(member):
-		await member.create_dm()
-		await member.dm_channel.send(
+		await member.send(
 				f'Hi {member.name}, welcome to my test server!'
 			)
 
-	@client.event
-	async def on_message(message):
-		#now = timeup("%H:%M")
-		if message.author == client.user:
-			return
+	@commands.command(name='rng', help='Responds with a random number')
+	#now = timeup("%H:%M")
+	async def randreturn(self, ctx):
+		response =  random.randint(0, 500)
+		await ctx.send(response)
+		#await ctx.send('new')
+		print(f'[now]: User [{ctx.author}] used [rng] command in  #{ctx.channel}')
 
-		if message.content == 'rng!':
-			response = random.randint(0, 500)
-			await message.channel.send(response)
-			print(f'[now]: User [{message.author}] used [rng] command in  #{message.channel}')
+	@commands.command(name='dndr', help="Returns a certain number of dice with modifiers")
+	async def dnd(self, ctx, size:int, num:int, mod:int):
+		dice = [random.randint(1, size) for _ in range(num)]
+
+		numsum = 0
+		for d in dice:
+			numsum += d
+		
+		await ctx.send(dice)
+		await ctx.send(f'{numsum} + {mod}')
+		numsum += mod
+		await ctx.send(numsum)
+		print(f'[now]: User [{ctx.author}] used [dnd dice] command in #{ctx.channel}')
+
+def setup(bot):
+	bot.add_cog(General(bot))
