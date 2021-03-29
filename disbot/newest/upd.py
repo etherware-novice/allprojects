@@ -12,6 +12,9 @@ from dotenv import load_dotenv
 
 # todo: add log channel
 
+bot = commands.Bot(command_prefix='!')
+
+channel = bot.get_channel("825935386684686346")
 
 class General(commands.Cog):
 	def __init__(self, bot):
