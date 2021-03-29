@@ -48,6 +48,15 @@ class General(commands.Cog):
 		await ctx.send(numsum)
 		await log(ctx, "dnd dice")
 
+
+	@Bot.event
+	async def on_message(ctx, message):
+
+		if "weem" in message.content:
+			await message.delete(message)
+			await ctx.send(f"{message.author} has been weem blocked")
+			await log(ctx, "anti weem (not command)")
+
 def setup(bot):
 	bot.add_cog(General(bot))
 
