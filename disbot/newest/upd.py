@@ -12,9 +12,7 @@ from dotenv import load_dotenv
 
 # todo: add log channel
 
-bot = commands.Bot(command_prefix='!')
 
-channel = bot.get_channel("825935386684686346")
 
 class General(commands.Cog):
 	def __init__(self, bot):
@@ -52,4 +50,7 @@ def setup(bot):
 
 async def log(ctx, cmd):
 	print(f'{[ctx.guild.name]}: User [{ctx.author}] used [{cmd}] command in #{ctx.channel}')
+	
+	bot = ctx.bot
+	channel = bot.get_channel(825935386684686346)
 	await channel.send(f'[{ctx.guild.name}]: User [{ctx.author}] used [{cmd}] command in #{ctx.channel}')
