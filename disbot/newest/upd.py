@@ -17,8 +17,11 @@ from dotenv import load_dotenv
 class General(commands.Cog):
 	def __init__(self, bot):
 		self.bot = bot
+		print("abc")
 
-	async def on_member_join(member):
+	@commands.Cog.listener()
+	async def on_member_join(self, member):
+		print("tst")
 		await member.send(
 				f'Hi {member.name}, welcome to my test server!'
 			)

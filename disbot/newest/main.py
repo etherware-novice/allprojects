@@ -14,7 +14,7 @@ def main():
 	TOKEN = os.getenv('DISCORD_TOKEN')
 	GUILD = os.getenv('DISCORD_GUILD')
 
-	bot = commands.Bot(command_prefix='!')
+	bot = commands.Bot(command_prefix='!', intents=intents)
 
 	channel = bot.get_channel("825935386684686346")
 
