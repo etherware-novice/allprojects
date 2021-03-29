@@ -34,6 +34,9 @@ def main():
 
 	@bot.command(name='reload', help='Reloads the python commands')
 	async def relbot(ctx, state=0):
+		bot = ctx.bot
+		channel = bot.get_channel(825935386684686346)
+		
 		brn = "HEAD"
 		if state == 1: brn = "master"
 		elif state == 2: brn = "discordbotnew3andknuckles"
