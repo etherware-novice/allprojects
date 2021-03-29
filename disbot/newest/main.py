@@ -33,7 +33,7 @@ def main():
 	@bot.command(name='reload', help='Reloads the python commands')
 	async def relbot(ctx, state=0):
 		brn = "HEAD"
-		if state == 1: brn == "master"
+		if state == 1: brn = "master"
 		elif state == 2: brn = "discordbotnew3andknuckles"
 
 		os.system(f"git checkout {brn}")
