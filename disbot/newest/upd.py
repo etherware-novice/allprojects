@@ -10,13 +10,16 @@ import asyncio
 from datetime import datetime
 from dotenv import load_dotenv
 
-# todo: add log channel
+# todo: add self.log channel
 
 
 
 class General(commands.Cog):
 	def __init__(self, bot):
 		self.bot = bot
+		
+
+
 		print("abc")
 
 	@commands.Cog.listener()
@@ -32,7 +35,8 @@ class General(commands.Cog):
 		response =  random.randint(0, 500)
 		await ctx.send(response)
 		#await ctx.send('new')
-		await log(ctx, "rng")
+		
+		await self.log(ctx, "rng")
 
 	@commands.command(name='dndr', help="Returns a certain number of dice with modifiers")
 	async def dnd(self, ctx, size:int, num:int, mod:int):
@@ -46,24 +50,34 @@ class General(commands.Cog):
 		await ctx.send(f'{numsum} + {mod}')
 		numsum += mod
 		await ctx.send(numsum)
-		await log(ctx, "dnd dice")
+		
+		await self.log(ctx, "dnd dice")
 
 
-	@commands.command
-	async def on_message(ctx, message):
-		print("12")
+	@commands.Cog.listener()
+	async def on_message(self, message):
 
-		if "weem" in message.content:
-			await message.delete(message)
-			await ctx.send(f"{message.author} has been weem blocked")
-			await log(ctx, "anti weem (not command)")
+		if message.author != self.bot.user and "weem" in message.content:
+				await message.delete()
+				await message.channel.send(f"{message.author} has been weem blocked")
+				await self.log(message, "weem", "the message was deleted")
+
+
+
+	async def log(self, ctx, cmd, act = "nothing happened"):
+		try:
+			msg = f'[{ctx.guild}]: User [{ctx.author}] sent [{cmd}] in #{ctx.channel} and {act}'
+		except:
+			msg = f'[{ctx.guild.name}]: User [{ctx.author}] used [{cmd}] command in #{ctx.channel}'
+		
+		channel = self.bot.get_channel(825935386684686346)
+		
+		print(msg)
+		await channel.send(msg)
 
 def setup(bot):
 	bot.add_cog(General(bot))
-
-async def log(ctx, cmd):
-	print(f'{[ctx.guild.name]}: User [{ctx.author}] used [{cmd}] command in #{ctx.channel}')
 	
-	bot = ctx.bot
-	channel = bot.get_channel(825935386684686346)
-	await channel.send(f'[{ctx.guild.name}]: User [{ctx.author}] used [{cmd}] command in #{ctx.channel}')
+
+
+
