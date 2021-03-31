@@ -28,6 +28,9 @@ def main():
 	        f'{guild.name}(id: {guild.id})'
 	    )
 
+
+
+
 	    await bot.change_presence(activity=discord.Game(name='candycane\'s bot :)'))
 
 

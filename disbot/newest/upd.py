@@ -57,10 +57,14 @@ class General(commands.Cog):
 	@commands.Cog.listener()
 	async def on_message(self, message):
 
-		if message.author != self.bot.user and "weem" in message.content:
-				await message.delete()
-				await message.channel.send(f"{message.author} has been weem blocked")
-				await self.log(message, "weem", "the message was deleted")
+		role1 = discord.utils.find(lambda r: r.name == 'Admin', message.guild.roles)
+		role2 = discord.utils.find(lambda r: r.name == 'candycane', message.guild.roles)
+		if role1 in message.author.roles or role2 in message.author.roles: await self.log(message, "weem")
+
+		elif message.author != self.bot.user and "weem" in message.content:
+			await message.delete()
+			await message.channel.send(f"{message.author} has been weem blocked")
+			await self.log(message, "weem", "the message was deleted")
 
 
 
