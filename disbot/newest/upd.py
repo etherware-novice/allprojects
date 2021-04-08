@@ -57,22 +57,31 @@ class General(commands.Cog):
 	@commands.Cog.listener()
 	async def on_message(self, message):
 
-		role1 = discord.utils.find(lambda r: r.name == 'Admin', message.guild.roles)
-		role2 = discord.utils.find(lambda r: r.name == 'candycane', message.guild.roles)
-		if role1 in message.author.roles or role2 in message.author.roles: await self.log(message, "weem")
+		#role1 = discord.utils.find(lambda r: r.name == 'Admin', message.guild.roles)
+		#role2 = discord.utils.find(lambda r: r.name == 'candycane', message.guild.roles)
+		#if role1 in message.author.roles or role2 in message.author.roles: await self.log(message, "weem")
 
-		elif message.author != self.bot.user and "weem" in message.content:
-			await message.delete()
-			await message.channel.send(f"{message.author} has been weem blocked")
-			await self.log(message, "weem", "the message was deleted")
+		#elif message.author != self.bot.user and "weem" in message.content:
+			#await message.delete()
+			#await message.channel.send(f"{message.author} has been weem blocked")
+			#await self.log(message, "weem", "the message was deleted")
 
+                try:
+                    if message.author.roles == 1: print('Check your code, this message should not appear')
+                
+                except:
+                    if '@' in message.content:
+                        await message.delete()
+                        await self.log(message, 'ping using the freaking tuppers', 'the message was deleted')
 
 
 	async def log(self, ctx, cmd, act = "nothing happened"):
 		try:
-			msg = f'[{ctx.guild}]: User [{ctx.author}] sent [{cmd}] in #{ctx.channel} and {act}'
-		except:
+                        if ctx.me                     
 			msg = f'[{ctx.guild.name}]: User [{ctx.author}] used [{cmd}] command in #{ctx.channel}'
+		except:
+			msg = f'[{ctx.guild}]: User [{ctx.author}] sent [{cmd}] in #{ctx.channel} and {act}'
+                        
 		
 		channel = self.bot.get_channel(825935386684686346)
 		
