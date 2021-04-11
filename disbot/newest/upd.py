@@ -125,7 +125,7 @@ class General(commands.Cog):
 	#weemcnt.edit
 
 		print('---------')
-		ctx = await self.bot.get_context(message)
+		#ctx = await self.bot.get_context(message)
 		user = message.author.id
 		try:
 			data = self.weemcnt.data[user]
@@ -138,40 +138,55 @@ class General(commands.Cog):
 
 
 		try:
-			sudo = await self.chkrl(ctx, message.author)
+			#sudo = await self.chkrl(ctx, message.author)
+			sudo = 0
 
 			print(f'sudo - {sudo}')
 
 			print(self.weemcnt.data)
 
-			if "a" in message.content and sudo != 1:
+			if "a" in message.content and sudo != 1 and message.author != self.bot.user:
 
-				print('weem')
-				print(f'timerun - {self.weemcnt.timerun(user)}')
+				try:
+					print('weem')
 
-				data += 1
-				print(f'data inc - {data}')
-				self.weemcnt.edit(user, data)
-				print(f'db save - {self.weemcnt.data[user]}')
+					data += 1
+					print(f'data inc - {data}')
+					self.weemcnt.edit(user, data)
+					print(f'db save - {self.weemcnt.data[user]}')
 
-				print(f'timer - {self.weemcnt.timer}')
 
-				if self.weemcnt.timerun(user) == 0: 
-					asyncio.ensure_future(self.weemcnt.astim(user, 30))
-					print('timer trig')
+					try: 
+						self.weemcnt.timer[user]
+						print('timer var loaded')
+					except:
+						self.weemcnt.timer[user] = -1
+						print('timer cvar created')
 
-				if data >= 5:
+					print(f'timer - {self.weemcnt.timer}')
 
-					print('extra')
+					if self.weemcnt.timer[user] < 0: 
+						asyncio.ensure_future(self.weemcnt.astim(user, 30))
+						print('timer trig')
 
-					await message.delete()
-					await ctx.send(f'You are blocked from sending a for {self.weemcnt.timer[message.author]} seconds')
+					print(f'data right before check {data}')
+					print(f'timer - {self.weemcnt.timer}')
+					if data >= 5:
+
+						print('extra')
+
+						await message.delete()
+						await message.channel.send(f'You are blocked from sending a for {self.weemcnt.timer[user]} seconds')
+				except Exception as e:
+					print(f'uh oh, something happened {e} - ')
 
 
 		except:
 			if '@' in message.content: #checks if the @ sign is in the msg
 				await message.delete() #delete
 				await self.log(message, 'ping using the freaking tuppers', 'the message was deleted')
+
+		await self.bot.process_commands(message)
 
 
 # heres the manual utility commands used here
@@ -248,36 +263,37 @@ class jsonfile(object):
 		if self.file != "0": #checks if a file was input
 			with open(self.file, "w") as file: #opens up the file for writing
 				file.write(json.dumps(input, indent=4)) # formats and beautifies the JSON as a string and overwrites the file contents with it
-			self.data = input #updates the data var to make sure its uptodate
+		self.data = input #updates the data var to make sure its uptodate
+		print(self.data)
 
 	#local timer funct
-	@commands.Cog.listener()
-	async def astim(self, user: discord.Member, time, multi = 1):
-		time = time * multi #self-explanatory, added this so you dont have to calculate for minutes or hours and you can just change multi field
-		
-		
-		for x in range(time, 0, -1): #for loop counting down
-			self.timer[user] = time #updates the timer variable
-			await asyncio.sleep(1) #wait for one second but asyncronously
-
-		self.timer[user] = -1 #sets the timer to -1 denoting its inactive
-		self.edit(ctx.author, 0) #edits the original message trigger author's entry to 0
-		return
-	#async 	
 
 	#editing function
-	def edit(self, entry:str, input):
-		self.data[entry] = input #replaces the <entry> with input
+	def edit(self, entry:str, inp):
+		print(entry)
+		print(inp)
+		self.data[entry] = inp #replaces the <entry> with input
 		print('zyx')
-		self.write(self.data) #invokes write function
+		self.update() #invokes write function
 
 	#a simpler version of write that just writes the current state of data to the file
 	def update(self):
 		self.write(self.data) #write function invoked
 
-	def timerun(self, user):
-		if self.timer[user] < 0: return 0
-		else: return self.timer[user]
+
+	#@commands.Cog.listener()
+	async def astim(self, user, time, multi = 1):
+		time = time * multi #self-explanatory, added this so you dont have to calculate for minutes or hours and you can just change multi field
+		
+		
+		for x in range(time, 0, -1): #for loop counting down
+			self.timer[user] = x #updates the timer variable
+			await asyncio.sleep(1) #wait for one second but asyncronously
+
+		self.timer[user] = -1 #sets the timer to -1 denoting its inactive
+		self.edit(user, 0) #edits the original message trigger author's entry to 0
+		#return
+	#async 	
 
 #some boilerplate code that makes the cog functionable
 def setup(bot):
