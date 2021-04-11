@@ -76,11 +76,7 @@ class General(commands.Cog):
 
 
 
-	#time to use everything ive set up to make weem spamming a thing of the past
-	@commands.Cog.listener()
-	#await self.chkrl(ctx, user)
-	#weemcnt.data[user]
-	#weemcnt.
+	
 
 
 
@@ -124,23 +120,58 @@ class General(commands.Cog):
 	#integration ping blocker
 	@commands.Cog.listener()
 	async def on_message(self, message):
+	#await self.chkrl(ctx, user)
+	#weemcnt.data[user]
+	#weemcnt.edit
 
-		#role1 = discord.utils.find(lambda r: r.name == 'Admin', message.guild.roles)
-		#role2 = discord.utils.find(lambda r: r.name == 'candycane', message.guild.roles)
-		#if role1 in message.author.roles or role2 in message.author.roles: await self.log(message, "weem")
+		print('---------')
+		ctx = await self.bot.get_context(message)
+		user = message.author.id
+		try:
+			data = self.weemcnt.data[user]
+			print('data loaded good')
+		except:
+			self.weemcnt.data[user] = data = 0
 
-		#elif message.author != self.bot.user and "weem" in message.content:
-			#await message.delete()
-			#await message.channel.send(f"{message.author} has been weem blocked")
-			#await self.log(message, "weem", "the message was deleted")
 
-				try:
-					if message.author.roles == 1: print('Check your code, this message should not appear') #basically tries to accesss the sender's roles (which will always fail if its an integration)
-                
-				except:
-					if '@' in message.content: #checks if the @ sign is in the msg
-						await message.delete() #delete
-						await self.log(message, 'ping using the freaking tuppers', 'the message was deleted')
+		print(f'data - {data}')
+
+
+		try:
+			sudo = await self.chkrl(ctx, message.author)
+
+			print(f'sudo - {sudo}')
+
+			print(self.weemcnt.data)
+
+			if "a" in message.content and sudo != 1:
+
+				print('weem')
+				print(f'timerun - {self.weemcnt.timerun(user)}')
+
+				data += 1
+				print(f'data inc - {data}')
+				self.weemcnt.edit(user, data)
+				print(f'db save - {self.weemcnt.data[user]}')
+
+				print(f'timer - {self.weemcnt.timer}')
+
+				if self.weemcnt.timerun(user) == 0: 
+					asyncio.ensure_future(self.weemcnt.astim(user, 30))
+					print('timer trig')
+
+				if data >= 5:
+
+					print('extra')
+
+					await message.delete()
+					await ctx.send(f'You are blocked from sending a for {self.weemcnt.timer[message.author]} seconds')
+
+
+		except:
+			if '@' in message.content: #checks if the @ sign is in the msg
+				await message.delete() #delete
+				await self.log(message, 'ping using the freaking tuppers', 'the message was deleted')
 
 
 # heres the manual utility commands used here
@@ -159,7 +190,7 @@ class General(commands.Cog):
 		print(msg) #outputs message to command line
 		await channel.send(msg) #sends the log string to the log channel
 
-	async def chkrl(self, ctx, user):
+	async def chkrl(self, ctx, user: discord.Member):
 		modrl = [ #list of roles that are "elevated"
 			"Admin",
 			"candycane"
@@ -169,6 +200,7 @@ class General(commands.Cog):
 			"user",
 			813469324328173608
 		]
+
 
 		for x in modrl:
 			if isinstance(x, str): x = discord.utils.find(lambda r: r.name == x, ctx.guild.roles) #if its a string, use utils.find to get the role obj
@@ -208,7 +240,7 @@ class jsonfile(object):
 
 					self.data = {"null": 1} #still makes sure data exists to not error out
 					self.write(self.data) #invokes the local write function to write out the file
-		self.timer = -1 #initilizes the timer class var
+		self.timer = {"null": 1} #initilizes the timer class var
 
 
 	#overrides the json with input
@@ -220,26 +252,32 @@ class jsonfile(object):
 
 	#local timer funct
 	@commands.Cog.listener()
-	async def astim(self, ctx, time, multi = 1):
+	async def astim(self, user: discord.Member, time, multi = 1):
 		time = time * multi #self-explanatory, added this so you dont have to calculate for minutes or hours and you can just change multi field
 		
 		
 		for x in range(time, 0, -1): #for loop counting down
-			self.timer = time #updates the timer variable
+			self.timer[user] = time #updates the timer variable
 			await asyncio.sleep(1) #wait for one second but asyncronously
 
-		self.timer = -1 #sets the timer to -1 denoting its inactive
+		self.timer[user] = -1 #sets the timer to -1 denoting its inactive
 		self.edit(ctx.author, 0) #edits the original message trigger author's entry to 0
+		return
 	#async 	
 
 	#editing function
 	def edit(self, entry:str, input):
 		self.data[entry] = input #replaces the <entry> with input
+		print('zyx')
 		self.write(self.data) #invokes write function
 
 	#a simpler version of write that just writes the current state of data to the file
 	def update(self):
 		self.write(self.data) #write function invoked
+
+	def timerun(self, user):
+		if self.timer[user] < 0: return 0
+		else: return self.timer[user]
 
 #some boilerplate code that makes the cog functionable
 def setup(bot):
