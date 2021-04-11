@@ -120,63 +120,39 @@ class General(commands.Cog):
 	#integration ping blocker
 	@commands.Cog.listener()
 	async def on_message(self, message):
-	#await self.chkrl(ctx, user)
-	#weemcnt.data[user]
-	#weemcnt.edit
-
-		print('---------')
-		#ctx = await self.bot.get_context(message)
 		user = message.author.id
+
+		blockmsg = "weem"
 		try:
 			data = self.weemcnt.data[user]
-			print('data loaded good')
 		except:
 			self.weemcnt.data[user] = data = 0
-
-
-		print(f'data - {data}')
 
 
 		try:
 			#sudo = await self.chkrl(ctx, message.author)
 			sudo = 0
 
-			print(f'sudo - {sudo}')
-
-			print(self.weemcnt.data)
-
-			if "a" in message.content and sudo != 1 and message.author != self.bot.user:
-
+			if blockmsg in message.content and sudo != 1 and message.author != self.bot.user:
 				try:
-					print('weem')
-
 					data += 1
-					print(f'data inc - {data}')
 					self.weemcnt.edit(user, data)
-					print(f'db save - {self.weemcnt.data[user]}')
-
 
 					try: 
 						self.weemcnt.timer[user]
-						print('timer var loaded')
 					except:
 						self.weemcnt.timer[user] = -1
-						print('timer cvar created')
-
-					print(f'timer - {self.weemcnt.timer}')
 
 					if self.weemcnt.timer[user] < 0: 
 						asyncio.ensure_future(self.weemcnt.astim(user, 30))
-						print('timer trig')
 
-					print(f'data right before check {data}')
-					print(f'timer - {self.weemcnt.timer}')
 					if data >= 5:
-
-						print('extra')
-
+						await self.log(message, f"{blockmsg} spam", f'was blocked for the next {self.weemcnt.timer[user]} seconds')
 						await message.delete()
-						await message.channel.send(f'You are blocked from sending a for {self.weemcnt.timer[user]} seconds')
+						wrn = await message.channel.send(f'You are blocked from sending {blockmsg} for {self.weemcnt.timer[user]} seconds')
+						await asyncio.sleep(5)
+						await wrn.delete()
+
 				except Exception as e:
 					print(f'uh oh, something happened {e} - ')
 
@@ -263,17 +239,13 @@ class jsonfile(object):
 		if self.file != "0": #checks if a file was input
 			with open(self.file, "w") as file: #opens up the file for writing
 				file.write(json.dumps(input, indent=4)) # formats and beautifies the JSON as a string and overwrites the file contents with it
-		self.data = input #updates the data var to make sure its uptodate
-		print(self.data)
+		self.data = input #updates the data var to make sure its uptodate\
 
 	#local timer funct
 
 	#editing function
 	def edit(self, entry:str, inp):
-		print(entry)
-		print(inp)
 		self.data[entry] = inp #replaces the <entry> with input
-		print('zyx')
 		self.update() #invokes write function
 
 	#a simpler version of write that just writes the current state of data to the file
