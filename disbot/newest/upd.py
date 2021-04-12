@@ -120,38 +120,45 @@ class General(commands.Cog):
 	#integration ping blocker
 	@commands.Cog.listener()
 	async def on_message(self, message):
-		user = message.author.id
+		user = message.author.id #whats the database saved as
 
-		blockmsg = "weem"
+		blockmsg = "weem" #the part to block
+		limit = 5 #how many can be sent before it starts to act
 		try:
-			data = self.weemcnt.data[user]
-		except:
-			self.weemcnt.data[user] = data = 0
-
+			data = self.weemcnt.data[user] #retrieves the current count
+		except: #if it doesnt exist yet
+			self.weemcnt.data[user] = data = [] #sets both to a empty list
 
 		try:
-			#sudo = await self.chkrl(ctx, message.author)
-			sudo = 0
+			sudo = await self.chkrl(ctx, message.author) #checks the users roles
+			#sudo = 0
 
-			if blockmsg in message.content and sudo != 1 and message.author != self.bot.user:
+			if blockmsg in message.content and sudo != 1 and message.author != self.bot.user: #if the block word is in the message and its not privledged or a bot,
 				try:
-					data += 1
-					self.weemcnt.edit(user, data)
+					if len(data) != 0: data.append(message) #if its not the first entry, add the message (so the first msg doesnt get del'd)
+					else: data.append(0) #placeholder
+					self.weemcnt.edit(user, data) #updates the obj with the list
 
 					try: 
-						self.weemcnt.timer[user]
+						self.weemcnt.timer[user] #if the timer var for this funct doesnt exist
 					except:
-						self.weemcnt.timer[user] = -1
+						self.weemcnt.timer[user] = -1 #sets it to a placeholder (-1)
 
-					if self.weemcnt.timer[user] < 0: 
-						asyncio.ensure_future(self.weemcnt.astim(user, 30))
+					if self.weemcnt.timer[user] < 0: #if the timer is -1 (none running)
+						asyncio.ensure_future(self.weemcnt.astim(user, 30)) #asyncronously start a 30 second timer
 
-					if data >= 5:
-						await self.log(message, f"{blockmsg} spam", f'was blocked for the next {self.weemcnt.timer[user]} seconds')
-						await message.delete()
-						wrn = await message.channel.send(f'You are blocked from sending {blockmsg} for {self.weemcnt.timer[user]} seconds')
-						await asyncio.sleep(5)
-						await wrn.delete()
+					if len(data) >= limit: #if the number of messages exceeds the limit
+
+						if len(data) == limit: #the first time this happens,
+							for x in data:
+								if x != 0: await x.delete() #delete all entries in the list if they arn't the placeholder (0)
+						else:
+							await message.delete() #simply delete the trigger message
+
+						await self.log(message, f"{blockmsg} spam", f'was blocked for the next {self.weemcnt.timer[user]} seconds') #logs the event
+						wrn = await message.channel.send(f'You are blocked from sending {blockmsg} for {self.weemcnt.timer[user]} seconds') #sends a message in the same channel and stores in var
+						await asyncio.sleep(5) #wait 5 seconds
+						await wrn.delete() #deletes the warn message
 
 				except Exception as e:
 					print(f'uh oh, something happened {e} - ')
@@ -263,7 +270,7 @@ class jsonfile(object):
 			await asyncio.sleep(1) #wait for one second but asyncronously
 
 		self.timer[user] = -1 #sets the timer to -1 denoting its inactive
-		self.edit(user, 0) #edits the original message trigger author's entry to 0
+		self.edit(user, []) #edits the original message trigger author's entry to 0
 		#return
 	#async 	
 
