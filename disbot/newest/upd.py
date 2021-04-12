@@ -112,7 +112,7 @@ class General(commands.Cog):
 	@commands.command(name='time', help='testing async timers')
 	async def time(self, ctx, tm:int):
 		await ctx.send(f'initilizing timer for {tm} seconds') #flavor text
-		#await asyncio.ensure_future(self.testmr.astim(ctx, tm)) #the actual stuff
+		await self.testmr.astim(ctx.author, 10) #the actual stuff
 		await ctx.send(f'timer for {tm} seconds done') #flavor text
 
 
@@ -128,7 +128,9 @@ class General(commands.Cog):
 	async def on_message(self, message):
 		user = message.author.id #whats the database saved as
 
-		blockmsg = "hh" #the part to block
+		ctx = await self.bot.get_context(message)
+
+		blockmsg = "weem" #the part to block
 		limit = 5 #how many can be sent before it starts to act
 		try:
 			data = self.weemcnt.data[user] #retrieves the current count
@@ -151,7 +153,7 @@ class General(commands.Cog):
 						self.weemcnt.timer[user] = -1 #sets it to a placeholder (-1)
 
 					if self.weemcnt.timer[user] < 0: #if the timer is -1 (none running)
-						asyncio.ensure_future(self.weemcnt.astim(user, 30)) #asyncronously start a 30 second timer
+						asyncio.ensure_future(self.weemcnt.astim(user, 30, [])) #asyncronously start a 30 second timer
 
 					if len(data) >= limit: #if the number of messages exceeds the limit
 
@@ -172,7 +174,8 @@ class General(commands.Cog):
 
 
 
-		except:
+		except Exception as e:
+			print(e)
 			if '@' in message.content: #checks if the @ sign is in the msg
 				await message.delete() #delete
 				await self.log(message, 'ping using the freaking tuppers', 'the message was deleted')
@@ -206,7 +209,8 @@ class General(commands.Cog):
 	async def chkrl(self, ctx, user: discord.Member):
 		modrl = [ #list of roles that are "elevated"
 			"Admin",
-			"candycane"
+			"candycane",
+			830999252721074197
 		]
 		blacklist = [ #list of member roles
 			"User",
@@ -276,7 +280,7 @@ class jsonfile(object):
 
 
 	#@commands.Cog.listener()
-	async def astim(self, user, time, multi = 1):
+	async def astim(self, user, time, multi = 1, post = 0):
 		time = time * multi #self-explanatory, added this so you dont have to calculate for minutes or hours and you can just change multi field
 		
 		
@@ -285,7 +289,7 @@ class jsonfile(object):
 			await asyncio.sleep(1) #wait for one second but asyncronously
 
 		self.timer[user] = -1 #sets the timer to -1 denoting its inactive
-		self.edit(user, []) #edits the original message trigger author's entry to 0
+		self.edit(user, post) #edits the original message trigger author's entry to 0
 		#return
 	#async 	
 
