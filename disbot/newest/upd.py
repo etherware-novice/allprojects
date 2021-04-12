@@ -8,6 +8,7 @@ import random
 from discord.ext import commands
 import asyncio
 from datetime import datetime
+from discord.ext import tasks
 import json
 from dotenv import load_dotenv
 
@@ -18,6 +19,11 @@ from dotenv import load_dotenv
 class General(commands.Cog):
 	def __init__(self, bot):
 		self.bot = bot
+
+
+
+		self.truth.start()
+
 
 		print("abc") #check to if the thing is starting up
 
@@ -122,7 +128,7 @@ class General(commands.Cog):
 	async def on_message(self, message):
 		user = message.author.id #whats the database saved as
 
-		blockmsg = "weem" #the part to block
+		blockmsg = "hh" #the part to block
 		limit = 5 #how many can be sent before it starts to act
 		try:
 			data = self.weemcnt.data[user] #retrieves the current count
@@ -164,6 +170,8 @@ class General(commands.Cog):
 					print(f'uh oh, something happened {e} - ')
 
 
+
+
 		except:
 			if '@' in message.content: #checks if the @ sign is in the msg
 				await message.delete() #delete
@@ -173,6 +181,13 @@ class General(commands.Cog):
 
 
 # heres the manual utility commands used here
+
+	@tasks.loop(seconds=600) #every 10 minutes
+	async def truth(self): #just the truth man
+		await self.bot.wait_until_ready() #something something keeps the loop from breaking
+		me = self.bot.get_user(661044029110091776) #gets my main acct
+		await me.send('you\'re useless dude') #dms the truth
+
 
 	#log functs
 	async def log(self, ctx, cmd, act = "nothing happened"):

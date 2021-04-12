@@ -8,6 +8,7 @@ def main():
 	from datetime import datetime
 	from dotenv import load_dotenv
 	import traceback
+	from discord.ext import tasks
 	intents = discord.Intents.default() #sets up the intents obj
 	intents.members = True #flips the member inperwhatever it is to true
 
@@ -38,7 +39,7 @@ def main():
 	        f'{guild.name}(id: {guild.id})'
 	    )
 
-
+	    
 
 
 	    await bot.change_presence(activity=discord.Game(name='candycane\'s bot :)')) #:)
