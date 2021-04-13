@@ -31,6 +31,7 @@ async def on_ready(): #initilization
     )
 
     await bot.change_presence(activity=discord.Game(name='amogus bot :)')) #:)
+    
 
 
 #the react-to-join section
@@ -186,14 +187,18 @@ class gameobj(object): #heres where like half the magic happens
 
 			for x in range(10): #loops through below code 10 times
 				try:
-					msg += f'{x + 1}: {str(self.active[x])} \n' #if theres a user in the specific spot, print it
+					if self.active[x].nick != None: nick = f'({self.active[x].nick}) '
+					else: nick = ''
+					msg += f'{x + 1}: {str(self.active[x])} {nick}\n' #if theres a user in the specific spot, print it
 				except:
 					msg += '[Empty] \n' #if the above fails due to index out of range, print empty
 
 			if len(self.wait) > 0: #if theres ppl in the waiting list
 				msg += '\n Waiting List \n' #seperator
 				for x in range(len(self.wait)): #for the number of entries in the waiting list
-					msg +=  f'{x + 1}: {str(self.wait[x])}\n' #adds the user to msg
+					if self.active[x].nick != None: nick = f'({self.active[x].nick}) '
+					else: nick = ''
+					msg +=  f'{x + 1}: {str(self.wait[x])} {nick}\n' #adds the user to msg
 					if x == 10: #10 entry limit
 						msg += "...\n" #...
 
