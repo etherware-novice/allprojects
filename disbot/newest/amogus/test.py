@@ -13,7 +13,7 @@ intents.members = True #flips the member inperwhatever it is to true
 load_dotenv()
 TOKEN = os.getenv('DISCORD_TOKEN') #retrieves the stuff needed from a *hidden* env file yall aint gettin
 
-bot = commands.Bot(command_prefix='am!', intents=intents) #initilizes the bot
+bot = commands.Bot(command_prefix='!', intents=intents) #initilizes the bot
 
 
 #flavorie text to make sure its working good
@@ -29,15 +29,35 @@ async def on_ready(): #initilization
         f'{guild.name}(id: {guild.id})'
     )
 
+@bot.event
+async def on_message(message):
+    def check(m):
+        return m.author != bot.me and (m.channel == bot.get_channel(813468817308778508) or m.channel == bot.get_channel(831173741958266910))
+
+    try:
+        msg = await client.for("message", check = check, timeout=1)
+        msg.add_reaction(u"\U0001F44D")
+
+    except:
+        x = x
+
+
+@bot.event
+async def on_reaction_add(reaction, user):
+    if reaction.message.channel == bot.get_channel(813468817308778508) or reaction.message.channel == bot.get_channel(831173741958266910):
+        print('you did it')
+
 @bot.command(name='test')
 async def test(ctx):
     await ctx.send('post another channel')
 
     def check(m):
-        return m.content == ctx.message.content and m.author == ctx.author and '#' in m.content
+        return m.author == ctx.author and '#' in m.content and m.channel == ctx.channel
 
     msg = await bot.wait_for('message', check=check)
     print(msg)
+
+
 
 
 bot.run(TOKEN)
