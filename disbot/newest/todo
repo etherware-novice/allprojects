@@ -1,0 +1,8 @@
+check for if >5 ppl pinged
+weem specific spam prevention
+bianary toggles
+more "elegant" role check
+
+@bot.command(aliases=["msg", "send"])
+async def dm(ctx, member:discord.Member, *, message):
+    await member.send(message)
