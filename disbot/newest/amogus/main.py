@@ -18,7 +18,7 @@ TOKEN = None
 #load_dotenv()
 #TOKEN = os.getenv('DISCORD_TOKEN') #retrieves the stuff needed from a *hidden* env file yall aint gettin
 
-with open(file) as file:
+with open('token.yaml') as file:
 	documents = yaml.full_load(file)
 	for key, value in documents.items():
 		if key == 'token': TOKEN = value
