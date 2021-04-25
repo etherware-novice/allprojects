@@ -42,8 +42,13 @@ def main():
 	    
 
 
-	    await bot.change_presence(activity=discord.Game(name='candycane\'s bot :)')) #:)
+	    await bot.change_presence(activity=discord.Game(name='candycane\'s bot :)'), status=discord.Status.dnd) #:)
 
+	@bot.event
+	async def on_disconnect():
+
+		await bot.change_presence(status=discord.Status.offline)
+		print('so long gay bot!')
 
 
 	@bot.command(name='reload', help='Reloads the python commands') #special command that accesses this repo and pulls/switches branches (this is why upd.py exists)
@@ -63,8 +68,10 @@ def main():
 		await ctx.send(f'{ctx.author} reloaded the bot.') #flavor text sent to the channel that triggered it
 
 		bot.reload_extension("upd") #reloads upd.py
+		bot.reload_extension("misc") #reloads upd.py
 
 	bot.load_extension("upd") #init load of upd.py
+	bot.load_extension("misc") #init load of upd.py
 	bot.run(TOKEN) #runs everything else
 
 	

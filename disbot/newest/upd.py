@@ -22,7 +22,7 @@ class General(commands.Cog):
 
 
 
-		self.truth.start()
+		#self.truth.start()
 
 
 		print("abc") #check to if the thing is starting up
@@ -124,8 +124,8 @@ class General(commands.Cog):
 
 
 	#integration ping blocker
-	@commands.Cog.listener()
-	async def on_message(self, message):
+	@commands.Cog.listener('on_message')
+	async def wm_cool(self, message):
 		user = message.author.id #whats the database saved as
 
 		ctx = await self.bot.get_context(message)
@@ -181,6 +181,27 @@ class General(commands.Cog):
 				await self.log(message, 'ping using the freaking tuppers', 'the message was deleted')
 
 		await self.bot.process_commands(message)
+
+
+	@commands.Cog.listener('on_message')
+	async def noevery(self, message):
+	    #ctx = await bot.get_context(message) #convinience but its probably not really neccesary
+	   
+
+	    if message.mention_everyone or len(message.mentions) >= 1 or len(message.role_mentions) >= 1: #if the message mentions everyone or it mentions a person/role:
+	        def check(m):
+	                return m == message and m.author.bot == False
+	        
+	        try:
+	            await message.channel.trigger_typing() #starts the typing animation in the channel the message is from
+	            msg = await self.bot.wait_for('message_delete', check=check, timeout=20) #watches for a message thats deleted that also has the ping (it times out in 20 seconds)
+	            
+	            await ctx.send(f'{msg.author.mention} has ghost pinged, smh \n\n Original Message: \n {discord.utils.escape_mentions(msg.content)}') #if the above check passes, send the info
+	        except Exception as e:
+	            print(e)
+	            await asyncio.sleep(1)
+
+
 
 
 # heres the manual utility commands used here

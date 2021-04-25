@@ -18,7 +18,7 @@ TOKEN = None
 #load_dotenv()
 #TOKEN = os.getenv('DISCORD_TOKEN') #retrieves the stuff needed from a *hidden* env file yall aint gettin
 
-with open(file) as file:
+with open('token.yaml') as file:
 	documents = yaml.full_load(file)
 	for key, value in documents.items():
 		if key == 'token': TOKEN = value
@@ -71,8 +71,8 @@ async def on_ready(): #initilization
 
 
 #the react-to-join section
-@bot.event
-async def on_reaction_add(reaction, user):
+@bot.listen('on_reaction_add')
+async def addusr(reaction, user):
 	y = {} #initilizes a dict
 	for x in range(len(bot.obj)): #for every entry in bot.obj (counting 0 - num)
 		y[bot.obj[x]] = bot.obj[x].latestmsg #store the key of the instance as the latest message of it
@@ -83,6 +83,22 @@ async def on_reaction_add(reaction, user):
 				obj = key #stores the correct instance into obj
 		ctx = await bot.get_context(reaction.message) #obtains the ctx from the message sent
 		await obj.add_user(ctx, user) #adds the user to the obj it belongs to
+
+
+@bot.listen('on_reaction_remove')
+async def reactrem(reaction, user):
+	y = {} #initilizes a dict
+	for x in range(len(bot.obj)): #for every entry in bot.obj (counting 0 - num)
+		y[bot.obj[x]] = bot.obj[x].latestmsg #store the key of the instance as the latest message of it
+
+	if user != bot.user and reaction.emoji == u"\U0001F44D" and reaction.message in y.values(): #if not bot and reaction is thumbs up and the message is correct
+		for key, value in y.items(): #for every single entry in the dictionary
+			if reaction.message == value: #if the message is the same as the value
+				obj = key #stores the correct instance into obj
+		ctx = await bot.get_context(reaction.message) #obtains the ctx from the message sent
+		await obj.leave(ctx, user, hide=1) #adds the user to the obj it belongs to
+		await obj.statusmsg(ctx)
+
 
 
 ''' testing stuff
@@ -106,6 +122,7 @@ async def add(ctx, game=0):
 #initilizes a new instance of the game class
 @bot.command(name='init') 
 async def init(ctx, name, code):
+	print(ctx.channel)
 	bot.obj.append(gameobj(name, code, ctx)) #appends an instance to bot.obj
 	file()
 
@@ -301,6 +318,7 @@ class gameobj(object): #heres where like half the magic happens
 				else: raise Exception('expected manual exception, im too lazy to rewrite this code') #i just have this here so if new isnt 0 it cancels the try
 			except Exception as e:
 				print(e)
+				print(ctx.channel)
 				self.latestmsg = await ctx.send(msg) #creates new message
 
 
@@ -312,7 +330,7 @@ class gameobj(object): #heres where like half the magic happens
 	
 
 	#leave funct
-	async def leave(self, ctx, member = None):
+	async def leave(self, ctx, member = None, *, hide=0):
 		if member == None: member = ctx.author
 		if member in self.active: #if the person leaving is in the active list
 			self.active.remove(member) #removes from active list
@@ -320,14 +338,14 @@ class gameobj(object): #heres where like half the magic happens
 				new = self.wait[0] #sets the first person in the waiting list to "new"
 				self.wait.remove(new) #removes them from wait
 				self.active.append(new) #adds to active
-				await ctx.send(f'{new.mention}, {member.mention} has given you a spot!') #flavor text
+				if hide == 0: await ctx.send(f'{new.mention}, {member.mention} has given you a spot!') #flavor text
 				file()
 			else: #if there is nobody waiting
-				await ctx.send(f'{member.mention} has left the game') #simple 'has left' message
+				if hide == 0: await ctx.send(f'{member.mention} has left the game') #simple 'has left' message
 				file()
 		elif member in self.wait: #if the person is in the waiting list
 			self.wait.remove(member) #removes from waiting list
-			await ctx.send(f'{member} has left the queue') #message of confirmation
+			if hide == 0: await ctx.send(f'{member} has left the queue') #message of confirmation
 			file()
 		else:
 			x = x 

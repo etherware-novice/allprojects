@@ -4,4 +4,5 @@ disbot/newest/.env
 *.pyc
 disbot/newest/amogus/.env
 disbot/newest/amogus/ini.yaml
+disbot/newest/__pycache__/upd.cpython-39.pyc
 disbot/newest/amogus/token.yaml
