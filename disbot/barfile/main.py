@@ -21,16 +21,16 @@ from dhooks import Webhook as dhook
 from aioconsole import ainput
 from colr import color
 from array import *
+import getpass
+import sys
 
-print(discord.__version__)
-#flavor text
-now = datetime.now()
-curtime = now.strftime("%B %d, %Y\n%H:%M")
-print(f"Hello, user. Today's datetime is {curtime}")
+
 intents = discord.Intents.default() #sets up the intents obj
 intents.members = True #flips the member inperwhatever it is to true
 TOKEN = None
 cls = "\u001B[2J"
+
+#sys.stderr = open("err.txt", 'w')
 
 #load_dotenv()
 #TOKEN = os.getenv('DISCORD_TOKEN') #retrieves the stuff needed from a *hidden* env file yall aint gettin
@@ -53,7 +53,7 @@ async def on_ready(): #initilization
 
     disp_guild = ''
     for x in client.guilds:
-        if ":)" not in x.name: disp_guild += f'{x.name} ({x.member_count} members)\n'
+        if "RP" not in x.name: disp_guild += f'{x.name} ({x.member_count} members)\n'
         else: 
             disp_guild += f'[rpserver] ({x.member_count} members)\n'
             print(0)
@@ -64,12 +64,18 @@ async def on_ready(): #initilization
     notepad = client.get_channel(861348653113540628)
     client.channel = notepad
     client.nick = "notepad.exe"
+    client.lastmg = None
 
-    client.log = [[], []]
-    print(
-        f'{client.user} is connected to the following guilds:\n'
-        f'{disp_guild}'
-    )
+    client.log = []
+    strup = f"Discord version {discord.__version__}"
+    strup += "\nTEXT-BASED-INTERFACE-CLIENT.exe starting..."
+    #flavor text
+    now = datetime.now()
+    curtime = now.strftime("%B %d, %Y at %H:%M")
+    strup += f"\nHello, user <{getpass.getuser()}>. Today's datetime is {curtime}.\n"
+    strup += f"\n{client.user} is connected to the following guilds:\n{disp_guild}"
+
+    await append_scr(strup, 0)
 
     asyncio.ensure_future(start_server('127.0.0.1', 5000))
 
@@ -79,33 +85,68 @@ async def on_message(message):
     if message.author == client.user:
         return
     
-    
+    mentions = []
+    mentions = message.mentions
+    mentionsrole = message.role_mentions
+    mentionschn = message.channel_mentions
 
-    #the chatroom prints
-    usrc = message.author.colour
-    date = datetime.now().strftime("%m/%d - %H:%M:%S")
-    bel = "\a"
-    ath = ""
-    if len(message.attachments) >= 1:
-        ath = "\n"
-        for x in message.attachments:
-            ath += f"[attachment] {x.filename} ({x.url})\n"
+    if (len(message.mentions) > 0):
+        x = 0
+        def getping(m):
+            #asyncio.ensure_future(append_scr(m, 0))
+            m = m.group()
+            #asyncio.ensure_future(append_scr(m, 0))
+            number = re.findall(r'\d+', m)
+            number = int(number[0])
+            print(number)
+            #asyncio.ensure_future(append_scr(m, 0))
+            if m.startswith("<@") or m.startswith("@"):
+                #asyncio.ensure_future(append_scr(0, 0))
+                name = client.get_user(number)
+                return color(f"@{name.display_name}", fore=(90, 126, 224))
+            if m.startswith("<!@") or m.startswith("!"):
+                #asyncio.ensure_future(append_scr(1, 0))
+                name = message.guild.get_role(number)
+                return color(f"@{x.name}", fore=(90, 126, 224))
+            if m.startswith("<#"):
+                #asyncio.ensure_future(append_scr, 0)
+                name = client.get_channel(number)
+                return color(f"#{name.name}", fore=(90, 126, 224))
+#re.search("^<#.>$", m).group()
 
-    try:
-        x = message.author.roles
-        dispn = color(message.author.display_name, fore=(usrc.r, usrc.g, usrc.b))
-    except:
-        if message.author.display_name == client.nick: 
-            dispn = color(message.author.display_name, fore=(60, 31, 128))
-            dispn += "(client)"
-            bel = ""
-        else: dispn = f"{message.author.display_name}(tup)"
-    
+        message.content = re.sub("([@#!])\w+", getping, message.content)
+        #asyncio.ensure_future(append_scr(message.content, 0))
+
     rng = random.randint(0, 50)
-    print(f'{bel}{rng}[{date} in #{color (message.channel, fore=(34, 245, 87))}] {dispn}: {message.content}{ath}')
+    await append_scr(await msgformat(message, rng), message.id)
     if rng <= 3:
         await generate(message)
 
+@client.event
+async def on_message_edit(before, after):
+    for x in client.log:
+        if after.id == x["id"]:
+            dum = "(edited)"
+            x["cont"] = f"{await msgformat(after)} {color (dum, fore=(74, 74, 74))}"
+            await upd_scr()
+            break
+
+@client.event
+async def on_message_delete(message):
+    dele = None
+    for x in range(len(client.log)):
+        if client.log[x]['id'] == message.id:
+            del client.log[x]
+            break
+    await upd_scr()
+
+@client.event
+async def on_member_join(member):
+    await append_scr(color (f"{member.display_name}) joined the server.", fore=(60, 31, 128)), 0)
+
+@client.event
+async def on_member_remove(member):
+    await append_scr(color(f"{member.display_name} left the server", fore=(235, 99, 99)))
 
 async def generate(dmes): #database of the clippy addon i will never remove lol
     message = "Hello!"
@@ -155,7 +196,7 @@ async def generate(dmes): #database of the clippy addon i will never remove lol
         delay = 5
         good = 1
         file = "https://cdn.discordapp.com/attachments/859551131717730304/860591298448457728/unknown.png" #macos
-    print(f"rng {rng}, which reffers to message: {message}")
+    await append_scr(f"rng {rng}, which reffers to message: {message}", 0)
     #print(f"message: {message}\nnick: {nick}\ndelay: {delay}\ngood: {good}\nfile: {file}\neffect: {effect}")
     await websend(dmes,file, message, nick, delay, good, effect)
 
@@ -179,9 +220,27 @@ async def websend(dmes, avatar, message, nick, delay, good = 0, effect = None):
 @client.event
 async def on_reaction_add(reaction, user):
     if user == client.user:
-        return
-    if reaction.me:
-        await reaction.message.delete(delay=1)
+        print(0)
+    elif reaction.me:
+        await reaction.message.delete(delay=5)
+
+    new = 1
+    for x in client.log:
+        if x["id"] == reaction.message.id: 
+            new -= 1
+            try:
+                x["reaction"][reaction.emoji] += 1
+            except:
+                x["reaction"][reaction.emoji] = 1
+    await upd_scr()
+
+@client.event
+async def on_reaction_remove(reaction, user):
+    for x in client.log:
+        if x["id"] == reaction.message.id:
+            x["reaction"][reaction.emoji] -= 1
+            if x["reaction"][reaction.emoji] == 0: x.pop(reaction)
+    await upd_scr()
 
 
 async def echo_server(reader, writer): #the start of hell
@@ -199,59 +258,112 @@ async def echo_server(reader, writer): #the start of hell
         elif instream != "\\r\\n":
              data += instream
         else:
-            if data[0] == "#":
-                out = []
-                for x in client.server.channels:
-                    if data[1:] in x.name: out.append(x)
-                    if data[1:] == x.name:
-                        out = [x]
-                        break
-                if len(out) == 1: 
-                    client.channel = out[0]
-                    print(f"message delivery channel switched to {client.channel}")
-                elif len(out) > 1:
+            try:
+                if data[0] == "#":
+                    out = []
+                    for x in client.server.channels:
+                        if data[1:] in x.name: out.append(x)
+                        if data[1:] == x.name:
+                            out = [x]
+                            break
+                    if len(out) == 1: 
+                        client.channel = out[0]
+                        await append_scr(f"message delivery channel switched to {client.channel}", 0)
+                    elif len(out) > 1:
+                        
+                        writer.write(b"----------\n")
+                        for x in out:
+                            writer.write(f"{x}\r\n".encode('utf-8'))
+                        writer.write(b"----------")
+                        writer.write("Please specify what channel to go to\n".encode('utf-8'))
+                    else:
+                        writer.write("Channel not found, try again".encode('utf-8'))
                     
-                    writer.write(b"----------\n")
-                    for x in out:
-                        writer.write(f"{x}\r\n".encode('utf-8'))
-                    writer.write(b"----------")
-                    writer.write("Please specify what channel to go to\n".encode('utf-8'))
-                else:
-                    writer.write("Channel not found, try again".encode('utf-8'))
+                elif data[0] == "$":
+                    if len(data) == 1: client.nick = "notepad.exe"
+                    else: client.nick = data[1:]
+                    await append_scr(f"nickname switched to {client.nick}", 0)
+                    writer.write("Nickname changed\r\n".encode('utf-8'))
+                elif data.startswith("e$"):
+                    await client.lastmsg.edit(content=data[2:])
+                    writer.write(b"Message edited.\r\n")
+                elif data.startswith("d$"):
+                    await client.lastmsg.delete()
+                    writer.write(b"Message deleted.\r\n")
+                elif data.startswith("ts$"):
+                    x = await client.channel.send(content=client.user.mention)
+                    print(x.content)
+                    writer.write(b"0\r\n")
                 
-            elif data[0] == "$":
-                if len(data) == 1: client.nick = "notepad.exe"
-                else: client.nick = data[1:]
-                print(f"nickname switched to {client.nick}")
-                writer.write("Nickname changed".encode('utf-8'))
-            
-            else:
-                webh = discord.utils.find(lambda m: m.name == "notepad", await client.channel.webhooks())
-                if not webh: webh = await client.channel.create_webhook(name="notepad", reason="candy lol")
-                try:
-                    await webh.send(data, username = client.nick, file=discord.File('upload.png'))
-                except:
-                    await webh.send(data, username = client.nick)
-            #writer.write(data)
-            data = ""
-            await writer.drain()  # Flow control, see later
+                else:
+                    webh = discord.utils.find(lambda m: m.name == "notepad", await client.channel.webhooks())
+                    if not webh: webh = await client.channel.create_webhook(name="notepad", reason="candy lol")
+                    try:
+                        file = discord.File('upload.png')
+
+                        data = "<@860551486148050985>"
+                        file = None
+                    except:
+                        file = None
+                    client.lastmsg = await webh.send(data, username = client.nick, file=file, wait = True)
+                #writer.write(data)
+            except Exception as e:
+                print(e)
+                writer.write(b"you fool put actual text\r\n")
+            finally:
+                data = ""
+                await writer.drain()  # Flow control, see later
     writer.close()
 async def start_server(host, port):
     server = await asyncio.start_server(echo_server, host, port)
     await server.serve_forever()
+
+
+async def msgformat(message, rng = None):
+    usrc = message.author.colour
+    date = datetime.now().strftime("%m/%d - %H:%M:%S")
+    bel = "\a"
+    ath = ""
+    if len(message.attachments) >= 1:
+        ath = "\n"
+        for x in message.attachments:
+            ath += f"[attachment] {x.filename} ({x.url})\n"
+
+    try:
+        x = message.author.roles
+        dispn = color(message.author.display_name, fore=(usrc.r, usrc.g, usrc.b))
+    except:
+        
+        if message.author.display_name == client.nick: 
+            dispn = color(message.author.display_name, fore=(60, 31, 128))
+            dispn += "(client)"
+            bel = ""
+        else: dispn = f"{message.author.display_name}(tup)"
     
-async def append_scr(disp:str, id:int):
-    client.log[0].append(disp)
-    client.log[1].append(id)
-    if len(client.log[0]) > 30:
-        client.log[0].pop(0)
-        client.log[1].pop(0)
+    retr = f'{bel}{rng}[{date} in #{color (message.channel, fore=(34, 245, 87))}] {dispn}: {message.content}{ath}'
+    return retr
+    
+async def append_scr(disp, id:int, message = None):
+    client.log.append(
+        {
+            "cont": disp,
+            "id": id,
+            "reaction": {}
+        }
+    )
+    if len(client.log) > 70:
+        client.log.pop(0)
     await upd_scr()
 
 async def upd_scr():
     os.system('cls')
-    for x in client.log[0]:
-        print(x)
+    for x in client.log:
+        print(x["cont"])
+        if len(x["reaction"]):
+            #print("\n")
+            for key, items in x["reaction"].items():
+                print(f"{key}({items})    ")
+
 
 client.run(TOKEN)
 #error: discord.notFound
