@@ -30,6 +30,7 @@ intents.members = True #flips the member inperwhatever it is to true
 TOKEN = None
 cls = "\u001B[2J"
 
+
 #sys.stderr = open("err.txt", 'w')
 
 #load_dotenv()
@@ -44,6 +45,7 @@ with open('token.yaml') as file:
 
 client = discord.Client(intents=intents) #initilizes the bot (its not a full bot bot bc i dont need the command stuff)
 client.token = TOKEN
+client.supress = False
 
 #flavorie text to make sure its working good
 @client.event
@@ -75,7 +77,7 @@ async def on_ready(): #initilization
     strup += f"\nHello, user <{getpass.getuser()}>. Today's datetime is {curtime}.\n"
     strup += f"\n{client.user} is connected to the following guilds:\n{disp_guild}"
 
-    await append_scr(strup, 0)
+    if not client.supress: await append_scr(strup, 0)
 
     asyncio.ensure_future(start_server('127.0.0.1', 5000))
 
@@ -90,7 +92,7 @@ async def on_message(message):
     mentionsrole = message.role_mentions
     mentionschn = message.channel_mentions
 
-    if (len(message.mentions) > 0):
+    if len(message.mentions) > 0 or len(message.role_mentions) > 0 or (len(message.channel_mentions)) > 0:
         x = 0
         def getping(m):
             #asyncio.ensure_future(append_scr(m, 0))
@@ -104,11 +106,11 @@ async def on_message(message):
                 #asyncio.ensure_future(append_scr(0, 0))
                 name = client.get_user(number)
                 return color(f"@{name.display_name}", fore=(90, 126, 224))
-            if m.startswith("<!@") or m.startswith("!"):
+            if m.startswith("<@&") or m.startswith("&") or m.startswith("@&"):
                 #asyncio.ensure_future(append_scr(1, 0))
                 name = message.guild.get_role(number)
-                return color(f"@{x.name}", fore=(90, 126, 224))
-            if m.startswith("<#"):
+                return color(f"{name.name}(role)", fore=(90, 126, 224))
+            if m.startswith("<#") or m.startswith("#"):
                 #asyncio.ensure_future(append_scr, 0)
                 name = client.get_channel(number)
                 return color(f"#{name.name}", fore=(90, 126, 224))
@@ -118,9 +120,32 @@ async def on_message(message):
         #asyncio.ensure_future(append_scr(message.content, 0))
 
     rng = random.randint(0, 50)
-    await append_scr(await msgformat(message, rng), message.id)
+    await append_scr(await msgformat(message, rng), message.id, True)
     if rng <= 3:
         await generate(message)
+
+@client.event
+async def on_typing(channel, user, when):
+   if not client.suppress: print(color(f"{user.display_name} is typing in {channel.name}", fore=(137, 154, 196)))
+
+@client.event
+async def on_message_update(before, after):
+    def tmp(labl, new):
+        return color(f"{after.display_name} has changed their {labl} to {new}", fore=(137, 154, 196))
+    if before.status != after.status: print(tmp("status", after.status))
+    if before.activities != after.activities: print(tmp("activity", after.activites.name))
+    if before.nickname != after.nickname: print(tmp("nickname", after.nickname))
+    if before.roles != after.roles: print(f"{after.display_name}'s roles before:\n {0}\nafter:\{1}",before.roles, after.roles)
+
+@client.event
+async def on_user_update(before, after):
+    def tmp(labl, new):
+        return color(f"{after.display_name} has changed their {labl} to {new}", fore=(137, 154, 196))
+    if before.username != after.username: print(tmp("username", after.username))
+
+@client.event
+async def on_guild_remove(guild):
+    print(f"Bot was disconnected from {guild.name}")
 
 @client.event
 async def on_message_edit(before, after):
@@ -245,7 +270,7 @@ async def on_reaction_remove(reaction, user):
 
 async def echo_server(reader, writer): #the start of hell
     data = ""
-    writer.write("a\n".encode('utf-8'))
+    writer.write("a\r\n".encode('utf-8'))
     while True:
         instream = await reader.read(100)  # Max number of bytes to read
         
@@ -280,10 +305,20 @@ async def echo_server(reader, writer): #the start of hell
                         writer.write("Channel not found, try again".encode('utf-8'))
                     
                 elif data[0] == "$":
-                    if len(data) == 1: client.nick = "notepad.exe"
+                    if data == "$": client.nick = "notepad.exe"
+                    elif data == "$$":
+                        if client.supress != True: 
+                            client.supress = True
+                            os.system("cls")
+                        else: 
+                            client.supress = False
+                            print("Screen supression disabled")
+                            await upd_scr()
+                            
                     else: client.nick = data[1:]
-                    await append_scr(f"nickname switched to {client.nick}", 0)
-                    writer.write("Nickname changed\r\n".encode('utf-8'))
+                    if data != "$$":
+                        await append_scr(f"nickname switched to {client.nick}", 0)
+                        writer.write("Nickname changed\r\n".encode('utf-8'))
                 elif data.startswith("e$"):
                     await client.lastmsg.edit(content=data[2:])
                     writer.write(b"Message edited.\r\n")
@@ -300,12 +335,9 @@ async def echo_server(reader, writer): #the start of hell
                     if not webh: webh = await client.channel.create_webhook(name="notepad", reason="candy lol")
                     try:
                         file = discord.File('upload.png')
-
-                        data = "<@860551486148050985>"
-                        file = None
                     except:
                         file = None
-                    client.lastmsg = await webh.send(data, username = client.nick, file=file, wait = True)
+                    client.lastmsg = await webh.send(data, username = client.nick, file=file, wait = True, avatar_url="https://cdn.discordapp.com/attachments/859869321592045599/861779701058764820/upload.png")
                 #writer.write(data)
             except Exception as e:
                 print(e)
@@ -343,7 +375,7 @@ async def msgformat(message, rng = None):
     retr = f'{bel}{rng}[{date} in #{color (message.channel, fore=(34, 245, 87))}] {dispn}: {message.content}{ath}'
     return retr
     
-async def append_scr(disp, id:int, message = None):
+async def append_scr(disp, id:int, upd=True):
     client.log.append(
         {
             "cont": disp,
@@ -353,16 +385,19 @@ async def append_scr(disp, id:int, message = None):
     )
     if len(client.log) > 70:
         client.log.pop(0)
-    await upd_scr()
+    if upd: await upd_scr()
+    else:
+        print("disp")
 
 async def upd_scr():
-    os.system('cls')
-    for x in client.log:
-        print(x["cont"])
-        if len(x["reaction"]):
-            #print("\n")
-            for key, items in x["reaction"].items():
-                print(f"{key}({items})    ")
+    if client.supress != True:
+        (os.system('cls'))
+        for x in client.log:
+            print(x["cont"])
+            if len(x["reaction"]):
+                #print("\n")
+                for key, items in x["reaction"].items():
+                    print(f"{key}({items})    ")
 
 
 client.run(TOKEN)

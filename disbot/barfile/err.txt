@@ -1,0 +1,748 @@
+Ignoring exception in on_typing
+Traceback (most recent call last):
+  File "C:\Users\server\AppData\Local\Programs\Python\Python39\lib\site-packages\discord\client.py", line 343, in _run_event
+    await coro(*args, **kwargs)
+  File "C:\Users\server\github\allprojects\allprojects\disbot\barfile\main.py", line 129, in on_typing
+    if not client.suppress: print(color(f"{user.display_name} is typing in {channel.name}", fore=(137, 154, 196)))
+AttributeError: 'Client' object has no attribute 'suppress'
+Ignoring exception in on_typing
+Traceback (most recent call last):
+  File "C:\Users\server\AppData\Local\Programs\Python\Python39\lib\site-packages\discord\client.py", line 343, in _run_event
+    await coro(*args, **kwargs)
+  File "C:\Users\server\github\allprojects\allprojects\disbot\barfile\main.py", line 129, in on_typing
+    if not client.suppress: print(color(f"{user.display_name} is typing in {channel.name}", fore=(137, 154, 196)))
+AttributeError: 'Client' object has no attribute 'suppress'
+Ignoring exception in on_typing
+Traceback (most recent call last):
+  File "C:\Users\server\AppData\Local\Programs\Python\Python39\lib\site-packages\discord\client.py", line 343, in _run_event
+    await coro(*args, **kwargs)
+  File "C:\Users\server\github\allprojects\allprojects\disbot\barfile\main.py", line 129, in on_typing
+    if not client.suppress: print(color(f"{user.display_name} is typing in {channel.name}", fore=(137, 154, 196)))
+AttributeError: 'Client' object has no attribute 'suppress'
+Ignoring exception in on_typing
+Traceback (most recent call last):
+  File "C:\Users\server\AppData\Local\Programs\Python\Python39\lib\site-packages\discord\client.py", line 343, in _run_event
+    await coro(*args, **kwargs)
+  File "C:\Users\server\github\allprojects\allprojects\disbot\barfile\main.py", line 129, in on_typing
+    if not client.suppress: print(color(f"{user.display_name} is typing in {channel.name}", fore=(137, 154, 196)))
+AttributeError: 'Client' object has no attribute 'suppress'
+Ignoring exception in on_typing
+Traceback (most recent call last):
+  File "C:\Users\server\AppData\Local\Programs\Python\Python39\lib\site-packages\discord\client.py", line 343, in _run_event
+    await coro(*args, **kwargs)
+  File "C:\Users\server\github\allprojects\allprojects\disbot\barfile\main.py", line 129, in on_typing
+    if not client.suppress: print(color(f"{user.display_name} is typing in {channel.name}", fore=(137, 154, 196)))
+AttributeError: 'Client' object has no attribute 'suppress'
+Ignoring exception in on_typing
+Traceback (most recent call last):
+  File "C:\Users\server\AppData\Local\Programs\Python\Python39\lib\site-packages\discord\client.py", line 343, in _run_event
+    await coro(*args, **kwargs)
+  File "C:\Users\server\github\allprojects\allprojects\disbot\barfile\main.py", line 129, in on_typing
+    if not client.suppress: print(color(f"{user.display_name} is typing in {channel.name}", fore=(137, 154, 196)))
+AttributeError: 'Client' object has no attribute 'suppress'
+Ignoring exception in on_typing
+Traceback (most recent call last):
+  File "C:\Users\server\AppData\Local\Programs\Python\Python39\lib\site-packages\discord\client.py", line 343, in _run_event
+    await coro(*args, **kwargs)
+  File "C:\Users\server\github\allprojects\allprojects\disbot\barfile\main.py", line 129, in on_typing
+    if not client.suppress: print(color(f"{user.display_name} is typing in {channel.name}", fore=(137, 154, 196)))
+AttributeError: 'Client' object has no attribute 'suppress'
+Ignoring exception in on_typing
+Traceback (most recent call last):
+  File "C:\Users\server\AppData\Local\Programs\Python\Python39\lib\site-packages\discord\client.py", line 343, in _run_event
+    await coro(*args, **kwargs)
+  File "C:\Users\server\github\allprojects\allprojects\disbot\barfile\main.py", line 129, in on_typing
+    if not client.suppress: print(color(f"{user.display_name} is typing in {channel.name}", fore=(137, 154, 196)))
+AttributeError: 'Client' object has no attribute 'suppress'
+Ignoring exception in on_typing
+Traceback (most recent call last):
+  File "C:\Users\server\AppData\Local\Programs\Python\Python39\lib\site-packages\discord\client.py", line 343, in _run_event
+    await coro(*args, **kwargs)
+  File "C:\Users\server\github\allprojects\allprojects\disbot\barfile\main.py", line 129, in on_typing
+    if not client.suppress: print(color(f"{user.display_name} is typing in {channel.name}", fore=(137, 154, 196)))
+AttributeError: 'Client' object has no attribute 'suppress'
+Ignoring exception in on_typing
+Traceback (most recent call last):
+  File "C:\Users\server\AppData\Local\Programs\Python\Python39\lib\site-packages\discord\client.py", line 343, in _run_event
+    await coro(*args, **kwargs)
+  File "C:\Users\server\github\allprojects\allprojects\disbot\barfile\main.py", line 129, in on_typing
+    if not client.suppress: print(color(f"{user.display_name} is typing in {channel.name}", fore=(137, 154, 196)))
+AttributeError: 'Client' object has no attribute 'suppress'
+Ignoring exception in on_typing
+Traceback (most recent call last):
+  File "C:\Users\server\AppData\Local\Programs\Python\Python39\lib\site-packages\discord\client.py", line 343, in _run_event
+    await coro(*args, **kwargs)
+  File "C:\Users\server\github\allprojects\allprojects\disbot\barfile\main.py", line 129, in on_typing
+    if not client.suppress: print(color(f"{user.display_name} is typing in {channel.name}", fore=(137, 154, 196)))
+AttributeError: 'Client' object has no attribute 'suppress'
+Ignoring exception in on_typing
+Traceback (most recent call last):
+  File "C:\Users\server\AppData\Local\Programs\Python\Python39\lib\site-packages\discord\client.py", line 343, in _run_event
+    await coro(*args, **kwargs)
+  File "C:\Users\server\github\allprojects\allprojects\disbot\barfile\main.py", line 129, in on_typing
+    if not client.suppress: print(color(f"{user.display_name} is typing in {channel.name}", fore=(137, 154, 196)))
+AttributeError: 'Client' object has no attribute 'suppress'
+Ignoring exception in on_typing
+Traceback (most recent call last):
+  File "C:\Users\server\AppData\Local\Programs\Python\Python39\lib\site-packages\discord\client.py", line 343, in _run_event
+    await coro(*args, **kwargs)
+  File "C:\Users\server\github\allprojects\allprojects\disbot\barfile\main.py", line 129, in on_typing
+    if not client.suppress: print(color(f"{user.display_name} is typing in {channel.name}", fore=(137, 154, 196)))
+AttributeError: 'Client' object has no attribute 'suppress'
+Ignoring exception in on_typing
+Traceback (most recent call last):
+  File "C:\Users\server\AppData\Local\Programs\Python\Python39\lib\site-packages\discord\client.py", line 343, in _run_event
+    await coro(*args, **kwargs)
+  File "C:\Users\server\github\allprojects\allprojects\disbot\barfile\main.py", line 129, in on_typing
+    if not client.suppress: print(color(f"{user.display_name} is typing in {channel.name}", fore=(137, 154, 196)))
+AttributeError: 'Client' object has no attribute 'suppress'
+Ignoring exception in on_typing
+Traceback (most recent call last):
+  File "C:\Users\server\AppData\Local\Programs\Python\Python39\lib\site-packages\discord\client.py", line 343, in _run_event
+    await coro(*args, **kwargs)
+  File "C:\Users\server\github\allprojects\allprojects\disbot\barfile\main.py", line 129, in on_typing
+    if not client.suppress: print(color(f"{user.display_name} is typing in {channel.name}", fore=(137, 154, 196)))
+AttributeError: 'Client' object has no attribute 'suppress'
+Ignoring exception in on_typing
+Traceback (most recent call last):
+  File "C:\Users\server\AppData\Local\Programs\Python\Python39\lib\site-packages\discord\client.py", line 343, in _run_event
+    await coro(*args, **kwargs)
+  File "C:\Users\server\github\allprojects\allprojects\disbot\barfile\main.py", line 129, in on_typing
+    if not client.suppress: print(color(f"{user.display_name} is typing in {channel.name}", fore=(137, 154, 196)))
+AttributeError: 'Client' object has no attribute 'suppress'
+Ignoring exception in on_typing
+Traceback (most recent call last):
+  File "C:\Users\server\AppData\Local\Programs\Python\Python39\lib\site-packages\discord\client.py", line 343, in _run_event
+    await coro(*args, **kwargs)
+  File "C:\Users\server\github\allprojects\allprojects\disbot\barfile\main.py", line 129, in on_typing
+    if not client.suppress: print(color(f"{user.display_name} is typing in {channel.name}", fore=(137, 154, 196)))
+AttributeError: 'Client' object has no attribute 'suppress'
+Ignoring exception in on_typing
+Traceback (most recent call last):
+  File "C:\Users\server\AppData\Local\Programs\Python\Python39\lib\site-packages\discord\client.py", line 343, in _run_event
+    await coro(*args, **kwargs)
+  File "C:\Users\server\github\allprojects\allprojects\disbot\barfile\main.py", line 129, in on_typing
+    if not client.suppress: print(color(f"{user.display_name} is typing in {channel.name}", fore=(137, 154, 196)))
+AttributeError: 'Client' object has no attribute 'suppress'
+Ignoring exception in on_typing
+Traceback (most recent call last):
+  File "C:\Users\server\AppData\Local\Programs\Python\Python39\lib\site-packages\discord\client.py", line 343, in _run_event
+    await coro(*args, **kwargs)
+  File "C:\Users\server\github\allprojects\allprojects\disbot\barfile\main.py", line 129, in on_typing
+    if not client.suppress: print(color(f"{user.display_name} is typing in {channel.name}", fore=(137, 154, 196)))
+AttributeError: 'Client' object has no attribute 'suppress'
+Ignoring exception in on_typing
+Traceback (most recent call last):
+  File "C:\Users\server\AppData\Local\Programs\Python\Python39\lib\site-packages\discord\client.py", line 343, in _run_event
+    await coro(*args, **kwargs)
+  File "C:\Users\server\github\allprojects\allprojects\disbot\barfile\main.py", line 129, in on_typing
+    if not client.suppress: print(color(f"{user.display_name} is typing in {channel.name}", fore=(137, 154, 196)))
+AttributeError: 'Client' object has no attribute 'suppress'
+Ignoring exception in on_typing
+Traceback (most recent call last):
+  File "C:\Users\server\AppData\Local\Programs\Python\Python39\lib\site-packages\discord\client.py", line 343, in _run_event
+    await coro(*args, **kwargs)
+  File "C:\Users\server\github\allprojects\allprojects\disbot\barfile\main.py", line 129, in on_typing
+    if not client.suppress: print(color(f"{user.display_name} is typing in {channel.name}", fore=(137, 154, 196)))
+AttributeError: 'Client' object has no attribute 'suppress'
+Ignoring exception in on_typing
+Traceback (most recent call last):
+  File "C:\Users\server\AppData\Local\Programs\Python\Python39\lib\site-packages\discord\client.py", line 343, in _run_event
+    await coro(*args, **kwargs)
+  File "C:\Users\server\github\allprojects\allprojects\disbot\barfile\main.py", line 129, in on_typing
+    if not client.suppress: print(color(f"{user.display_name} is typing in {channel.name}", fore=(137, 154, 196)))
+AttributeError: 'Client' object has no attribute 'suppress'
+Ignoring exception in on_typing
+Traceback (most recent call last):
+  File "C:\Users\server\AppData\Local\Programs\Python\Python39\lib\site-packages\discord\client.py", line 343, in _run_event
+    await coro(*args, **kwargs)
+  File "C:\Users\server\github\allprojects\allprojects\disbot\barfile\main.py", line 129, in on_typing
+    if not client.suppress: print(color(f"{user.display_name} is typing in {channel.name}", fore=(137, 154, 196)))
+AttributeError: 'Client' object has no attribute 'suppress'
+Ignoring exception in on_typing
+Traceback (most recent call last):
+  File "C:\Users\server\AppData\Local\Programs\Python\Python39\lib\site-packages\discord\client.py", line 343, in _run_event
+    await coro(*args, **kwargs)
+  File "C:\Users\server\github\allprojects\allprojects\disbot\barfile\main.py", line 129, in on_typing
+    if not client.suppress: print(color(f"{user.display_name} is typing in {channel.name}", fore=(137, 154, 196)))
+AttributeError: 'Client' object has no attribute 'suppress'
+Ignoring exception in on_typing
+Traceback (most recent call last):
+  File "C:\Users\server\AppData\Local\Programs\Python\Python39\lib\site-packages\discord\client.py", line 343, in _run_event
+    await coro(*args, **kwargs)
+  File "C:\Users\server\github\allprojects\allprojects\disbot\barfile\main.py", line 129, in on_typing
+    if not client.suppress: print(color(f"{user.display_name} is typing in {channel.name}", fore=(137, 154, 196)))
+AttributeError: 'Client' object has no attribute 'suppress'
+Ignoring exception in on_typing
+Traceback (most recent call last):
+  File "C:\Users\server\AppData\Local\Programs\Python\Python39\lib\site-packages\discord\client.py", line 343, in _run_event
+    await coro(*args, **kwargs)
+  File "C:\Users\server\github\allprojects\allprojects\disbot\barfile\main.py", line 129, in on_typing
+    if not client.suppress: print(color(f"{user.display_name} is typing in {channel.name}", fore=(137, 154, 196)))
+AttributeError: 'Client' object has no attribute 'suppress'
+Ignoring exception in on_typing
+Traceback (most recent call last):
+  File "C:\Users\server\AppData\Local\Programs\Python\Python39\lib\site-packages\discord\client.py", line 343, in _run_event
+    await coro(*args, **kwargs)
+  File "C:\Users\server\github\allprojects\allprojects\disbot\barfile\main.py", line 129, in on_typing
+    if not client.suppress: print(color(f"{user.display_name} is typing in {channel.name}", fore=(137, 154, 196)))
+AttributeError: 'Client' object has no attribute 'suppress'
+Ignoring exception in on_typing
+Traceback (most recent call last):
+  File "C:\Users\server\AppData\Local\Programs\Python\Python39\lib\site-packages\discord\client.py", line 343, in _run_event
+    await coro(*args, **kwargs)
+  File "C:\Users\server\github\allprojects\allprojects\disbot\barfile\main.py", line 129, in on_typing
+    if not client.suppress: print(color(f"{user.display_name} is typing in {channel.name}", fore=(137, 154, 196)))
+AttributeError: 'Client' object has no attribute 'suppress'
+Ignoring exception in on_typing
+Traceback (most recent call last):
+  File "C:\Users\server\AppData\Local\Programs\Python\Python39\lib\site-packages\discord\client.py", line 343, in _run_event
+    await coro(*args, **kwargs)
+  File "C:\Users\server\github\allprojects\allprojects\disbot\barfile\main.py", line 129, in on_typing
+    if not client.suppress: print(color(f"{user.display_name} is typing in {channel.name}", fore=(137, 154, 196)))
+AttributeError: 'Client' object has no attribute 'suppress'
+Ignoring exception in on_typing
+Traceback (most recent call last):
+  File "C:\Users\server\AppData\Local\Programs\Python\Python39\lib\site-packages\discord\client.py", line 343, in _run_event
+    await coro(*args, **kwargs)
+  File "C:\Users\server\github\allprojects\allprojects\disbot\barfile\main.py", line 129, in on_typing
+    if not client.suppress: print(color(f"{user.display_name} is typing in {channel.name}", fore=(137, 154, 196)))
+AttributeError: 'Client' object has no attribute 'suppress'
+Ignoring exception in on_typing
+Traceback (most recent call last):
+  File "C:\Users\server\AppData\Local\Programs\Python\Python39\lib\site-packages\discord\client.py", line 343, in _run_event
+    await coro(*args, **kwargs)
+  File "C:\Users\server\github\allprojects\allprojects\disbot\barfile\main.py", line 129, in on_typing
+    if not client.suppress: print(color(f"{user.display_name} is typing in {channel.name}", fore=(137, 154, 196)))
+AttributeError: 'Client' object has no attribute 'suppress'
+Ignoring exception in on_typing
+Traceback (most recent call last):
+  File "C:\Users\server\AppData\Local\Programs\Python\Python39\lib\site-packages\discord\client.py", line 343, in _run_event
+    await coro(*args, **kwargs)
+  File "C:\Users\server\github\allprojects\allprojects\disbot\barfile\main.py", line 129, in on_typing
+    if not client.suppress: print(color(f"{user.display_name} is typing in {channel.name}", fore=(137, 154, 196)))
+AttributeError: 'Client' object has no attribute 'suppress'
+Ignoring exception in on_typing
+Traceback (most recent call last):
+  File "C:\Users\server\AppData\Local\Programs\Python\Python39\lib\site-packages\discord\client.py", line 343, in _run_event
+    await coro(*args, **kwargs)
+  File "C:\Users\server\github\allprojects\allprojects\disbot\barfile\main.py", line 129, in on_typing
+    if not client.suppress: print(color(f"{user.display_name} is typing in {channel.name}", fore=(137, 154, 196)))
+AttributeError: 'Client' object has no attribute 'suppress'
+Ignoring exception in on_typing
+Traceback (most recent call last):
+  File "C:\Users\server\AppData\Local\Programs\Python\Python39\lib\site-packages\discord\client.py", line 343, in _run_event
+    await coro(*args, **kwargs)
+  File "C:\Users\server\github\allprojects\allprojects\disbot\barfile\main.py", line 129, in on_typing
+    if not client.suppress: print(color(f"{user.display_name} is typing in {channel.name}", fore=(137, 154, 196)))
+AttributeError: 'Client' object has no attribute 'suppress'
+Ignoring exception in on_typing
+Traceback (most recent call last):
+  File "C:\Users\server\AppData\Local\Programs\Python\Python39\lib\site-packages\discord\client.py", line 343, in _run_event
+    await coro(*args, **kwargs)
+  File "C:\Users\server\github\allprojects\allprojects\disbot\barfile\main.py", line 129, in on_typing
+    if not client.suppress: print(color(f"{user.display_name} is typing in {channel.name}", fore=(137, 154, 196)))
+AttributeError: 'Client' object has no attribute 'suppress'
+Ignoring exception in on_typing
+Traceback (most recent call last):
+  File "C:\Users\server\AppData\Local\Programs\Python\Python39\lib\site-packages\discord\client.py", line 343, in _run_event
+    await coro(*args, **kwargs)
+  File "C:\Users\server\github\allprojects\allprojects\disbot\barfile\main.py", line 129, in on_typing
+    if not client.suppress: print(color(f"{user.display_name} is typing in {channel.name}", fore=(137, 154, 196)))
+AttributeError: 'Client' object has no attribute 'suppress'
+Ignoring exception in on_typing
+Traceback (most recent call last):
+  File "C:\Users\server\AppData\Local\Programs\Python\Python39\lib\site-packages\discord\client.py", line 343, in _run_event
+    await coro(*args, **kwargs)
+  File "C:\Users\server\github\allprojects\allprojects\disbot\barfile\main.py", line 129, in on_typing
+    if not client.suppress: print(color(f"{user.display_name} is typing in {channel.name}", fore=(137, 154, 196)))
+AttributeError: 'Client' object has no attribute 'suppress'
+Ignoring exception in on_typing
+Traceback (most recent call last):
+  File "C:\Users\server\AppData\Local\Programs\Python\Python39\lib\site-packages\discord\client.py", line 343, in _run_event
+    await coro(*args, **kwargs)
+  File "C:\Users\server\github\allprojects\allprojects\disbot\barfile\main.py", line 129, in on_typing
+    if not client.suppress: print(color(f"{user.display_name} is typing in {channel.name}", fore=(137, 154, 196)))
+AttributeError: 'Client' object has no attribute 'suppress'
+Ignoring exception in on_typing
+Traceback (most recent call last):
+  File "C:\Users\server\AppData\Local\Programs\Python\Python39\lib\site-packages\discord\client.py", line 343, in _run_event
+    await coro(*args, **kwargs)
+  File "C:\Users\server\github\allprojects\allprojects\disbot\barfile\main.py", line 129, in on_typing
+    if not client.suppress: print(color(f"{user.display_name} is typing in {channel.name}", fore=(137, 154, 196)))
+AttributeError: 'Client' object has no attribute 'suppress'
+Ignoring exception in on_typing
+Traceback (most recent call last):
+  File "C:\Users\server\AppData\Local\Programs\Python\Python39\lib\site-packages\discord\client.py", line 343, in _run_event
+    await coro(*args, **kwargs)
+  File "C:\Users\server\github\allprojects\allprojects\disbot\barfile\main.py", line 129, in on_typing
+    if not client.suppress: print(color(f"{user.display_name} is typing in {channel.name}", fore=(137, 154, 196)))
+AttributeError: 'Client' object has no attribute 'suppress'
+Ignoring exception in on_typing
+Traceback (most recent call last):
+  File "C:\Users\server\AppData\Local\Programs\Python\Python39\lib\site-packages\discord\client.py", line 343, in _run_event
+    await coro(*args, **kwargs)
+  File "C:\Users\server\github\allprojects\allprojects\disbot\barfile\main.py", line 129, in on_typing
+    if not client.suppress: print(color(f"{user.display_name} is typing in {channel.name}", fore=(137, 154, 196)))
+AttributeError: 'Client' object has no attribute 'suppress'
+Ignoring exception in on_typing
+Traceback (most recent call last):
+  File "C:\Users\server\AppData\Local\Programs\Python\Python39\lib\site-packages\discord\client.py", line 343, in _run_event
+    await coro(*args, **kwargs)
+  File "C:\Users\server\github\allprojects\allprojects\disbot\barfile\main.py", line 129, in on_typing
+    if not client.suppress: print(color(f"{user.display_name} is typing in {channel.name}", fore=(137, 154, 196)))
+AttributeError: 'Client' object has no attribute 'suppress'
+Ignoring exception in on_typing
+Traceback (most recent call last):
+  File "C:\Users\server\AppData\Local\Programs\Python\Python39\lib\site-packages\discord\client.py", line 343, in _run_event
+    await coro(*args, **kwargs)
+  File "C:\Users\server\github\allprojects\allprojects\disbot\barfile\main.py", line 129, in on_typing
+    if not client.suppress: print(color(f"{user.display_name} is typing in {channel.name}", fore=(137, 154, 196)))
+AttributeError: 'Client' object has no attribute 'suppress'
+Ignoring exception in on_typing
+Traceback (most recent call last):
+  File "C:\Users\server\AppData\Local\Programs\Python\Python39\lib\site-packages\discord\client.py", line 343, in _run_event
+    await coro(*args, **kwargs)
+  File "C:\Users\server\github\allprojects\allprojects\disbot\barfile\main.py", line 129, in on_typing
+    if not client.suppress: print(color(f"{user.display_name} is typing in {channel.name}", fore=(137, 154, 196)))
+AttributeError: 'Client' object has no attribute 'suppress'
+Ignoring exception in on_typing
+Traceback (most recent call last):
+  File "C:\Users\server\AppData\Local\Programs\Python\Python39\lib\site-packages\discord\client.py", line 343, in _run_event
+    await coro(*args, **kwargs)
+  File "C:\Users\server\github\allprojects\allprojects\disbot\barfile\main.py", line 129, in on_typing
+    if not client.suppress: print(color(f"{user.display_name} is typing in {channel.name}", fore=(137, 154, 196)))
+AttributeError: 'Client' object has no attribute 'suppress'
+Ignoring exception in on_typing
+Traceback (most recent call last):
+  File "C:\Users\server\AppData\Local\Programs\Python\Python39\lib\site-packages\discord\client.py", line 343, in _run_event
+    await coro(*args, **kwargs)
+  File "C:\Users\server\github\allprojects\allprojects\disbot\barfile\main.py", line 129, in on_typing
+    if not client.suppress: print(color(f"{user.display_name} is typing in {channel.name}", fore=(137, 154, 196)))
+AttributeError: 'Client' object has no attribute 'suppress'
+Ignoring exception in on_typing
+Traceback (most recent call last):
+  File "C:\Users\server\AppData\Local\Programs\Python\Python39\lib\site-packages\discord\client.py", line 343, in _run_event
+    await coro(*args, **kwargs)
+  File "C:\Users\server\github\allprojects\allprojects\disbot\barfile\main.py", line 129, in on_typing
+    if not client.suppress: print(color(f"{user.display_name} is typing in {channel.name}", fore=(137, 154, 196)))
+AttributeError: 'Client' object has no attribute 'suppress'
+Ignoring exception in on_typing
+Traceback (most recent call last):
+  File "C:\Users\server\AppData\Local\Programs\Python\Python39\lib\site-packages\discord\client.py", line 343, in _run_event
+    await coro(*args, **kwargs)
+  File "C:\Users\server\github\allprojects\allprojects\disbot\barfile\main.py", line 129, in on_typing
+    if not client.suppress: print(color(f"{user.display_name} is typing in {channel.name}", fore=(137, 154, 196)))
+AttributeError: 'Client' object has no attribute 'suppress'
+Ignoring exception in on_typing
+Traceback (most recent call last):
+  File "C:\Users\server\AppData\Local\Programs\Python\Python39\lib\site-packages\discord\client.py", line 343, in _run_event
+    await coro(*args, **kwargs)
+  File "C:\Users\server\github\allprojects\allprojects\disbot\barfile\main.py", line 129, in on_typing
+    if not client.suppress: print(color(f"{user.display_name} is typing in {channel.name}", fore=(137, 154, 196)))
+AttributeError: 'Client' object has no attribute 'suppress'
+Ignoring exception in on_typing
+Traceback (most recent call last):
+  File "C:\Users\server\AppData\Local\Programs\Python\Python39\lib\site-packages\discord\client.py", line 343, in _run_event
+    await coro(*args, **kwargs)
+  File "C:\Users\server\github\allprojects\allprojects\disbot\barfile\main.py", line 129, in on_typing
+    if not client.suppress: print(color(f"{user.display_name} is typing in {channel.name}", fore=(137, 154, 196)))
+AttributeError: 'Client' object has no attribute 'suppress'
+Ignoring exception in on_typing
+Traceback (most recent call last):
+  File "C:\Users\server\AppData\Local\Programs\Python\Python39\lib\site-packages\discord\client.py", line 343, in _run_event
+    await coro(*args, **kwargs)
+  File "C:\Users\server\github\allprojects\allprojects\disbot\barfile\main.py", line 129, in on_typing
+    if not client.suppress: print(color(f"{user.display_name} is typing in {channel.name}", fore=(137, 154, 196)))
+AttributeError: 'Client' object has no attribute 'suppress'
+Ignoring exception in on_typing
+Traceback (most recent call last):
+  File "C:\Users\server\AppData\Local\Programs\Python\Python39\lib\site-packages\discord\client.py", line 343, in _run_event
+    await coro(*args, **kwargs)
+  File "C:\Users\server\github\allprojects\allprojects\disbot\barfile\main.py", line 129, in on_typing
+    if not client.suppress: print(color(f"{user.display_name} is typing in {channel.name}", fore=(137, 154, 196)))
+AttributeError: 'Client' object has no attribute 'suppress'
+Ignoring exception in on_typing
+Traceback (most recent call last):
+  File "C:\Users\server\AppData\Local\Programs\Python\Python39\lib\site-packages\discord\client.py", line 343, in _run_event
+    await coro(*args, **kwargs)
+  File "C:\Users\server\github\allprojects\allprojects\disbot\barfile\main.py", line 129, in on_typing
+    if not client.suppress: print(color(f"{user.display_name} is typing in {channel.name}", fore=(137, 154, 196)))
+AttributeError: 'Client' object has no attribute 'suppress'
+Ignoring exception in on_typing
+Traceback (most recent call last):
+  File "C:\Users\server\AppData\Local\Programs\Python\Python39\lib\site-packages\discord\client.py", line 343, in _run_event
+    await coro(*args, **kwargs)
+  File "C:\Users\server\github\allprojects\allprojects\disbot\barfile\main.py", line 129, in on_typing
+    if not client.suppress: print(color(f"{user.display_name} is typing in {channel.name}", fore=(137, 154, 196)))
+AttributeError: 'Client' object has no attribute 'suppress'
+Ignoring exception in on_typing
+Traceback (most recent call last):
+  File "C:\Users\server\AppData\Local\Programs\Python\Python39\lib\site-packages\discord\client.py", line 343, in _run_event
+    await coro(*args, **kwargs)
+  File "C:\Users\server\github\allprojects\allprojects\disbot\barfile\main.py", line 129, in on_typing
+    if not client.suppress: print(color(f"{user.display_name} is typing in {channel.name}", fore=(137, 154, 196)))
+AttributeError: 'Client' object has no attribute 'suppress'
+Ignoring exception in on_typing
+Traceback (most recent call last):
+  File "C:\Users\server\AppData\Local\Programs\Python\Python39\lib\site-packages\discord\client.py", line 343, in _run_event
+    await coro(*args, **kwargs)
+  File "C:\Users\server\github\allprojects\allprojects\disbot\barfile\main.py", line 129, in on_typing
+    if not client.suppress: print(color(f"{user.display_name} is typing in {channel.name}", fore=(137, 154, 196)))
+AttributeError: 'Client' object has no attribute 'suppress'
+Ignoring exception in on_typing
+Traceback (most recent call last):
+  File "C:\Users\server\AppData\Local\Programs\Python\Python39\lib\site-packages\discord\client.py", line 343, in _run_event
+    await coro(*args, **kwargs)
+  File "C:\Users\server\github\allprojects\allprojects\disbot\barfile\main.py", line 129, in on_typing
+    if not client.suppress: print(color(f"{user.display_name} is typing in {channel.name}", fore=(137, 154, 196)))
+AttributeError: 'Client' object has no attribute 'suppress'
+Ignoring exception in on_typing
+Traceback (most recent call last):
+  File "C:\Users\server\AppData\Local\Programs\Python\Python39\lib\site-packages\discord\client.py", line 343, in _run_event
+    await coro(*args, **kwargs)
+  File "C:\Users\server\github\allprojects\allprojects\disbot\barfile\main.py", line 129, in on_typing
+    if not client.suppress: print(color(f"{user.display_name} is typing in {channel.name}", fore=(137, 154, 196)))
+AttributeError: 'Client' object has no attribute 'suppress'
+Ignoring exception in on_typing
+Traceback (most recent call last):
+  File "C:\Users\server\AppData\Local\Programs\Python\Python39\lib\site-packages\discord\client.py", line 343, in _run_event
+    await coro(*args, **kwargs)
+  File "C:\Users\server\github\allprojects\allprojects\disbot\barfile\main.py", line 129, in on_typing
+    if not client.suppress: print(color(f"{user.display_name} is typing in {channel.name}", fore=(137, 154, 196)))
+AttributeError: 'Client' object has no attribute 'suppress'
+Task exception was never retrieved
+future: <Task finished name='Task-270' coro=<start_server() done, defined at C:\Users\server\github\allprojects\allprojects\disbot\barfile\main.py:349> exception=OSError(10048, "error while attempting to bind on address ('127.0.0.1', 5000): only one usage of each socket address (protocol/network address/port) is normally permitted")>
+Traceback (most recent call last):
+  File "C:\Users\server\github\allprojects\allprojects\disbot\barfile\main.py", line 350, in start_server
+    server = await asyncio.start_server(echo_server, host, port)
+  File "C:\Users\server\AppData\Local\Programs\Python\Python39\lib\asyncio\streams.py", line 94, in start_server
+    return await loop.create_server(factory, host, port, **kwds)
+  File "C:\Users\server\AppData\Local\Programs\Python\Python39\lib\asyncio\base_events.py", line 1494, in create_server
+    raise OSError(err.errno, 'error while attempting '
+OSError: [Errno 10048] error while attempting to bind on address ('127.0.0.1', 5000): only one usage of each socket address (protocol/network address/port) is normally permitted
+Task exception was never retrieved
+future: <Task finished name='Task-415' coro=<start_server() done, defined at C:\Users\server\github\allprojects\allprojects\disbot\barfile\main.py:349> exception=OSError(10048, "error while attempting to bind on address ('127.0.0.1', 5000): only one usage of each socket address (protocol/network address/port) is normally permitted")>
+Traceback (most recent call last):
+  File "C:\Users\server\github\allprojects\allprojects\disbot\barfile\main.py", line 350, in start_server
+    server = await asyncio.start_server(echo_server, host, port)
+  File "C:\Users\server\AppData\Local\Programs\Python\Python39\lib\asyncio\streams.py", line 94, in start_server
+    return await loop.create_server(factory, host, port, **kwds)
+  File "C:\Users\server\AppData\Local\Programs\Python\Python39\lib\asyncio\base_events.py", line 1494, in create_server
+    raise OSError(err.errno, 'error while attempting '
+OSError: [Errno 10048] error while attempting to bind on address ('127.0.0.1', 5000): only one usage of each socket address (protocol/network address/port) is normally permitted
+Ignoring exception in on_typing
+Traceback (most recent call last):
+  File "C:\Users\server\AppData\Local\Programs\Python\Python39\lib\site-packages\discord\client.py", line 343, in _run_event
+    await coro(*args, **kwargs)
+  File "C:\Users\server\github\allprojects\allprojects\disbot\barfile\main.py", line 129, in on_typing
+    if not client.suppress: print(color(f"{user.display_name} is typing in {channel.name}", fore=(137, 154, 196)))
+AttributeError: 'Client' object has no attribute 'suppress'
+Ignoring exception in on_typing
+Traceback (most recent call last):
+  File "C:\Users\server\AppData\Local\Programs\Python\Python39\lib\site-packages\discord\client.py", line 343, in _run_event
+    await coro(*args, **kwargs)
+  File "C:\Users\server\github\allprojects\allprojects\disbot\barfile\main.py", line 129, in on_typing
+    if not client.suppress: print(color(f"{user.display_name} is typing in {channel.name}", fore=(137, 154, 196)))
+AttributeError: 'Client' object has no attribute 'suppress'
+Ignoring exception in on_typing
+Traceback (most recent call last):
+  File "C:\Users\server\AppData\Local\Programs\Python\Python39\lib\site-packages\discord\client.py", line 343, in _run_event
+    await coro(*args, **kwargs)
+  File "C:\Users\server\github\allprojects\allprojects\disbot\barfile\main.py", line 129, in on_typing
+    if not client.suppress: print(color(f"{user.display_name} is typing in {channel.name}", fore=(137, 154, 196)))
+AttributeError: 'Client' object has no attribute 'suppress'
+Ignoring exception in on_typing
+Traceback (most recent call last):
+  File "C:\Users\server\AppData\Local\Programs\Python\Python39\lib\site-packages\discord\client.py", line 343, in _run_event
+    await coro(*args, **kwargs)
+  File "C:\Users\server\github\allprojects\allprojects\disbot\barfile\main.py", line 129, in on_typing
+    if not client.suppress: print(color(f"{user.display_name} is typing in {channel.name}", fore=(137, 154, 196)))
+AttributeError: 'Client' object has no attribute 'suppress'
+Ignoring exception in on_typing
+Traceback (most recent call last):
+  File "C:\Users\server\AppData\Local\Programs\Python\Python39\lib\site-packages\discord\client.py", line 343, in _run_event
+    await coro(*args, **kwargs)
+  File "C:\Users\server\github\allprojects\allprojects\disbot\barfile\main.py", line 129, in on_typing
+    if not client.suppress: print(color(f"{user.display_name} is typing in {channel.name}", fore=(137, 154, 196)))
+AttributeError: 'Client' object has no attribute 'suppress'
+Ignoring exception in on_typing
+Traceback (most recent call last):
+  File "C:\Users\server\AppData\Local\Programs\Python\Python39\lib\site-packages\discord\client.py", line 343, in _run_event
+    await coro(*args, **kwargs)
+  File "C:\Users\server\github\allprojects\allprojects\disbot\barfile\main.py", line 129, in on_typing
+    if not client.suppress: print(color(f"{user.display_name} is typing in {channel.name}", fore=(137, 154, 196)))
+AttributeError: 'Client' object has no attribute 'suppress'
+Ignoring exception in on_typing
+Traceback (most recent call last):
+  File "C:\Users\server\AppData\Local\Programs\Python\Python39\lib\site-packages\discord\client.py", line 343, in _run_event
+    await coro(*args, **kwargs)
+  File "C:\Users\server\github\allprojects\allprojects\disbot\barfile\main.py", line 129, in on_typing
+    if not client.suppress: print(color(f"{user.display_name} is typing in {channel.name}", fore=(137, 154, 196)))
+AttributeError: 'Client' object has no attribute 'suppress'
+Ignoring exception in on_typing
+Traceback (most recent call last):
+  File "C:\Users\server\AppData\Local\Programs\Python\Python39\lib\site-packages\discord\client.py", line 343, in _run_event
+    await coro(*args, **kwargs)
+  File "C:\Users\server\github\allprojects\allprojects\disbot\barfile\main.py", line 129, in on_typing
+    if not client.suppress: print(color(f"{user.display_name} is typing in {channel.name}", fore=(137, 154, 196)))
+AttributeError: 'Client' object has no attribute 'suppress'
+Ignoring exception in on_typing
+Traceback (most recent call last):
+  File "C:\Users\server\AppData\Local\Programs\Python\Python39\lib\site-packages\discord\client.py", line 343, in _run_event
+    await coro(*args, **kwargs)
+  File "C:\Users\server\github\allprojects\allprojects\disbot\barfile\main.py", line 129, in on_typing
+    if not client.suppress: print(color(f"{user.display_name} is typing in {channel.name}", fore=(137, 154, 196)))
+AttributeError: 'Client' object has no attribute 'suppress'
+Ignoring exception in on_typing
+Traceback (most recent call last):
+  File "C:\Users\server\AppData\Local\Programs\Python\Python39\lib\site-packages\discord\client.py", line 343, in _run_event
+    await coro(*args, **kwargs)
+  File "C:\Users\server\github\allprojects\allprojects\disbot\barfile\main.py", line 129, in on_typing
+    if not client.suppress: print(color(f"{user.display_name} is typing in {channel.name}", fore=(137, 154, 196)))
+AttributeError: 'Client' object has no attribute 'suppress'
+Ignoring exception in on_typing
+Traceback (most recent call last):
+  File "C:\Users\server\AppData\Local\Programs\Python\Python39\lib\site-packages\discord\client.py", line 343, in _run_event
+    await coro(*args, **kwargs)
+  File "C:\Users\server\github\allprojects\allprojects\disbot\barfile\main.py", line 129, in on_typing
+    if not client.suppress: print(color(f"{user.display_name} is typing in {channel.name}", fore=(137, 154, 196)))
+AttributeError: 'Client' object has no attribute 'suppress'
+Ignoring exception in on_typing
+Traceback (most recent call last):
+  File "C:\Users\server\AppData\Local\Programs\Python\Python39\lib\site-packages\discord\client.py", line 343, in _run_event
+    await coro(*args, **kwargs)
+  File "C:\Users\server\github\allprojects\allprojects\disbot\barfile\main.py", line 129, in on_typing
+    if not client.suppress: print(color(f"{user.display_name} is typing in {channel.name}", fore=(137, 154, 196)))
+AttributeError: 'Client' object has no attribute 'suppress'
+Ignoring exception in on_typing
+Traceback (most recent call last):
+  File "C:\Users\server\AppData\Local\Programs\Python\Python39\lib\site-packages\discord\client.py", line 343, in _run_event
+    await coro(*args, **kwargs)
+  File "C:\Users\server\github\allprojects\allprojects\disbot\barfile\main.py", line 129, in on_typing
+    if not client.suppress: print(color(f"{user.display_name} is typing in {channel.name}", fore=(137, 154, 196)))
+AttributeError: 'Client' object has no attribute 'suppress'
+Ignoring exception in on_typing
+Traceback (most recent call last):
+  File "C:\Users\server\AppData\Local\Programs\Python\Python39\lib\site-packages\discord\client.py", line 343, in _run_event
+    await coro(*args, **kwargs)
+  File "C:\Users\server\github\allprojects\allprojects\disbot\barfile\main.py", line 129, in on_typing
+    if not client.suppress: print(color(f"{user.display_name} is typing in {channel.name}", fore=(137, 154, 196)))
+AttributeError: 'Client' object has no attribute 'suppress'
+Ignoring exception in on_typing
+Traceback (most recent call last):
+  File "C:\Users\server\AppData\Local\Programs\Python\Python39\lib\site-packages\discord\client.py", line 343, in _run_event
+    await coro(*args, **kwargs)
+  File "C:\Users\server\github\allprojects\allprojects\disbot\barfile\main.py", line 129, in on_typing
+    if not client.suppress: print(color(f"{user.display_name} is typing in {channel.name}", fore=(137, 154, 196)))
+AttributeError: 'Client' object has no attribute 'suppress'
+Ignoring exception in on_typing
+Traceback (most recent call last):
+  File "C:\Users\server\AppData\Local\Programs\Python\Python39\lib\site-packages\discord\client.py", line 343, in _run_event
+    await coro(*args, **kwargs)
+  File "C:\Users\server\github\allprojects\allprojects\disbot\barfile\main.py", line 129, in on_typing
+    if not client.suppress: print(color(f"{user.display_name} is typing in {channel.name}", fore=(137, 154, 196)))
+AttributeError: 'Client' object has no attribute 'suppress'
+Ignoring exception in on_typing
+Traceback (most recent call last):
+  File "C:\Users\server\AppData\Local\Programs\Python\Python39\lib\site-packages\discord\client.py", line 343, in _run_event
+    await coro(*args, **kwargs)
+  File "C:\Users\server\github\allprojects\allprojects\disbot\barfile\main.py", line 129, in on_typing
+    if not client.suppress: print(color(f"{user.display_name} is typing in {channel.name}", fore=(137, 154, 196)))
+AttributeError: 'Client' object has no attribute 'suppress'
+Ignoring exception in on_typing
+Traceback (most recent call last):
+  File "C:\Users\server\AppData\Local\Programs\Python\Python39\lib\site-packages\discord\client.py", line 343, in _run_event
+    await coro(*args, **kwargs)
+  File "C:\Users\server\github\allprojects\allprojects\disbot\barfile\main.py", line 129, in on_typing
+    if not client.suppress: print(color(f"{user.display_name} is typing in {channel.name}", fore=(137, 154, 196)))
+AttributeError: 'Client' object has no attribute 'suppress'
+Ignoring exception in on_typing
+Traceback (most recent call last):
+  File "C:\Users\server\AppData\Local\Programs\Python\Python39\lib\site-packages\discord\client.py", line 343, in _run_event
+    await coro(*args, **kwargs)
+  File "C:\Users\server\github\allprojects\allprojects\disbot\barfile\main.py", line 129, in on_typing
+    if not client.suppress: print(color(f"{user.display_name} is typing in {channel.name}", fore=(137, 154, 196)))
+AttributeError: 'Client' object has no attribute 'suppress'
+Ignoring exception in on_typing
+Traceback (most recent call last):
+  File "C:\Users\server\AppData\Local\Programs\Python\Python39\lib\site-packages\discord\client.py", line 343, in _run_event
+    await coro(*args, **kwargs)
+  File "C:\Users\server\github\allprojects\allprojects\disbot\barfile\main.py", line 129, in on_typing
+    if not client.suppress: print(color(f"{user.display_name} is typing in {channel.name}", fore=(137, 154, 196)))
+AttributeError: 'Client' object has no attribute 'suppress'
+Ignoring exception in on_typing
+Traceback (most recent call last):
+  File "C:\Users\server\AppData\Local\Programs\Python\Python39\lib\site-packages\discord\client.py", line 343, in _run_event
+    await coro(*args, **kwargs)
+  File "C:\Users\server\github\allprojects\allprojects\disbot\barfile\main.py", line 129, in on_typing
+    if not client.suppress: print(color(f"{user.display_name} is typing in {channel.name}", fore=(137, 154, 196)))
+AttributeError: 'Client' object has no attribute 'suppress'
+Ignoring exception in on_typing
+Traceback (most recent call last):
+  File "C:\Users\server\AppData\Local\Programs\Python\Python39\lib\site-packages\discord\client.py", line 343, in _run_event
+    await coro(*args, **kwargs)
+  File "C:\Users\server\github\allprojects\allprojects\disbot\barfile\main.py", line 129, in on_typing
+    if not client.suppress: print(color(f"{user.display_name} is typing in {channel.name}", fore=(137, 154, 196)))
+AttributeError: 'Client' object has no attribute 'suppress'
+Ignoring exception in on_typing
+Traceback (most recent call last):
+  File "C:\Users\server\AppData\Local\Programs\Python\Python39\lib\site-packages\discord\client.py", line 343, in _run_event
+    await coro(*args, **kwargs)
+  File "C:\Users\server\github\allprojects\allprojects\disbot\barfile\main.py", line 129, in on_typing
+    if not client.suppress: print(color(f"{user.display_name} is typing in {channel.name}", fore=(137, 154, 196)))
+AttributeError: 'Client' object has no attribute 'suppress'
+Ignoring exception in on_typing
+Traceback (most recent call last):
+  File "C:\Users\server\AppData\Local\Programs\Python\Python39\lib\site-packages\discord\client.py", line 343, in _run_event
+    await coro(*args, **kwargs)
+  File "C:\Users\server\github\allprojects\allprojects\disbot\barfile\main.py", line 129, in on_typing
+    if not client.suppress: print(color(f"{user.display_name} is typing in {channel.name}", fore=(137, 154, 196)))
+AttributeError: 'Client' object has no attribute 'suppress'
+Ignoring exception in on_typing
+Traceback (most recent call last):
+  File "C:\Users\server\AppData\Local\Programs\Python\Python39\lib\site-packages\discord\client.py", line 343, in _run_event
+    await coro(*args, **kwargs)
+  File "C:\Users\server\github\allprojects\allprojects\disbot\barfile\main.py", line 129, in on_typing
+    if not client.suppress: print(color(f"{user.display_name} is typing in {channel.name}", fore=(137, 154, 196)))
+AttributeError: 'Client' object has no attribute 'suppress'
+Ignoring exception in on_typing
+Traceback (most recent call last):
+  File "C:\Users\server\AppData\Local\Programs\Python\Python39\lib\site-packages\discord\client.py", line 343, in _run_event
+    await coro(*args, **kwargs)
+  File "C:\Users\server\github\allprojects\allprojects\disbot\barfile\main.py", line 129, in on_typing
+    if not client.suppress: print(color(f"{user.display_name} is typing in {channel.name}", fore=(137, 154, 196)))
+AttributeError: 'Client' object has no attribute 'suppress'
+Ignoring exception in on_typing
+Traceback (most recent call last):
+  File "C:\Users\server\AppData\Local\Programs\Python\Python39\lib\site-packages\discord\client.py", line 343, in _run_event
+    await coro(*args, **kwargs)
+  File "C:\Users\server\github\allprojects\allprojects\disbot\barfile\main.py", line 129, in on_typing
+    if not client.suppress: print(color(f"{user.display_name} is typing in {channel.name}", fore=(137, 154, 196)))
+AttributeError: 'Client' object has no attribute 'suppress'
+Ignoring exception in on_typing
+Traceback (most recent call last):
+  File "C:\Users\server\AppData\Local\Programs\Python\Python39\lib\site-packages\discord\client.py", line 343, in _run_event
+    await coro(*args, **kwargs)
+  File "C:\Users\server\github\allprojects\allprojects\disbot\barfile\main.py", line 129, in on_typing
+    if not client.suppress: print(color(f"{user.display_name} is typing in {channel.name}", fore=(137, 154, 196)))
+AttributeError: 'Client' object has no attribute 'suppress'
+Ignoring exception in on_typing
+Traceback (most recent call last):
+  File "C:\Users\server\AppData\Local\Programs\Python\Python39\lib\site-packages\discord\client.py", line 343, in _run_event
+    await coro(*args, **kwargs)
+  File "C:\Users\server\github\allprojects\allprojects\disbot\barfile\main.py", line 129, in on_typing
+    if not client.suppress: print(color(f"{user.display_name} is typing in {channel.name}", fore=(137, 154, 196)))
+AttributeError: 'Client' object has no attribute 'suppress'
+Ignoring exception in on_typing
+Traceback (most recent call last):
+  File "C:\Users\server\AppData\Local\Programs\Python\Python39\lib\site-packages\discord\client.py", line 343, in _run_event
+    await coro(*args, **kwargs)
+  File "C:\Users\server\github\allprojects\allprojects\disbot\barfile\main.py", line 129, in on_typing
+    if not client.suppress: print(color(f"{user.display_name} is typing in {channel.name}", fore=(137, 154, 196)))
+AttributeError: 'Client' object has no attribute 'suppress'
+Ignoring exception in on_typing
+Traceback (most recent call last):
+  File "C:\Users\server\AppData\Local\Programs\Python\Python39\lib\site-packages\discord\client.py", line 343, in _run_event
+    await coro(*args, **kwargs)
+  File "C:\Users\server\github\allprojects\allprojects\disbot\barfile\main.py", line 129, in on_typing
+    if not client.suppress: print(color(f"{user.display_name} is typing in {channel.name}", fore=(137, 154, 196)))
+AttributeError: 'Client' object has no attribute 'suppress'
+Ignoring exception in on_typing
+Traceback (most recent call last):
+  File "C:\Users\server\AppData\Local\Programs\Python\Python39\lib\site-packages\discord\client.py", line 343, in _run_event
+    await coro(*args, **kwargs)
+  File "C:\Users\server\github\allprojects\allprojects\disbot\barfile\main.py", line 129, in on_typing
+    if not client.suppress: print(color(f"{user.display_name} is typing in {channel.name}", fore=(137, 154, 196)))
+AttributeError: 'Client' object has no attribute 'suppress'
+Ignoring exception in on_typing
+Traceback (most recent call last):
+  File "C:\Users\server\AppData\Local\Programs\Python\Python39\lib\site-packages\discord\client.py", line 343, in _run_event
+    await coro(*args, **kwargs)
+  File "C:\Users\server\github\allprojects\allprojects\disbot\barfile\main.py", line 129, in on_typing
+    if not client.suppress: print(color(f"{user.display_name} is typing in {channel.name}", fore=(137, 154, 196)))
+AttributeError: 'Client' object has no attribute 'suppress'
+Ignoring exception in on_typing
+Traceback (most recent call last):
+  File "C:\Users\server\AppData\Local\Programs\Python\Python39\lib\site-packages\discord\client.py", line 343, in _run_event
+    await coro(*args, **kwargs)
+  File "C:\Users\server\github\allprojects\allprojects\disbot\barfile\main.py", line 129, in on_typing
+    if not client.suppress: print(color(f"{user.display_name} is typing in {channel.name}", fore=(137, 154, 196)))
+AttributeError: 'Client' object has no attribute 'suppress'
+Ignoring exception in on_typing
+Traceback (most recent call last):
+  File "C:\Users\server\AppData\Local\Programs\Python\Python39\lib\site-packages\discord\client.py", line 343, in _run_event
+    await coro(*args, **kwargs)
+  File "C:\Users\server\github\allprojects\allprojects\disbot\barfile\main.py", line 129, in on_typing
+    if not client.suppress: print(color(f"{user.display_name} is typing in {channel.name}", fore=(137, 154, 196)))
+AttributeError: 'Client' object has no attribute 'suppress'
+Ignoring exception in on_typing
+Traceback (most recent call last):
+  File "C:\Users\server\AppData\Local\Programs\Python\Python39\lib\site-packages\discord\client.py", line 343, in _run_event
+    await coro(*args, **kwargs)
+  File "C:\Users\server\github\allprojects\allprojects\disbot\barfile\main.py", line 129, in on_typing
+    if not client.suppress: print(color(f"{user.display_name} is typing in {channel.name}", fore=(137, 154, 196)))
+AttributeError: 'Client' object has no attribute 'suppress'
+Ignoring exception in on_typing
+Traceback (most recent call last):
+  File "C:\Users\server\AppData\Local\Programs\Python\Python39\lib\site-packages\discord\client.py", line 343, in _run_event
+    await coro(*args, **kwargs)
+  File "C:\Users\server\github\allprojects\allprojects\disbot\barfile\main.py", line 129, in on_typing
+    if not client.suppress: print(color(f"{user.display_name} is typing in {channel.name}", fore=(137, 154, 196)))
+AttributeError: 'Client' object has no attribute 'suppress'
+Ignoring exception in on_typing
+Traceback (most recent call last):
+  File "C:\Users\server\AppData\Local\Programs\Python\Python39\lib\site-packages\discord\client.py", line 343, in _run_event
+    await coro(*args, **kwargs)
+  File "C:\Users\server\github\allprojects\allprojects\disbot\barfile\main.py", line 129, in on_typing
+    if not client.suppress: print(color(f"{user.display_name} is typing in {channel.name}", fore=(137, 154, 196)))
+AttributeError: 'Client' object has no attribute 'suppress'
+Ignoring exception in on_typing
+Traceback (most recent call last):
+  File "C:\Users\server\AppData\Local\Programs\Python\Python39\lib\site-packages\discord\client.py", line 343, in _run_event
+    await coro(*args, **kwargs)
+  File "C:\Users\server\github\allprojects\allprojects\disbot\barfile\main.py", line 129, in on_typing
+    if not client.suppress: print(color(f"{user.display_name} is typing in {channel.name}", fore=(137, 154, 196)))
+AttributeError: 'Client' object has no attribute 'suppress'
+Ignoring exception in on_typing
+Traceback (most recent call last):
+  File "C:\Users\server\AppData\Local\Programs\Python\Python39\lib\site-packages\discord\client.py", line 343, in _run_event
+    await coro(*args, **kwargs)
+  File "C:\Users\server\github\allprojects\allprojects\disbot\barfile\main.py", line 129, in on_typing
+    if not client.suppress: print(color(f"{user.display_name} is typing in {channel.name}", fore=(137, 154, 196)))
+AttributeError: 'Client' object has no attribute 'suppress'
+Ignoring exception in on_typing
+Traceback (most recent call last):
+  File "C:\Users\server\AppData\Local\Programs\Python\Python39\lib\site-packages\discord\client.py", line 343, in _run_event
+    await coro(*args, **kwargs)
+  File "C:\Users\server\github\allprojects\allprojects\disbot\barfile\main.py", line 129, in on_typing
+    if not client.suppress: print(color(f"{user.display_name} is typing in {channel.name}", fore=(137, 154, 196)))
+AttributeError: 'Client' object has no attribute 'suppress'
+Ignoring exception in on_typing
+Traceback (most recent call last):
+  File "C:\Users\server\AppData\Local\Programs\Python\Python39\lib\site-packages\discord\client.py", line 343, in _run_event
+    await coro(*args, **kwargs)
+  File "C:\Users\server\github\allprojects\allprojects\disbot\barfile\main.py", line 129, in on_typing
+    if not client.suppress: print(color(f"{user.display_name} is typing in {channel.name}", fore=(137, 154, 196)))
+AttributeError: 'Client' object has no attribute 'suppress'
+Ignoring exception in on_typing
+Traceback (most recent call last):
+  File "C:\Users\server\AppData\Local\Programs\Python\Python39\lib\site-packages\discord\client.py", line 343, in _run_event
+    await coro(*args, **kwargs)
+  File "C:\Users\server\github\allprojects\allprojects\disbot\barfile\main.py", line 129, in on_typing
+    if not client.suppress: print(color(f"{user.display_name} is typing in {channel.name}", fore=(137, 154, 196)))
+AttributeError: 'Client' object has no attribute 'suppress'
+Ignoring exception in on_typing
+Traceback (most recent call last):
+  File "C:\Users\server\AppData\Local\Programs\Python\Python39\lib\site-packages\discord\client.py", line 343, in _run_event
+    await coro(*args, **kwargs)
+  File "C:\Users\server\github\allprojects\allprojects\disbot\barfile\main.py", line 129, in on_typing
+    if not client.suppress: print(color(f"{user.display_name} is typing in {channel.name}", fore=(137, 154, 196)))
+AttributeError: 'Client' object has no attribute 'suppress'
+Ignoring exception in on_typing
+Traceback (most recent call last):
+  File "C:\Users\server\AppData\Local\Programs\Python\Python39\lib\site-packages\discord\client.py", line 343, in _run_event
+    await coro(*args, **kwargs)
+  File "C:\Users\server\github\allprojects\allprojects\disbot\barfile\main.py", line 129, in on_typing
+    if not client.suppress: print(color(f"{user.display_name} is typing in {channel.name}", fore=(137, 154, 196)))
+AttributeError: 'Client' object has no attribute 'suppress'
