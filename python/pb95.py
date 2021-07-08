@@ -2,6 +2,10 @@ import yaml
 import math
 from colr import color
 import os
+try:
+    import pbrng #custom rng file
+except:
+    print("pbrng module not found")
 
 data = None
 
@@ -167,15 +171,20 @@ index = list(pro_badge.keys())
 index.append('achivements')
 
 genbar()
+print("\n")
+pbrng.call()
 
 sys = ""
+count = 0
 while True:
     inp = input("")
 
 
     try:
         if inp == "": inp = sys
-        else: sys = index[int(inp) - 1]
+        else:
+             sys = index[int(inp) - 1]
+             count = 0
     except ValueError:
         #print(e.__class__.__name__) #the actual error that occured
         continue
@@ -191,3 +200,8 @@ while True:
     
     os.system('cls')
     genbar(sys)
+    print("\n")
+
+    count += 1
+    if count >= 5: pbrng.call(sys, True)
+    else: pbrng.call(sys)
