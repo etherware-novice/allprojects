@@ -41,14 +41,42 @@ dict = {
     "B9": bonusBAR,
     "B10": bonusBAR,
     "B10.2": bonusBAR,
-    "B10.3": bonusBAR
+    "B10.3": bonusBAR,
+
+
+    "PB NOT 3.60": ["Custom"] #delete this after testing
 }
 
 def call(curr:str = "", out = False):
+    gamem = None
+    output = [""]
     try:
-        if out == True and random.randint(0, 2) == 0: raise ValueError("lol ignore this")
+        if out == True and random.randint(0, 2) == 0: raise KeyError("lol ignore this")
         else:
-            print(f"{curr} - {random.choice(dict[curr])}")
+            gamem = random.choice(dict[curr])
+            os = [curr, gamem]
+            output[0] = f"{curr} - {gamem}"
     except KeyError:
         os = random.choice(list(dict.items()))
-        print(f"{os[0]} - {random.choice(os[1])}")
+        gamem = random.choice(os[1])
+        #os[1] = gamem
+        output[0] = f"{os[0]} - {gamem}"
+
+
+    if gamem == "Custom":
+        output[0] += "\n"
+        jus = 20
+        output[0] += (f"Pace: {str(round(random.random(), 2)).ljust(jus)}Segments Speed: {round(random.random(), 2)}\n"
+        f"Segment Wobble: {str(round(random.random(), 2)).ljust(jus)}Wobble Speed: {round(random.random(), 2)}\n"
+        f"Freq. of Red: {str(round(random.random(), 2)).ljust(jus)}Freq. of popups: {round(random.random(), 2)}\n")
+    
+        if random.randint(0, 1): output[0] += "Popups\t"
+        if random.randint(0, 1): output[0] += "Level Puzzle\t"
+        if random.randint(0, 1): output[0] += "Utilities"
+    
+    output.extend(os)
+    return output
+
+def get_os():
+    return random.choice(list(dict.keys()))
+    

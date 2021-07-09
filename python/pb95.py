@@ -68,6 +68,7 @@ def progress(count, total, bar_len, percent=False):
     if percent: displpercent = percents
     return color('=' * filled_len, back=barbg) + '-' * (bar_len - filled_len) + " " + str(displpercent)
 
+global totamt, tot, levels
 def genbar(newc = None):
     x = 0
     
@@ -76,11 +77,16 @@ def genbar(newc = None):
         data = yaml.load(file, Loader=yaml.FullLoader)
 
     #data['PB NOT 3.60'] = 0
+    global totamt
+    global tot
+    global levels
     totamt = 0
     tot = 0
+    levels = 0
 
     for sys, pro in pro_badge.items():
         pbar = "".ljust(25, "-") #each dash = 10` points
+        #global totamt, tot, levels
 
         try:
             prog = math.floor(data[sys] / 5) 
@@ -143,13 +149,17 @@ def genbar(newc = None):
         if sys == "B1": 
             print('\n')
             print('BarOS:'.rjust(l + 1))
-        sysp = sys.rjust(l)
+        ffs = "-"
+        sysp = sys.rjust(l, ffs)
 
-        ent = f"{str(x + 1).rjust(2).ljust(4)}{sysp}: {pbar}  {numprog.rjust(7)}"
+        
+        ent = f"{str(x + 1).rjust(2).ljust(4, ffs)}{sysp}: {pbar}  {numprog.rjust(7)}"
         if newc != None and sys == newc: ent += color(" <--- NEW", fore=(52, 227, 78))
         print(ent)
 
         x += 1
+
+    levels = totamt
 
     ach = "achivements"
     ach = ach.rjust(l).ljust(10)
@@ -170,38 +180,60 @@ def genbar(newc = None):
 index = list(pro_badge.keys())
 index.append('achivements')
 
-genbar()
+sys = pbrng.get_os()
+genbar(sys)
 print("\n")
-pbrng.call()
+print(pbrng.call(sys)[0])
 
-sys = ""
 count = 0
+
+oldperc = round(100.0 * totamt / float(tot), 4)
 while True:
     inp = input("")
 
+    data["PB NOT 3.60"] = 0
+
+    ctrl = "n"
+    if inp == "": inp = "+"
+    if inp in ("-", "r", "s", "+"): ctrl = inp #setting ctrl var
 
     try:
-        if inp == "": inp = sys
+        if inp in ("-", "s", "+"): inp = sys #if the input is one of these, have it save the prev. used entry
         else:
              sys = index[int(inp) - 1]
              count = 0
     except ValueError:
         #print(e.__class__.__name__) #the actual error that occured
-        continue
+        if inp == "r": sys = ""
+        else: continue
     
     try:
-        data[sys] += 1
+        if ctrl == "+": data[sys] += 1 #if ctrl isnt set, have it add to data (only properly used for if ctrl is set to skip)
+        elif ctrl == "-": data[sys] -= 1 #if ctrl is set to minus, have it subtract
         pass
     except:
-        data[sys] = 1
+        if ctrl == "+" and sys != "": data[sys] = 1 #if there isnt an entry, make one
     
     with open('pb95.yaml', 'w') as file:
         yaml.dump(data, file)
     
+    count += 1
+    
+    try: #get next random entry
+        if count >= 3: gener = pbrng.call(sys, True) #only allow it to go out of the system after 3 games
+        else: gener = pbrng.call(sys)
+    except:
+        pass
+
     os.system('cls')
-    genbar(sys)
+    genbar(gener[1])
+    sys = gener[1]
     print("\n")
 
-    count += 1
-    if count >= 5: pbrng.call(sys, True)
-    else: pbrng.call(sys)
+    
+    print(f"levels: {levels}")
+
+    print(gener[0])    
+
+    newperc = round(100.0 * totamt / float(tot), 4)
+    if newperc > oldperc: print(f"+{round(newperc - oldperc, 4)}%")
