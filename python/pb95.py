@@ -180,7 +180,7 @@ def genbar(newc = None):
 index = list(pro_badge.keys())
 index.append('achivements')
 
-sys = pbrng.get_os()
+lastsys = sys = pbrng.get_os()
 genbar(sys)
 print("\n")
 print(pbrng.call(sys)[0])
@@ -228,6 +228,9 @@ while True:
     os.system('cls')
     genbar(gener[1])
     sys = gener[1]
+    if lastsys != sys:
+        count = 0
+        lastsys = sys
     print("\n")
 
     

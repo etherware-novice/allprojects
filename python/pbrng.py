@@ -2,8 +2,8 @@ import random
 
 
 baseline = ["Relax", "Normal", "Hardcore"]
-default = baseline + ["Progress Sweeper", "Progress Defender"]
-bonus = default + ["ProgressDOG", "Matrix", "3DSavr"]
+default = baseline + ["Progress Sweeper", "Progress Defender"] #relax, normal, hardcore, sweeper, defender
+bonus = default + ["ProgressDOG", "Matrix", "3DSavr"] #relax, normal, hardcore, sweep, def, pbstein, matrix, savr
 probonus = bonus + ["PBXL"]
 
 baselineBAR = ["Casual", "Regular", "High-End"]
@@ -16,7 +16,7 @@ dict = {
     "PB2": default,
     "PB 3.14": bonus,
     "Chitown": ["Normal"],
-    "PB95": bonus,
+    "PB95": [x for x in bonus if x not in ("Relax", "Hardcore", "Progress Defender")], #look this is already incredibly messy ok-
     "PB95+": probonus + ["Progress Commander"],
     "PB NOT 4.0": ["Custom"],
     "PB98": probonus + ["Progress Commander"],
