@@ -72,19 +72,21 @@ async def blocker(message):
 
 @bot.command()
 async def add_r9(ctx):
-    #if user has sufficient perms
-        bot.blklist[ctx.channel.id] = ctx.channel
+    if perms_adrm(ctx.channel, ctx.author):
+        if ctx.channel in bot.blklist.items(): ctx.send("This channel is already registered!")
+        else:
+            bot.blklist[ctx.channel.id] = ctx.channel
 
-        with open('blk.yaml', 'w') as file:
-            tmp = {"list": bot.blklist.keys}
-            yaml.dump(tmp, file)
+            with open('blk.yaml', 'w') as file:
+                tmp = {"list": bot.blklist.keys}
+                yaml.dump(tmp, file)
 
-        ctx.send("Added successfully")
+            ctx.send("Added successfully")
     else: ctx.send("you dont have perms")
 
 @bot.command()
 async def rem_r9(ctx):
-    #if user has suff. perms
+    if perms_adrm(ctx.channel, ctx.author)
         if ctx.channel in bot.blklist.items():
             bot.blklist.pop(ctx.channel.id)
 
@@ -93,5 +95,8 @@ async def rem_r9(ctx):
             yaml.dump(tmp, file)
         else: ctx.send("This channel isnt registered yet!")
     else: ctx.send("You dont have perms")
+
+async def perms_adrm(channel, member):
+    return channel.permissions_for(member).manage_channels
 
 bot.run(TOKEN)
