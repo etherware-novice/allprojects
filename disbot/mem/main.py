@@ -31,10 +31,11 @@ with open('token.yaml') as file:
 try:
     with open('blk.yaml') as file:
         bot.blklist = yaml.full_load(file)
+        bot.blklist = bot.blklist.items()
 except:
     bot.blklist = []
 
-bot.blklist = [y for x in bot.blklist if (y := bot.get_channel(x)) != None]
+bot.blklist = {x: y for x in bot.blklist if (y := bot.get_channel(x)) != None}
 
 bot = commands.Bot(command_prefix=prfx, intents=intents) #initilizes the bot]
 bot.token = TOKEN
@@ -68,5 +69,29 @@ async def blocker(message):
        if del:
            message.delete()
            message.channel.send("No memes")
+
+@bot.command()
+async def add_r9(ctx):
+    #if user has sufficient perms
+        bot.blklist[ctx.channel.id] = ctx.channel
+
+        with open('blk.yaml', 'w') as file:
+            tmp = {"list": bot.blklist.keys}
+            yaml.dump(tmp, file)
+
+        ctx.send("Added successfully")
+    else: ctx.send("you dont have perms")
+
+@bot.command()
+async def rem_r9(ctx):
+    #if user has suff. perms
+        if ctx.channel in bot.blklist.items():
+            bot.blklist.pop(ctx.channel.id)
+
+        with open('blk.yaml', 'w') as file:
+            tmp = {"list": bot.blklist.keys}
+            yaml.dump(tmp, file)
+        else: ctx.send("This channel isnt registered yet!")
+    else: ctx.send("You dont have perms")
 
 bot.run(TOKEN)
