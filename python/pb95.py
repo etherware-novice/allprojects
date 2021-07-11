@@ -239,4 +239,4 @@ while True:
     print(gener[0])    
 
     newperc = round(100.0 * totamt / float(tot), 4)
-    if newperc > oldperc: print(f"+{round(newperc - oldperc, 4)}%")
+    if newperc != oldperc: print(f"+{round(newperc - oldperc, 4)}%")
