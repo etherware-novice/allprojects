@@ -102,11 +102,12 @@ ovr = trip = 0
 async def timer(loop, channel, target, multiplier):
     #time.sleep(minutes * 60)
     try:
-        index = client.gif.tell()
-        print(f"Timer for {client.timerindex[index][0]} mins")
-        asyncio.sleep(client.timerindex[index][0] * 60)
+        index = client.timerindex[client.gif.tell()]
+        mins = index[0]
+        print(f"Timer for {mins} mins")
+        asyncio.sleep(mins * 60)
         print("Timer up")
-        channel.send(f"{target.mention}, your curse [{client.timerindex[index][1]}] has been lifted!")
+        await channel.send(f"{target.mention}, your curse [{index[1]}] has been lifted!")
     except: pass
 
 def imageget():
@@ -114,6 +115,7 @@ def imageget():
     buffer = io.BytesIO()
     rng = random.randint(0, client.giflen)
     if rng == 46: trip = 1 #special case for the triple effect
+    if rng == 48: imageget()
     print(f"frame {rng}")
     client.gif.seek(rng)
     client.gif.save(buffer, format="PNG")
