@@ -92,7 +92,7 @@ async def on_message(message):
             target = random.choice([
                 x for x in message.guild.members if x.raw_status in ("online", "dnd") and not x.bot
             ] + [
-                [x.author async for x in message.channel.history(limit=30, check=lambda m: not m.author.bot)]
+                [x.author async for x in message.channel.history(limit=30) if lambda m: not m.author.bot]
             ]
             )
         else: target = message.author
