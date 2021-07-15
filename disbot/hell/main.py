@@ -86,7 +86,7 @@ async def on_message(message):
             ovr = 1
             return
         #get_image()
-        buffer = await asyncio.to_thread(imageget)
+        buffer = await asyncio.get_running_loop().run_in_executor(None, imageget)
 
         if random.randint(0, 1):
             target = random.choice([
