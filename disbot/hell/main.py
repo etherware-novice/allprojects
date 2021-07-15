@@ -79,6 +79,7 @@ async def on_message(message):
     if message.author.bot: return
     rng = random.randint(1, 19)
     print(rng)
+    if message.content == "!ovr": ovr = 1
     if rng <= 1 or ovr:
         if ovr: ovr = 0
         if message.webhook_id != None:
