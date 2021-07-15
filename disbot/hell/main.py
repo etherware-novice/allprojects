@@ -22,6 +22,7 @@ from array import *
 import getpass
 import sys
 from PIL import Image
+import time
 
 
 intents = discord.Intents.all() #sets up the intents obj
@@ -55,6 +56,29 @@ try:
 except EOFError:
     pass
 
+defaultime = 30
+client.timerindex = {
+    1: [60, "Caps-lock"],
+    3: [defaultime, "Tricky Impersonating"],
+    4: [defaultime, "3AM CHALLENGE"],
+    8: [defaultime, "Light Mode"],
+    18: [10, "Do not speak"],
+    19: [15, "Heckclown Music"],
+    24: [60, "Volume 100%"],
+    26: [defaultime, "Opposite Talk"],
+    28: [180, "Weeb Speak"],
+    29: [120, "Beep Boop Speak"],
+    30: [10, "1 Handed"],
+    32: [60, "Swap Pfps"], #custom timer
+    33: [30, "Swearing"],
+    34: [defaultime, "Keyboard Swap"],
+    35: [defaultime, "Double Letters"],
+    37: [5, "1-Eyed"],
+    38: [15, "No Top Row Letters"],
+    40: [10, "Tricky Death"],
+    42: [60, "No Discord"],
+    43: [60, "Phone Camera Screenshots"]
+}
 
 #flavorie text to make sure its working good
 @client.event
@@ -71,45 +95,67 @@ async def on_ready(): #initilization
         ], sep = "\n") #making sure its on a newline
 
 global ovr
-ovr = 0
+global trip
+ovr = trip = 0
+
+async def timer(loop, channel, target, multiplier):
+    #time.sleep(minutes * 60)
+    try:
+        index = client.gif.tell()
+        asyncio.sleep(client.timerindex[index][0] * 60)
+        channel.send(f"{target.mention}, your curse [{client.timerindex[index][1]}] has been lifted!")
+    except: pass
+
+def imageget():
+    global trip
+    buffer = io.BytesIO()
+    rng = random.randint(0, client.giflen)
+    if rng == 46: trip = 1 #special case for the triple effect
+    print(f"frame {rng}")
+    client.gif.seek(rng)
+    client.gif.save(buffer, format="PNG")
+    buffer.seek(0)
+    return buffer   
+
 @client.event
 async def on_message(message):
+    if message.content == "!ovr": await getrngif(message, True)
+    elif (random.randint(0, 19) == 0): await getrngif(message) 
+    
+
+async def getrngif(message, reroll = False):
+    loop = asyncio.get_running_loop()
     global ovr
     #print(type(message.author.status))
     if message.author.bot: return
-    rng = random.randint(1, 19)
-    print(rng)
-    ovr = reroll = 0
-    if message.content == "!ovr": reroll = 1
-    if rng <= 1 or ovr or reroll:
-        if message.webhook_id != None:
-            ovr = 1
-            return
+    if message.webhook_id != None:
+        ovr = 1
+        return
         #get_image()
-        buffer = await asyncio.get_running_loop().run_in_executor(None, imageget)
+        
 
-        if random.randint(0, 1):
-            target = random.choice([
-                x for x in message.guild.members if x.raw_status in ("online", "dnd") and not x.bot
-            ] + [
-                [x.author async for x in message.channel.history(limit=30) if lambda m: not m.author.bot]
-            ]
-            )
-        else: target = message.author
-        if reroll == 1: target = message.author
+    if random.randint(0, 1):
+        target = random.choice([
+            x for x in message.guild.members if x.raw_status in ("online", "dnd") and not x.bot
+        ] + [
+            [x.author async for x in message.channel.history(limit=30) if x is not x.author.bot]
+        ]
+        )
+    else: target = message.author
+    if reroll: target = message.author
 
-        if ovr: ovr = 0
-        cause = f" brought upon you by {message.author.mention}" if message.author != target else ""
-        await message.channel.send(f"{target.mention}, face the wheel of DOOOOM{cause}!", file=discord.File(buffer, filename="some_image.png"))
+    buffer = await loop.run_in_executor(None, imageget, loop, message.channel, target)
+    asyncio.create_task(timer(loop, message.channel, target, 3 if trip else 0))
+    if ovr: ovr = 0
+    multi = "TRIPLED " if trip else ""
+    cause = f" brought upon you by {message.author.mention}" if message.author != target else ""
+    await message.channel.send(f"{target.mention}, face the wheel of {multi}DOOOOM{cause}!", file=discord.File(buffer, filename="some_image.png"))
+    multi = 0
 
-def imageget():
-        buffer = io.BytesIO()
-        rng = random.randint(0, client.giflen)
-        print(rng)
-        client.gif.seek(rng)
-        client.gif.save(buffer, format="PNG")
-        buffer.seek(0)
-        return buffer   
+
+
+
+    
 
 
 client.run(TOKEN)
