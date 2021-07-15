@@ -23,6 +23,7 @@ import getpass
 import sys
 from PIL import Image
 import time
+import subprocess
 
 
 intents = discord.Intents.all() #sets up the intents obj
@@ -102,7 +103,9 @@ async def timer(loop, channel, target, multiplier):
     #time.sleep(minutes * 60)
     try:
         index = client.gif.tell()
+        print(f"Timer for {client.timerindex[index][0]} mins")
         asyncio.sleep(client.timerindex[index][0] * 60)
+        print("Timer up")
         channel.send(f"{target.mention}, your curse [{client.timerindex[index][1]}] has been lifted!")
     except: pass
 
@@ -121,6 +124,9 @@ def imageget():
 async def on_message(message):
     if message.content == "!ovr": await getrngif(message, True)
     elif (random.randint(0, 19) == 0): await getrngif(message) 
+    if message.content == "!reload" and message.author.id == 661044029110091776:
+        os.system(('git pull'))
+        subprocess.call('python3 main.py')
     
 
 async def getrngif(message, reroll = False):
