@@ -99,14 +99,15 @@ global ovr
 global trip
 ovr = trip = 0
 
-async def timer(loop, channel, target, multiplier):
+async def timer(loop, channel, target, multiplier = 1, tst = False):
     #time.sleep(minutes * 60)
     try:
         index = client.timerindex[client.gif.tell()]
         mins = index[0]
         print(f"Timer for {mins} mins")
-        asyncio.sleep(mins * 60)
+        time.sleep(mins * 60 * multiplier)
         print("Timer up")
+        if tst: await channel.send("Timer done")
         await channel.send(f"{target.mention}, your curse [{index[1]}] has been lifted!")
     except: pass
 
@@ -126,6 +127,7 @@ def imageget():
 async def on_message(message):
     if message.content == "!ovr": await getrngif(message, True)
     elif (random.randint(0, 19) == 0): await getrngif(message) 
+    if message.content == "!timer": asyncio.create_task(timer(0, message.channel, message.author, 1, True))
     if message.content == "!reload" and message.author.id == 661044029110091776:
         os.system(('git pull'))
         subprocess.call('python3 main.py')
