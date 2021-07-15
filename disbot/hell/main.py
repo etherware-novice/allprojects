@@ -79,22 +79,25 @@ async def on_message(message):
     if message.author.bot: return
     rng = random.randint(1, 19)
     print(rng)
+    ovr = rnd = 0
     if message.content == "!ovr": ovr = 1
-    if rng <= 1 or ovr:
-        if ovr: ovr = 0
+    if message.content == "!rnd": rnd = 1 #debug stuf
+    if rng <= 1 or ovr or rnd:
         if message.webhook_id != None:
             ovr = 1
             return
         #get_image()
         buffer = await asyncio.get_running_loop().run_in_executor(None, imageget)
 
-        if random.randint(0, 1):
+        if random.randint(0, 1) or rnd or not ovr:
             target = random.choice([
-                x for x in message.guild.members if x.raw_status in ("online", "dnd")
+                x for x in message.guild.members if x.raw_status in ("online", "dnd") and not x.bot
             ])
         else: target = message.author
 
-        await message.channel.send(f"{target.mention}, face the wheel of DOOOOM!", file=discord.File(buffer, filename="some_image.png"))
+        if ovr: ovr = 0
+        cause = f" brought upon you by {message.author.mention}" if message.author != target else ""
+        await message.channel.send(f"{target.mention}, face the wheel of DOOOOM{cause}!", file=discord.File(buffer, filename="some_image.png"))
 
 def imageget():
         buffer = io.BytesIO()
