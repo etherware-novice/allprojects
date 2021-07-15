@@ -97,7 +97,9 @@ async def on_message(message):
 
 def imageget():
         buffer = io.BytesIO()
-        client.gif.seek(random.randint(0, client.giflen))
+        rng = random.randint(0, client.giflen)
+        print(rng)
+        client.gif.seek(rng)
         client.gif.save(buffer, format="PNG")
         buffer.seek(0)
         return buffer   
