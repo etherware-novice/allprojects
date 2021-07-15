@@ -16,8 +16,8 @@ dict = {
     "PB2": default,
     "PB 3.14": bonus,
     "Chitown": ["Normal"],
-    "PB95": [x for x in bonus if x not in ("Relax", "Hardcore", "Progress Defender")], #look this is already incredibly messy ok-
-    "PB95+": probonus + ["Progress Commander"],
+    "PB95": [x for x in bonus + ["Progress Commander"] if x not in ("Relax", "Hardcore", "Progress Defender")], #look this is already incredibly messy ok-
+    "PB95+": [x for x in probonus + ["Progress Commander"] if x not in ("Hardcore")],
     "PB NOT 4.0": ["Custom"],
     "PB98": probonus + ["Progress Commander"],
     "MEME": probonus,
