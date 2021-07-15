@@ -105,7 +105,8 @@ async def timer(loop, channel, target, multiplier = 1, tst = False):
         index = client.timerindex[client.gif.tell()]
         mins = index[0]
         print(f"Timer for {mins} mins")
-        time.sleep(mins * 60 * multiplier)
+        if tst: time.sleep(5)
+        else: time.sleep(mins * 60 * multiplier)
         print("Timer up")
         if tst: await channel.send("Timer done")
         await channel.send(f"{target.mention}, your curse [{index[1]}] has been lifted!")
