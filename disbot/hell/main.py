@@ -79,6 +79,7 @@ async def on_message(message):
     if message.author.bot: return
     rng = random.randint(1, 19)
     print(rng)
+    ovr = rnd = 0
     if message.content == "!ovr": ovr = 1
     if message.content == "!rnd": rnd = 1 #debug stuf
     if rng <= 1 or ovr or rnd:
