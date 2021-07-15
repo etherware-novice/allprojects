@@ -79,21 +79,24 @@ async def on_message(message):
     if message.author.bot: return
     rng = random.randint(1, 19)
     print(rng)
-    ovr = rnd = 0
-    if message.content == "!ovr": ovr = 1
-    if message.content == "!rnd": rnd = 1 #debug stuf
-    if rng <= 1 or ovr or rnd:
+    ovr = reroll = 0
+    if message.content == "!ovr": reroll = 1
+    if rng <= 1 or ovr or reroll:
         if message.webhook_id != None:
             ovr = 1
             return
         #get_image()
         buffer = await asyncio.get_running_loop().run_in_executor(None, imageget)
 
-        if random.randint(0, 1) or rnd or not ovr:
+        if random.randint(0, 1):
             target = random.choice([
                 x for x in message.guild.members if x.raw_status in ("online", "dnd") and not x.bot
-            ])
+            ] + [
+                [x.author async for x in message.channel.history(limit=30, check=lambda m: not m.author.bot)]
+            ]
+            )
         else: target = message.author
+        if reroll == 1: target = message.author
 
         if ovr: ovr = 0
         cause = f" brought upon you by {message.author.mention}" if message.author != target else ""
