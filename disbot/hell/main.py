@@ -81,7 +81,6 @@ async def init(): #initilization
 
 
 
-
 @bot.listen("on_message")
 async def rand(message):
     if random.randint(0, 40) == 0: await random.choice(bot.gif).send(message)
