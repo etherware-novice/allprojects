@@ -144,7 +144,7 @@ async def getrngif(message, reroll = False):
     else: target = message.author
     if reroll: target = message.author
 
-    buffer = await loop.run_in_executor(None, imageget, loop, message.channel, target)
+    buffer = await loop.run_in_executor(None, imageget)
     asyncio.create_task(timer(loop, message.channel, target, 3 if trip else 0))
     if ovr: ovr = 0
     multi = "TRIPLED " if trip else ""
