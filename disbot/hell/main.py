@@ -104,6 +104,7 @@ async def timer(loop, channel, target, multiplier = 1, tst = False):
     try:
         if tst: index = [5]
         else: index = client.timerindex[client.gif.tell()]
+        channel.send(client.gif.tell())
         mins = index[0]
         print(f"Timer for {mins} mins")
         if tst: await asyncio.sleep(5)
@@ -124,15 +125,6 @@ def imageget():
     client.gif.save(buffer, format="PNG")
     buffer.seek(0)
     return buffer   
-
-@client.event
-async def on_message(message):
-    if message.content == "!ovr": await getrngif(message, True)
-    elif (random.randint(0, 19) == 0): await getrngif(message) 
-    if message.content == "!timer": asyncio.create_task(timer(0, message.channel, message.author, 1, True))
-    if message.content == "!reload" and message.author.id == 661044029110091776:
-        os.system(('git pull'))
-        subprocess.call('python3 main.py')
     
 
 async def getrngif(message, reroll = False):
@@ -157,7 +149,7 @@ async def getrngif(message, reroll = False):
     if reroll: target = message.author
 
     buffer = await loop.run_in_executor(None, imageget)
-    asyncio.create_task(timer(loop, message.channel, target, 3 if trip else 0))
+    asyncio.create_task(timer(loop, message.channel, target, 3 if trip else 1))
     if ovr: ovr = 0
     multi = "TRIPLED " if trip else ""
     cause = f" brought upon you by {message.author.mention}" if message.author != target else ""
@@ -165,7 +157,14 @@ async def getrngif(message, reroll = False):
     multi = 0
 
 
-
+@client.event
+async def on_message(message):
+    if message.content == "!ovr": await getrngif(message, True)
+    elif (random.randint(0, 19) == 0): await getrngif(message) 
+    if message.content == "!timer": asyncio.create_task(timer(0, message.channel, message.author, 1, True))
+    if message.content == "!reload" and message.author.id == 661044029110091776:
+        os.system(('git pull'))
+        subprocess.call(['python3', 'main.py'])
 
     
 
