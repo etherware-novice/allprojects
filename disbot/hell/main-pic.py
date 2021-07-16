@@ -134,7 +134,13 @@ async def getrngif(message, reroll = False):
     cause = f" from user {message.author.mention}" if message.author != target else ""
     spec = await special_char(client.gif.tell(), message)
     spec = str(spec) + "\n"
-    await message.channel.send(f"{spec}{target.mention}, you have been hit by pico's bad luck{multi}{cause}...", file=discord.File(buffer, filename="some_image.png"))
+    tmp = await message.channel.send(f"{spec}{target.display_name}, you have been hit by pico's bad luck{multi}{cause}...", file=discord.File(buffer, filename="some_image.png"))
+    if target == client.user:
+        await message.channel.send("Wait, thats me..", delete_after=6)
+        await asyncio.sleep(1)
+        await message.channel.send("Ok that one doesnt count-", delete_after=5)
+        await asyncio.sleep()
+        await tmp.delete()
     multi = 0
 
 
