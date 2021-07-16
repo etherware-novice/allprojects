@@ -49,13 +49,8 @@ with open('token.yaml') as file:
 client = discord.Client(intents=intents) #initilizes the bot (its not a full bot bot bc i dont need the command stuff)
 client.token = TOKEN
 client.gif = im = Image.open("image0.gif")
-client.giflen = 0
-try:
-    while True:
-        im.seek(im.tell()+1)
-        client.giflen += 1
-except EOFError:
-    pass
+client.giflen = client.gif.n_frames - 1
+
 
 defaultime = 30
 client.timerindex = {
