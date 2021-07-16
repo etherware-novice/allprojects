@@ -65,9 +65,34 @@ async def on_ready(): #initilization
         for x in client.guilds #getting each entry in the loop
         ], sep = "\n") #making sure its on a newline
 
+async def timer(loop, channel, target, multiplier = 1, tst = False):
+    #time.sleep(minutes * 60)
+
+    default = 30
+    index = {
+        6: [default, "Broken legs"],
+        10: [10, "Beep Boop Talk"],
+        15: [15, "Tupper dissapearing"],
+        22: [22, "Chat filter"],
+        27: [10, "Broken toe"],
+        32: [5, "Rain"],
+        41: [60, "SUS"]
+    }
+
+    try:
+        index = index[client.gif.tell()]
+        channel.send(client.gif.tell())
+        mins = index[0]
+        print(f"Timer for {mins} mins")
+        await asyncio.sleep(mins * 60 * multiplier)
+        print("Timer up")
+        if tst: await channel.send("Timer done")
+        else: await channel.send(f"{target.mention}, your curse [{index[1]}] has been lifted!")
+    except: pass
+
 global ovr
 global trip
-ovr = 0
+ovr = trip = 0
 
 def imageget():
     global trip
@@ -79,33 +104,39 @@ def imageget():
     buffer.seek(0)
     return buffer   
     
+async def special_char(argument, message):
+    switcher = {
+        17: random.choice([x for x in message.channel.category.text_channels if x != message.channel]).mention,
+        41: random.choice([x for x in message.guild.channels if x != message.channel].mention)
+    }
+    return switcher.get(argument, "")
+
 
 async def getrngif(message, reroll = False):
     loop = asyncio.get_running_loop()
     global ovr
     #print(type(message.author.status))
-    if message.author.bot: return
-    if message.webhook_id != None:
-        ovr = 1
-        return
+    #if message.author.bot: return
         #get_image()
         
 
     if random.randint(0, 1):
-        target = random.choice([
-            x for x in message.guild.members if x.raw_status in ("online", "dnd") and not x.bot
-        ] + [
-            [x.author async for x in message.channel.history(limit=30) if x is not x.author.bot]
-        ]
+        target = random.choice(
+            [x.author async for x in message.channel.history(limit=30)]
         )
     else: target = message.author
     if reroll: target = message.author
 
     buffer = await loop.run_in_executor(None, imageget)
+    asyncio.create_task(timer(loop, message.channel, target, 3 if trip else 1))
     if ovr: ovr = 0
+    multi = "but tripled " if trip else ""
     cause = f" from user {message.author.mention}" if message.author != target else ""
-    await message.channel.send(f"{target.mention}, you have been hit by pico's bad luck{cause}..", file=discord.File(buffer, filename="some_image.png"))
+    spec = await special_char(client.gif.tell(), message)
+    spec = str(spec) + "\n"
+    await message.channel.send(f"{spec}{target.mention}, you have been hit by pico's bad luck{multi}{cause}...", file=discord.File(buffer, filename="some_image.png"))
     multi = 0
+
 
 
 @client.event
