@@ -159,7 +159,7 @@ async def on_message(message):
     if message.content == "!timer": asyncio.create_task(timer(0, message.channel, message.author, 1, True))
     if message.content == "!reload" and message.author.id == 661044029110091776:
         os.system(('git pull'))
-        subprocess.call(['python3', 'main.py'])
+        subprocess.call(['python3', 'main-trk.py'])
 
     
 
