@@ -107,7 +107,7 @@ def imageget():
 async def special_char(argument, message):
     switcher = {
         17: random.choice([x for x in message.channel.category.text_channels if x != message.channel]).mention,
-        41: random.choice([x for x in message.guild.channels if x != message.channel].mention)
+        41: random.choice([x for x in message.guild.channels if x != message.channel]).mention
     }
     return switcher.get(argument, "")
 
