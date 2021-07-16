@@ -114,7 +114,7 @@ async def on_message(message):
     elif (random.randint(0, 19) == 0): await getrngif(message) 
     if message.content == "!reload" and message.author.id == 661044029110091776:
         os.system(('git pull'))
-        subprocess.call(['python3', 'main.py'])
+        subprocess.call(['python3', 'main-pic.py'])
 
     
 
