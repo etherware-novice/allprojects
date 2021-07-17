@@ -94,13 +94,13 @@ global ovr
 global trip
 ovr = trip = 0
 
-def imageget():
+def imageget(gif):
     global trip
     buffer = io.BytesIO()
-    rng = random.randint(0, client.giflen)
+    rng = random.randint(0, gif.n_frames - 1)
     print(f"frame {rng}")
-    client.gif.seek(rng)
-    client.gif.save(buffer, format="PNG")
+    gif.seek(rng)
+    gif.save(buffer, format="PNG")
     buffer.seek(0)
     return buffer   
     
@@ -127,19 +127,20 @@ async def getrngif(message, reroll = False):
     else: target = message.author
     if reroll: target = message.author
 
-    buffer = await loop.run_in_executor(None, imageget)
+    buffer = await loop.run_in_executor(None, imageget, client.gif)
     asyncio.create_task(timer(loop, message.channel, target, 3 if trip else 1))
     if ovr: ovr = 0
     multi = "but tripled " if trip else ""
     cause = f" from user {message.author.mention}" if message.author != target else ""
     spec = await special_char(client.gif.tell(), message)
     spec = str(spec) + "\n"
+    targetdisp = target.display_name if target.bot and target != client.user else target.mention
     tmp = await message.channel.send(f"{spec}{target.display_name}, you have been hit by pico's bad luck{multi}{cause}...", file=discord.File(buffer, filename="some_image.png"))
     if target == client.user:
         await message.channel.send("Wait, thats me..", delete_after=6)
         await asyncio.sleep(1)
         await message.channel.send("Ok that one doesnt count-", delete_after=5)
-        await asyncio.sleep()
+        await asyncio.sleep(5)
         await tmp.delete()
     multi = 0
 
