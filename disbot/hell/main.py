@@ -72,9 +72,10 @@ async def on_ready(): #initilization
 
 @client.event
 async def on_message(message):
-    if not random.randint(0, 30): await random.choice(client.gif).send(message)
-    if message.content == "!whl": await client.gif[0].send(message, True)
-    if message.content == "!ovr": await client.gif[1].send(message, True)
+    x = 0
+    if (x := random.randint(0, 20)) == 0: await random.choice(client.gif).send(message)
+    elif message.content == "!whl": await client.gif[0].send(message, True)
+    elif message.content == "!ovr": await client.gif[1].send(message, True)
     if message.content == "!reload" and message.author.id == 661044029110091776:
         os.system(('git pull'))
         subprocess.call(['python3', 'main.py'])
@@ -88,8 +89,10 @@ async def timer(mins, channel, target, message):
     await channel.send(f"{target.mention}, your curse [{message}] has been lifted!")
 
 class gifGen:
-    def __init__(self, gif:str = None):
+    def __init__(self, gif:str = None, message:str = "", m_post:str = ""):
         self.gif = Image.open(gif) if gif != None else gif
+        self.message = message
+        self.m_post = m_post
     
 
     def picoGen(self):
@@ -121,6 +124,7 @@ class gifGen:
         rng = random.randint(0, self.gif.n_frames - 1)
         print(f"frame {rng}")
         self.gif.seek(rng)
+        #self.gif.seek(13)
         self.gif.save(buffer, format="PNG")
         buffer.seek(0)
         return [buffer, rng]
@@ -144,6 +148,7 @@ class gifGen:
                 4: {"timer": [defaul, "3AM Challenge"]},
                 5: {"multi": 10},
                 7: {"timer": [defaul, "Light Mode"]},
+                13: {"timer": [defaul, "Changed PFP"]},
                 18: {"timer": [10, "Can't Speak"]},
                 19: {"timer": [15, "Heckclown"]},
                 24: {"timer": [60, "100% VOLUME"]},
@@ -172,7 +177,8 @@ class gifGen:
                 20: {"multi": 3},
                 22: {"timer": {120, "Roblox Chat Filter"}},
                 25: {"effect": "wheel"},
-                40: {"effect": "rchn"}
+                40: {"effect": "rchn"},
+                44: {"timer": [defaul, "Server Nick"]}
             }
         try:
             iframe = index[frame]
@@ -185,10 +191,11 @@ class gifGen:
         except: pass
         try:
             multi = iframe["multi"]
+            return "multi"
         except: pass
         try:
             if iframe["effect"] == "nchn": return message.channel.category.text_channels[self.message.channel.position - 1].mention
-            if iframe["effect"] == "rchn": return random.choice(message.guild.channels)
+            if iframe["effect"] == "rchn": return random.choice(message.guild.channels).mention
         except: pass
 
         return ""
@@ -201,7 +208,13 @@ class gifGen:
         string = await self.specframe(target, rng, message=message, vers=(0 if self.gif == None else 1))
 
         img.seek(0)
-        tmp = await message.channel.send(string, file=discord.File(img, f"frame{rng}.png"))
+
+        d_usr = target.display_name if target.bot else target.mention
+        d_x = f" (x{multi})" if multi != 1 else ""
+        if string == "multi": d_x = ""
+        d_orig = f" caused by {message.author}" if message.author.id != target.id else ""
+        d = f"{string}\n{d_usr}, {self.message}{d_x}{d_orig}{self.m_post}"
+        tmp = await message.channel.send(d, file=discord.File(img, f"frame{rng}.png"))
 
         if target == client.user:
             await message.channel.send("Wait, thats me..", delete_after=6)
@@ -210,8 +223,8 @@ class gifGen:
             await asyncio.sleep(5)
             await tmp.delete()
 
-        if multi != 1: multi = 1
+        if multi != 1 and string != "multi": multi = 1
 
-client.gif = [gifGen("image0.gif"), gifGen()]
+client.gif = [gifGen("image0.gif", "Face the wheel of DOOOOOOOOM", "!!"), gifGen(message="you have been hit by pico's bad luck", m_post="...")]
 
 client.run(TOKEN)
