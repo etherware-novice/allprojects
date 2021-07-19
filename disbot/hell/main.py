@@ -72,8 +72,7 @@ async def on_ready(): #initilization
 
 @client.event
 async def on_message(message):
-    x = 0
-    if (x := random.randint(0, 20)) == 0: await random.choice(client.gif).send(message)
+    if random.randint(0, 40) == 0: await random.choice(client.gif).send(message)
     elif message.content == "!whl": await client.gif[0].send(message, True)
     elif message.content == "!ovr": await client.gif[1].send(message, True)
     if message.content == "!reload" and message.author.id == 661044029110091776:
@@ -203,7 +202,11 @@ class gifGen:
     async def send(self, message, reroll = False):
         global multi
         img, rng = await asyncio.get_running_loop().run_in_executor(None, (self.picoGen if self.gif == None else self.imageget))
-        target = await self.getTarget(message, reroll)
+        
+        while True:
+            target = await self.getTarget(message, reroll)
+            if target.id == 449671019511283722 and rng == 2: pass
+            else: break
         
         string = await self.specframe(target, rng, message=message, vers=(0 if self.gif == None else 1))
 
