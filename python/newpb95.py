@@ -117,7 +117,7 @@ def genbar(focus = None, fun=0):
             #raise(IOError)
             data = yaml.load(file, Loader=yaml.FullLoader) #loads the users score
     except (IOError, OSError) as e:
-        data = {"B1": 0} #empty if there is none
+        data = {x: 0 for x in pro_badge.keys()}
 
     if fun: 
         if fun == 1: pro_badge = dict(sorted(pro_badge.items(), key=lambda m: data[m[0]], reverse=True))
@@ -162,6 +162,7 @@ def genbar(focus = None, fun=0):
             if pb == focus: bar = aplcolr(bar, count, (56, 235, 77), fore=(23, 23, 27))
             else: 
                 bar = aplall(bar, count, p=(50,50,50)) #colors in the bar
+        elif pb != focus: bar = color(bar, fore=(50, 50, 50))
         nw = color("<------ NEW", fore=(37, 219, 65)) if pb == focus else ""
 
         #if sys != "B1" and sys == focus: print("")
@@ -251,13 +252,31 @@ count = 0
 while True:
     print("Top Levels")
     tmp = dict(sorted(data.items(), key=lambda m: data[m[0]], reverse=True))
-    del tmp["achivements"]
+    try:
+        del tmp["achivements"]
+    except: pass
     
-    num = 2 if pb.startswith("PB NOT") else 4 #shortens list if its focus on pbnot
-    tmp = list(tmp.items())[:num] #the shortening
-    iterate = list(zip(tmp, ((221, 240, 10), (102, 140, 135), (130, 68, 7), None))) #making it iterable
-    print(' ', end='')
-    print(*[color(f"{x.rjust(l)} - {y}\n", fore=c) for (x, y), c in iterate if y > 0], end = "") #the actual iterating
+    iterate = list(zip(tmp.items(), ((221, 240, 10), (102, 140, 135), (130, 68, 7), None))) #making it iterable
+    pbindex = list(tmp.keys()).index(pb)
+    for x in range(10):
+        y = list(tmp.keys())
+        key = y[pbindex - x]
+        val = tmp[key]
+        if val != tmp[pb]: break
+
+    topent = 1 if y[0] == sys else 0
+    u = 0
+    print(list(enumerate(iterate)))
+    for n, ((x, y), c) in enumerate(iterate):
+        if key == x:
+            u = 1
+            d_next = f"(Only {val - tmp[pb]} levels to go!)"
+        else: d_next = ""
+        print(color(f"{x.rjust(l)} - {y} {d_next}", fore=c))
+    if u == 0 and topent != 1:
+        print(f"{x.rjust(l)} - y (Only {val - tmp[pb]} levels to go!")
+
+    #print(*[color(f"{x.rjust(l)} - {y}\n", fore=c) for (x, y), c in iterate if y > 0], end = "") #the actual iterating
     
     if dump_: break
     inp = input()
