@@ -2,6 +2,7 @@
 import os #import hell
 import discord
 import random
+from discord import guild
 from discord.ext import commands
 import asyncio
 from datetime import datetime
@@ -19,16 +20,22 @@ import aiohttp
 from dhooks import Webhook as dhook
 from aioconsole import ainput
 from colr import color
+import warnings
+warnings.filterwarnings("error")
+
 from array import *
 import getpass
+from discord_slash import SlashCommand 
+from discord_slash.utils.manage_commands import create_option, create_choice
+import requests, jsonify
 import sys
 from PIL import Image
 import time
 import subprocess
+from discord_slash import SlashCommand 
 
 from PIL import Image, ImageDraw, ImageFont
-import io, math, textwrap
-
+import io, math, textwrap   
 
 
 intents = discord.Intents.all() #sets up the intents obj
@@ -49,35 +56,68 @@ with open('token.yaml') as file:
         raise KeyError(f'Token not found, please check the file {file}') #where the bot token comes from
 
 
-client = discord.Client(intents=intents) #initilizes the bot (its not a full bot bot bc i dont need the command stuff)
-client.token = TOKEN
+bot = commands.Bot(intents=intents, command_prefix="w!") #initilizes the bot (its not a full bot bot bc i dont need the command stuff)
+bot.token = TOKEN
 
 global multi, ovr
 ovr = 0
 multi = 1
 
 #flavorie text to make sure its working good
-@client.event
-async def on_ready(): #initilization
+@bot.listen("on_ready")
+async def init(): #initilization
 
     #flavor text
     now = datetime.now()
     curtime = now.strftime("%B %d, %Y at %H:%M")
     print(f"\nHello, user <{getpass.getuser()}>. Today's datetime is {curtime}.")
-    print(f"\n{client.user} is connected to the following guilds:")
+    print(f"\n{bot.user} is connected to the following guilds:")
     print(*[ #this little star means to decompress the list
         f"{x.name} ({x.member_count} members)" #format of each entry
-        for x in client.guilds #getting each entry in the loop
+        for x in bot.guilds #getting each entry in the loop
         ], sep = "\n") #making sure its on a newline
 
-@client.event
-async def on_message(message):
-    if random.randint(0, 40) == 0: await random.choice(client.gif).send(message)
-    elif message.content == "!whl": await client.gif[0].send(message, True)
-    elif message.content == "!ovr": await client.gif[1].send(message, True)
+    bot.exc = lambda n, e: f"ERROR ```{n[0].__name__}: [{e}] on line {n[2].tb_lineno}``` was thrown, talk to {bot.get_user(661044029110091776).mention}"
+
+
+
+
+@bot.listen("on_message")
+async def rand(message):
+    if random.randint(0, 40) == 0: await random.choice(bot.gif).send(message)
+    #elif message.content == "!whl": await bot.gif[0].send(message, True)
+    elif message.content == "!ovr": await bot.gif[1].send(message, True)
+    elif message.content == "!grt": await bot.gif[2].send(message, True)
+    elif message.content == "!rnd": await random.choice(bot.gif).send(message)
+    elif message.content == "!rns": await random.choice(bot.gif).send(message, True)
     if message.content == "!reload" and message.author.id == 661044029110091776:
         os.system(('git pull'))
         subprocess.call(['python3', 'main.py'])
+
+@bot.command(name="whl")
+async def choose(ctx, num:int):
+    try:
+        await bot.gif[num].send(ctx, True)
+    except IndexError:
+        await ctx.send("Put a correct wheel index (do w!help to see the wheels)")
+    except Exception as e: await ctx.send(bot.exc(sys.exc_info(), e))
+
+@bot.command(name="rnd")
+async def rand(ctx, t = False):
+    try:
+        t = bool(t)
+        await random.choice(bot.gif).send(ctx, t)
+    except Exception as e: await ctx.send(bot.exc(sys.exc_info(), e))
+
+@bot.command(name="list")
+async def list(ctx):
+    try:
+        out = ""
+        for x, y in enumerate(bot.gif):
+            out += f"{x} - {y.desc}\n"
+        await ctx.send(f"```{out}```")
+    except Exception as e: await ctx.send(bot.exc(sys.exc_info(), e))
+
 
 async def timer(mins, channel, target, message):
     #time.sleep(minutes * 60)
@@ -88,10 +128,11 @@ async def timer(mins, channel, target, message):
     await channel.send(f"{target.mention}, your curse [{message}] has been lifted!")
 
 class gifGen:
-    def __init__(self, gif:str = None, message:str = "", m_post:str = ""):
+    def __init__(self, desc, gif:str = None, message:str = "", m_post:str = ""):
         self.gif = Image.open(gif) if gif != None else gif
         self.message = message
         self.m_post = m_post
+        self.desc = desc
     
 
     def picoGen(self):
@@ -137,7 +178,7 @@ class gifGen:
         if reroll: target = message.author
         return target
 
-    async def specframe(self, target, frame, *, message, vers = 0):
+    async def specframe(self, target, frame, *, message, vers = -1):
         defaul = 30
         global multi
         if vers:
@@ -166,7 +207,7 @@ class gifGen:
                 46: {"multi": 3},
                 49: {"timer": [defaul, "Only Images"]}
             }
-        else:
+        elif vers == 0:
             index = {
                 4: {"timer": [10, "Poison"]},
                 6: {"timer": [10, "Leg Freeze"]},
@@ -179,6 +220,7 @@ class gifGen:
                 40: {"effect": "rchn"},
                 44: {"timer": [defaul, "Server Nick"]}
             }
+        else: index ={1: []}
         try:
             iframe = index[frame]
         except:
@@ -199,7 +241,7 @@ class gifGen:
 
         return ""
 
-    async def send(self, message, reroll = False):
+    async def send(self, message, reroll = False, retr=False):
         global multi
         img, rng = await asyncio.get_running_loop().run_in_executor(None, (self.picoGen if self.gif == None else self.imageget))
         
@@ -217,9 +259,10 @@ class gifGen:
         if string == "multi": d_x = ""
         d_orig = f" caused by {message.author}" if message.author.id != target.id else ""
         d = f"{string}\n{d_usr}, {self.message}{d_x}{d_orig}{self.m_post}"
+        if retr: return (d, discord.File(img, f"frame{rng}.png"))
         tmp = await message.channel.send(d, file=discord.File(img, f"frame{rng}.png"))
 
-        if target == client.user:
+        if target == bot.user:
             await message.channel.send("Wait, thats me..", delete_after=6)
             await asyncio.sleep(1)
             await message.channel.send("Ok that one doesnt count-", delete_after=5)
@@ -228,6 +271,55 @@ class gifGen:
 
         if multi != 1 and string != "multi": multi = 1
 
-client.gif = [gifGen("image0.gif", "Face the wheel of DOOOOOOOOM", "!!"), gifGen(message="you have been hit by pico's bad luck", m_post="...")]
+bot.gif = [gifGen("Tricky", "image0.gif", "Face the wheel of DOOOOOOOOM", "!!"), gifGen("Pico", message="you have been hit by pico's bad luck", m_post="..."), gifGen("grunt", "mc0.gif", "", "take...this? (uhm idk dm candy with your suggestions for the message that should go here)")]
+opt = [create_choice(name=y.desc, value=str(x)) for x, y in enumerate(bot.gif)]
 
-client.run(TOKEN)
+slash = SlashCommand(bot, sync_commands=True)
+@slash.slash(name="wheel", description="loads a wheel in current channel", 
+            options=[
+               create_option(
+                 name="whel",
+                 description="the wheel to load.",
+                 option_type=3,
+                 required=True,
+                 choices=opt
+               )
+             ], guild_ids=[867934020422475796])
+async def loadwh(ctx, whel:str): # Defines a new "context" (ctx) command called "ping."
+    try:
+        await ctx.defer()
+        whel = int(whel)
+        disp, buffer = await bot.gif[whel].send(ctx, True, True)
+        await ctx.send(disp, file=buffer, allowed_mentions=discord.AllowedMentions().all())
+    except Exception as e:
+        await ctx.send(bot.exc(sys.exc_info(), e))
+
+@slash.slash(name="rndwheel", description="random wheel that will target anyone randomly using random.choice",
+            options=[
+                create_option(
+                    name="self_target",
+                    description="whether to target anyone or only self",
+                    option_type=4,
+                    required=False,
+                    choices=[
+                        create_choice(
+                            name="True",
+                            value=1
+                        ),
+                        create_choice(
+                            name=False,
+                            value=0
+                        )
+                    ]
+                )
+            ], guild_ids=[867934020422475796])
+async def rndwheel(ctx, self_target:int = 1):
+    try:
+        print(self_target)
+        disp, buffer = await random.choice(bot.gif).send(ctx, (True if self_target == 1 else False), True)
+        await ctx.send(disp, file=buffer, allowed_mentions=discord.AllowedMentions().all())
+    except Exception as e:
+        await ctx.send(bot.exc(sys.exc_info(), e))
+
+
+bot.run(TOKEN)
