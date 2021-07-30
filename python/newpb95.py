@@ -29,6 +29,8 @@ indbar = lambda m, n: int(math.floor(barlen * m / float(n))) #gets an index of t
 aplcolr = lambda m, n, o=barbg, **p: color(m[:n], back=o, **p) + m[n:] #colors in part of the str
 aplall = lambda m, n, o=barbg, p=None: color(m[:n], back=o) + color(m[n:], fore=p)
 
+
+
 #the index of what each sys has
 global pro_badge
 pro_badge = {
@@ -52,6 +54,7 @@ pro_badge = {
     "81": [50, probonus], # (frick i already got expert)
     "10": [50, default + ["ProgressDOG"]], #confirmed also what??
     "1X": [60, default + ["ProgressDOG"]],
+    "11": [60, default + ["ProgressDOG"]],
 
     #barOS
     "B1": [10, ["Regular"]],
@@ -66,19 +69,47 @@ pro_badge = {
     "B10": [70, bonusBAR], #confirmed
     "B10.2": [70, bonusBAR], #confirmed
     "B10.3": [70, bonusBAR], #confirmed
+    "B11": [70, bonusBAR]
 
     #"achivements": 86
 
     #60
 }
 
+def load_usr():
+    try:
+        with open(r'pb95.yaml') as file:
+            #raise(IOError)
+            return yaml.load(file, Loader=yaml.FullLoader) #loads the users score
+    except (IOError, OSError) as e:
+        return {x: 0 for x in pro_badge.keys()}
+
+
 lev = ["Pro", "Expert", "Master", "Adept", "Grand"] #the badges
 levcount = [100, 250, 500, 1000] #the amt you need for each (excluding pro)
 
-tmp, _ = getopt.getopt(sys.argv[1:], "op")
+tmp, _ = getopt.getopt(sys.argv[1:], "opn")
 if any("-o" in sl for sl in tmp): dump_ = 1
 elif any("-p" in sl for sl in tmp): dump_ = 2
+elif any("-n" in sl for sl in tmp): dump_ = 3
 else: dump_ = False
+
+def sort():
+    dif = {}
+    data = load_usr()
+    if dump_ == 1: return dict(sorted(pro_badge.items(), key=lambda m: data[m[0]], reverse=True))
+    elif dump_ == 2: return dict(sorted(pro_badge.items(), key=lambda m: pro_badge[m[0]][0]))
+    elif dump_ == 3: 
+        for n, (pb, (pro, *_)) in enumerate(pro_badge.items()):
+            try:
+                s_data = data[pb]
+            except KeyError: s_data = 0
+            for y in (pro, *levcount):
+                dif[pb] = y - s_data
+                if dif[pb] > 0: break
+        return dict(sorted(pro_badge.items(), key= lambda m: dif[m[0]]))
+            #exit()
+    else: return pro_badge
 
 #defining the bar thats used
 def progress(count, total, bar_len, focus = False):
@@ -102,7 +133,7 @@ def gennum(pro, score):
 
 
 #main
-def genbar(focus = None, fun=0):
+def genbar(focus = None):
     global barmax, data
     global totamt
     global tot
@@ -112,17 +143,11 @@ def genbar(focus = None, fun=0):
     tot = 0
 
     xy = 0 #index
-    try:
-        with open(r'pb95.yaml') as file:
-            #raise(IOError)
-            data = yaml.load(file, Loader=yaml.FullLoader) #loads the users score
-    except (IOError, OSError) as e:
-        data = {x: 0 for x in pro_badge.keys()}
 
-    if fun: 
-        if fun == 1: pro_badge = dict(sorted(pro_badge.items(), key=lambda m: data[m[0]], reverse=True))
-        else: pro_badge = dict(sorted(pro_badge.items(), key=lambda m: pro_badge[m[0]][0]))
-        focus = None
+    data = load_usr()
+    if dump_ > 0 and dump_ != 3: focus = None
+
+
         #data = {"B1": 0, "achivements": 1}
 
     if barmax == -1:
@@ -140,6 +165,12 @@ def genbar(focus = None, fun=0):
         except KeyError:
             score = 0 #defaults to 0
 
+        for x, y in zip(lev, (pro, *levcount)):
+            dif_amt = y - score
+            dif_lbl = x
+            if dif_amt > 0: break
+
+
         bar, count = progress(score, barmax, barlen) #gets the actual bar used
 
         bar = list(bar) #converts it to a list to make it editable
@@ -152,7 +183,7 @@ def genbar(focus = None, fun=0):
         d_amt = gennum(pro, score) #calls the function to get the display val
 
         l = len(max(pro_badge.keys(), key=len)) #gets the longest value in the list of systems for formatting
-        if pb == "B1" and not fun: 
+        if pb == "B1" and not dump_: 
             print('\n')
             print('BarOS:'.rjust(l + 1)) #seperator
         ffs = "-"
@@ -164,10 +195,11 @@ def genbar(focus = None, fun=0):
                 bar = aplall(bar, count, p=(50,50,50)) #colors in the bar
         elif pb != focus: bar = color(bar, fore=(50, 50, 50))
         nw = color("<------ NEW", fore=(37, 219, 65)) if pb == focus else ""
+        d_if = f"  (Only {dif_amt} to {dif_lbl})" if dump_ == 3 else ""
 
         #if sys != "B1" and sys == focus: print("")
         #if sys == focus: print("\n")
-        print(f"{str(xy).rjust(2)}-{sysp} [{bar}]{d_amt.ljust(17)} {nw}") #displays evreything
+        print(f"{str(xy).rjust(2)}-{sysp} [{bar}]{d_amt.ljust(20)}{d_if.ljust(20)} {nw}") #displays evreything
         #if sys != "1X" and sys != "B10.3" and sys == focus: print("")
         #if sys == focus: print("\n")
 
@@ -180,9 +212,9 @@ def genbar(focus = None, fun=0):
     except:
         score = 0
     sysp = "achivements".rjust(l + 3)
-    bar, count = progress(score, 86, barlen)
+    bar, count = progress(score, 89, barlen)
     if count > 0: bar = aplcolr(bar, count)
-    print(f"{sysp} [{bar}]  {str(score).rjust(2)} / 86")
+    print(f"{sysp} [{bar}]  {str(score).rjust(2)} / 89")
 
     sysp = "total".rjust(l + 3)
     bar, count = progress(totamt, tot, barlen)
@@ -200,13 +232,19 @@ def call(curr:str = "", out = False):
     try:
         if out == True and random.randint(0, 2) == 0: raise KeyError("lol ignore this")
         else:
+            if dump_: curr = list(pro_badge.keys())[0]
             x = pro_badge[curr][1]
             gamem = random.choice(pro_badge[curr][1])
             os = [curr, gamem]
             output[0] = f"{curr} - {gamem}"
     except KeyError:
         os, gamem = random.choice(list(pro_badge.items()))
-        gamem = random.choice(gamem[1])
+        if dump_:
+            os = list(pro_badge.keys())[0]
+            gamem = random.choice(pro_badge[os][1])
+
+
+        else: gamem = random.choice(gamem[1])
         #os[1] = gamem
         output[0] = f"{os} - {gamem}"
         os = [os, gamem]
@@ -238,18 +276,7 @@ def call(curr:str = "", out = False):
     output.extend(os)
     return output
 
-
-d_game, pb, _ = call()
-lastsys = pb
-genbar(pb, dump_)
-if not dump_: print(f"\n{d_game}")
-
-index = list(pro_badge.keys())
-oldperc = round(100.0 * totamt / float(tot), 4)
-count = 0
-
-
-while True:
+def top_lv(data):
     print("Top Levels")
     tmp = dict(sorted(data.items(), key=lambda m: data[m[0]], reverse=True))
     try:
@@ -257,28 +284,53 @@ while True:
     except: pass
     
     iterate = list(zip(tmp.items(), ((221, 240, 10), (102, 140, 135), (130, 68, 7), None))) #making it iterable
-    pbindex = list(tmp.keys()).index(pb)
-    for x in range(10):
-        y = list(tmp.keys())
-        key = y[pbindex - x]
-        val = tmp[key]
-        if val != tmp[pb]: break
+    y = list(tmp.keys())
+    try:
+        pbindex = list(tmp.keys()).index(pb)
+        for x in range(10):
+            key = y[pbindex - x]
+            val = tmp[key]
+            if val != tmp[pb]: break
 
-    topent = 1 if y[0] == sys else 0
+            topent = 1 if list(tmp.values())[0] == tmp[pb] else 0
+    except:
+        key = y[-1]
+        val = 0
+    
+    
     u = 0
-    print(list(enumerate(iterate)))
     for n, ((x, y), c) in enumerate(iterate):
         if key == x:
             u = 1
-            d_next = f"(Only {val - tmp[pb]} levels to go!)"
+            d_next = f"(Only {val - tmp[pb]} levels to go!)" if dump_ == 0 else ""
         else: d_next = ""
         print(color(f"{x.rjust(l)} - {y} {d_next}", fore=c))
-    if u == 0 and topent != 1:
-        print(f"{x.rjust(l)} - y (Only {val - tmp[pb]} levels to go!")
+        if pb.startswith("PB NOT") and n == 1: break
+    else:
+        try:
+            if u == 0 and topent != 1 and dump_ == 0: print(f"{key.rjust(l)} - {val} (Only {val - tmp[pb]} levels to go!)")
+        except: pass
+
+pro_badge = sort()
+d_game, pb, _ = call()
+genbar(pb)
+if dump_ == 3: pb = list(pro_badge.keys())[0]
+lastsys = pb
+if dump_ == 3 and dump_: print(f"\n{d_game}")
+
+index = list(pro_badge.keys())
+oldperc = round(100.0 * totamt / float(tot), 4)
+count = 0
+
+top_lv(data)
+
+while True:
+
+
 
     #print(*[color(f"{x.rjust(l)} - {y}\n", fore=c) for (x, y), c in iterate if y > 0], end = "") #the actual iterating
     
-    if dump_: break
+    if dump_ not in (0, 3): break
     inp = input()
 
     ctrl = "n"
@@ -305,8 +357,11 @@ while True:
     with open('pb95.yaml', 'w') as file:
         yaml.dump(data, file)
 
-    count += 1
-    
+    pro_badge = sort()
+
+    if not dump_: count += 1
+    else: pb = list(pro_badge.keys())[-1]
+
     try: #get next random entry
         if count >= 3: g_disp, g_os, *_ = call(pb, True) #only allow it to go out of the system after 3 games
         else: g_disp, g_os, *_ = call(pb)
@@ -314,7 +369,7 @@ while True:
         pass
 
     os.system('cls')
-    genbar(g_os, dump_)
+    genbar(g_os)
     pb = g_os
     if lastsys != pb:
         count = 0
@@ -327,4 +382,6 @@ while True:
     print(g_disp)    
 
     newperc = round(100.0 * totamt / float(tot), 4)
-    if newperc != oldperc: print(f"{round(newperc - oldperc, 4)}%")        
+    if newperc != oldperc: print(f"{round(newperc - oldperc, 4)}%")
+    
+    top_lv(data)        
