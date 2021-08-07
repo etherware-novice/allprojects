@@ -31,6 +31,7 @@ import sys
 from PIL import Image
 import time
 import subprocess
+import traceback
 from discord_slash import SlashCommand 
 
 from PIL import Image, ImageDraw, ImageFont
@@ -76,24 +77,44 @@ async def init(): #initilization
         for x in bot.guilds #getting each entry in the loop
         ], sep = "\n") #making sure its on a newline
 
-    bot.exc = lambda n, e: f"ERROR ```{n[0].__name__}: [{e}] on line {n[2].tb_lineno}``` was thrown, talk to {bot.get_user(661044029110091776).mention}"
+    #bot.exc = lambda n, e: f"ERROR ```{n[0].__name__}: [{e}] on line {n[2].tb_lineno}``` was thrown, talk to {bot.get_user(661044029110091776).mention}"
+    bot.logchn = bot.get_channel(873631822318297098)
 
-@bot.listen("on_message")
-async def do_thing(message):
-    print(x)
+@commands.check_any(commands.check(lambda m: m.author.id == 661044029110091776))
+@bot.command(name="bash")
+async def call(ctx, *args):
+    print(args)
+    output = subprocess.check_output(args, shell=True, stderr=subprocess.STDOUT, universal_newlines=True)
+    await ctx.send(output)
+
+@commands.check_any(commands.check(lambda m: m.author.id == 661044029110091776))
+@bot.command(name="^C")
+async def exit(ctx):
+    exit()
+
+@call.error
+async def pas(ctx, error):
+    if isinstance(error, commands.CheckFailure):
+        return
+    else: raise(error)
 
 
 
 @bot.event
 async def on_error(event, *args, **kwargs):
-    print(1)
-    msg, *_ = args
-    chn = msg.channel
+    *_, error = sys.exc_info()
+    
+    print(traceback.format_exc(limit=2))
+    await bot.logchn.send(f"ERROR ```{traceback.format_exc(limit=2)}```{bot.get_user(661044029110091776).mention}")
 
-    if msg.author == bot.user: return
+@bot.event
+async def on_command_error(ctx, exception):
+
+    if ctx.author == bot.user: return
     atype, object, traceb = sys.exc_info()
 
-    await chn.send(f"ERROR ```{atype.__name__}: [{object}] on line {traceb.tb_lineno}``` was thrown, talk to {bot.get_user(661044029110091776).mention}")
+    if isinstance(exception, discord.ext.commands.errors.CommandNotFound): return
+    await ctx.send(f"ERROR ```{atype.__name__}: [{object}] on line {traceb.tb_lineno}``` was thrown, talk to {bot.get_user(661044029110091776).mention}")
 
 
 bot.run(TOKEN)
