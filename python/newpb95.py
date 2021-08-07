@@ -316,7 +316,7 @@ d_game, pb, _ = call()
 genbar(pb)
 if dump_ == 3: pb = list(pro_badge.keys())[0]
 lastsys = pb
-if dump_ == 3 and dump_: print(f"\n{d_game}")
+if dump_ == 3 or dump_ == 0: print(f"\n{d_game}")
 
 index = list(pro_badge.keys())
 oldperc = round(100.0 * totamt / float(tot), 4)
@@ -359,7 +359,7 @@ while True:
 
     pro_badge = sort()
 
-    if not dump_: count += 1
+    if dump_ == 0: count += 1
     else: pb = list(pro_badge.keys())[-1]
 
     try: #get next random entry

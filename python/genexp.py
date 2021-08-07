@@ -17,9 +17,9 @@ right = ["stringgggggggg", "str2", "*"]
 left = ["this is a very long string for testing", "user", "#3"]
 
 for x in split_bar(left, right):
-    pass
-    #print(x)
+    print(x)
 
+print("\n")
 
 l0 = "time"
 l1 = "chn"
@@ -30,3 +30,9 @@ r = "a str"
 
 out = f" {l_disp.rjust(30)} ! {r.ljust(20)}"
 print(out)
+
+
+var = "\n".join([textwrap.fill(line, 30, break_long_words=False, replace_whitespace=False)
+            for line in "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\naaaaaaaaa".splitlines() if line.strip() != '']).splitlines()
+
+print(var)
