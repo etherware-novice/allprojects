@@ -33,6 +33,7 @@ import time
 import subprocess
 import traceback
 from discord_slash import SlashCommand 
+import itertools
 
 from PIL import Image, ImageDraw, ImageFont
 import io, math, textwrap   
@@ -59,9 +60,15 @@ with open('token.yaml') as file:
 bot = commands.Bot(intents=intents, command_prefix="w!") #initilizes the bot (its not a full bot bot bc i dont need the command stuff)
 bot.token = TOKEN
 
-global multi, ovr
-ovr = 0
-multi = 1
+
+
+def grouper(n, iterable):
+    it = iter(iterable)
+    while True:
+        chunk = tuple(itertools.islice(it, n))
+        if not chunk:
+            return
+        yield chunk
 
 #flavorie text to make sure its working good
 @bot.listen("on_ready")
@@ -79,13 +86,23 @@ async def init(): #initilization
 
     #bot.exc = lambda n, e: f"ERROR ```{n[0].__name__}: [{e}] on line {n[2].tb_lineno}``` was thrown, talk to {bot.get_user(661044029110091776).mention}"
     bot.logchn = bot.get_channel(873631822318297098)
+    bot.cwd = os.getcwd()
 
 @commands.check_any(commands.check(lambda m: m.author.id == 661044029110091776))
 @bot.command(name="bash")
 async def call(ctx, *args):
     print(args)
-    output = subprocess.check_output(args, shell=True, stderr=subprocess.STDOUT, universal_newlines=True)
-    await ctx.send(output)
+    if args[0] == "cd": os.chdir(args[1])
+    else: 
+        output = subprocess.check_output(args, shell=True, stderr=subprocess.STDOUT, universal_newlines=True)
+
+        if args[-1] == "!long": 
+            chunks = [output[i:i+1950] for i in range(0, len(output), 1950)]
+            for x in chunks:
+                #print(body)
+                print(x)
+                await ctx.send(x)
+        else: await ctx.send(textwrap.shorten(output, 50, placeholder="..."))
 
 @commands.check_any(commands.check(lambda m: m.author.id == 661044029110091776))
 @bot.command(name="^C")
