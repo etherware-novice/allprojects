@@ -30,8 +30,15 @@ def search(pre:str = "", post:str = ""):
 
 
 for x in search(*args):
+    print(f"Appending file {x}")
     im = Image.open(f"{path}\{x}")
     images.append(im)
+
+fin = images[-1]
+print("Filling in ending frames....")
+for x in range(0, 48):
+    images.append(fin)
+print("Done.")
 
 
 images[0].save('output.gif', format="gif", save_all=True, append_images=images[1:], loop=0, optimize = True, duration=41.66) #converts the list to a gif
