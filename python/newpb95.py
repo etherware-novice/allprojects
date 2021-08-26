@@ -263,7 +263,7 @@ def call(curr:str = "", out = False):
         ent = ("Pace", "Segment Speed", "Segment Wobble", "Wobble Speed", "Red Freq.", "Popup Freq.")
         l = len(max(ent, key=len))
         for x, y in enumerate(ent):
-            rn = random.uniform(0, 0.4) if x == 4 else random.random()
+            rn = random.uniform(0, 0.2) if x == 4 else random.random()
             d = f"{y.ljust(l)}: {round(rn, 2)}   "
             if x % 2: d += "\n"
             output[0] += d
