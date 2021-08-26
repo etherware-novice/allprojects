@@ -2,6 +2,7 @@ import json, datetime, random, math, time
 #from colr import base, color
 import curses
 from string import Template
+import itertools
 import re
 
 global pro_badge
@@ -91,6 +92,7 @@ def print_center(message, screen, *kwargs):
 
 def rndo(curr="", out=False):
     gamem = None
+    #curr = "PB NOT 4.0" #testing str
     output = [""]
     diff = 0
     try:
@@ -119,7 +121,8 @@ def rndo(curr="", out=False):
         for x, y in enumerate(ent):
             rn = random.uniform(0, 0.4) if x == 4 else random.random()
             d = f"{y.ljust(l)}: {round(rn, 2)}   "
-            if x % 2: d += "\n"
+            #if x % 2: d += "\n"
+            d += "\n"
             output[0] += d
         
         """output[0] += (f"Pace: {str(round(random.random(), 2)).ljust(jus)}Segments Speed: {round(random.random(), 2)}\n"
@@ -174,11 +177,11 @@ def gennum(pro, score):
 def printbar(data, focus=None):
 
     l = len(max(pro_badge.keys(), key=len))
-    fstr = Template('$pb {${bar}} $cnt $newlbl')
+    fstr = Template('${lb}$pb {${bar}} $cnt $newlbl')
     newlbl = "<--"
-    barlen = int(width/2) - (l + len(fstr.substitute(pb=""*l, bar="9999/9999", cnt="", newlbl="")))
+    barlen = int(width/2) - (l + len(fstr.substitute(lb="", pb=""*l, bar="9999/9999", cnt="", newlbl=""))) - 5
     
-    for pb, (pro, game) in pro_badge.items():
+    for n, (pb, (pro, game)) in enumerate(pro_badge.items()):
 
         try:
             score = data[pb]
@@ -194,8 +197,9 @@ def printbar(data, focus=None):
                 break
         else: barmax = i + 1 #getting the furthest num bar display
 
+        n = f"{n} "
         bar, count = progress(score, barmax, barlen)
-        yield fstr.substitute(pb=pb.rjust(l), bar=bar, cnt=cnt, newlbl=newlbl if focus == pb else "")
+        yield fstr.substitute(lb=n.rjust(3), pb=pb.rjust(l), bar=bar, cnt=cnt, newlbl=newlbl if focus == pb else "")
 
 
 
@@ -210,6 +214,9 @@ def main(screen):
     height, width = screen.getmaxyx()
     curses.init_pair(1, curses.COLOR_WHITE, curses.COLOR_BLUE) #filled bar
     curses.init_pair(2, curses.COLOR_CYAN, curses.COLOR_BLACK) #unfocused bar
+    curses.init_pair(3, curses.COLOR_YELLOW, curses.COLOR_BLACK)
+    curses.init_pair(4, curses.COLOR_BLUE, curses.COLOR_BLACK)
+    curses.init_pair(5, curses.COLOR_RED, curses.COLOR_BLACK)
 
     print_center("Press any key to start or q to close", screen, curses.COLOR_BLUE)
 
@@ -227,9 +234,33 @@ def main(screen):
 
     dif = 0
     num = 0
+    numcase = 0
     pb = ""
+    pbtm = None
 
-    while (c := chr(screen.getch())) != "q":
+    while True:
+
+        c = chr(screen.getch())
+        if c == "q": break
+
+        if c == " ":
+            try:
+                data[pb] += 1
+            except KeyError:
+                pass
+        if c == "r":
+            pb = ""
+
+
+        elif c.isnumeric() and c != "0":
+            numcase = c
+            screen.addstr(height-1, width-2, c)
+            continue
+
+        screen.addstr(0, 0, c)
+
+
+
         screen.clear()
         screen.refresh()
 
@@ -253,12 +284,13 @@ def main(screen):
                     barwin.addstr(str(y))
             barwin.addstr("\n")
 
+        for n, x in enumerate(d_game.splitlines()):
+            screen.addstr(n+2, width-40, x)
 
-        barwin.addstr(d_game)        
         barwin.refresh(0, 0, 0, 0, height - 1, width - 1)
 
-        topwin = curses.newpad(500, barwidth)
-        print("Top Levels")
+        topwin = curses.newpad(9900, barwidth)
+        topwin.addstr("Top Levels\n")
         tmp = dict(sorted(data.items(), key=lambda m: data[m[0]], reverse=True))
         try:
             del tmp["achivements"]
@@ -266,7 +298,7 @@ def main(screen):
 
         l = len(max(pro_badge.keys(), key=len))
         for x in tmp:
-            iterate = list(zip(tmp.items(), (curses.COLOR_YELLOW, curses.COLOR_BLUE, curses.COLOR_RED, 0))) #making it iterable
+            iterate = itertools.zip_longest(tmp.items(), (curses.color_pair(3), curses.color_pair(4), curses.color_pair(5)), fillvalue=0) #making it iterable
             y = list(tmp.keys())
             try:
                 pbindex = list(tmp.keys()).index(pb)
@@ -282,16 +314,17 @@ def main(screen):
             
             
             u = 0
-            for n, ((x, y), c) in enumerate(iterate):
+            for (x, y), c in iterate:
                 if key == x:
                     u = 1
-                    d_next = f"(Only {val - tmp[pb]} levels to go!)"
+                    d_next = f"(Only {val - tmp[pb]} levels to go!)" if topent != 1 else ""
                 else: d_next = ""
                 #print(color(f"{x.rjust(l)} - {y} {d_next}", fore=c))
-                topwin.addstr(f"{x.rjust(l)} - {y} \n{d_next}\n", c)
-                if pb.startswith("PB NOT") and n == 1: break
+                topwin.addstr(f"{x.rjust(l)} - {y} {d_next}\n", c)
+                #if pb.startswith("PB NOT") and n == 1: break
             else:
                 try:
-                    if u == 0 and topent != 1 : topwin.addstr(f"{key.rjust(l)} - {val} \n(Only {val - tmp[pb]} levels to go!)\n")
+                    #if u == 0 and topent != 1 : topwin.addstr(f"{key.rjust(l)} - {val} (Only {val - tmp[pb]} levels to go!)\n")
+                    pass
                 except: pass
-        topwin.refresh(0, 0, 0, barwidth, height-1, width-1)
+        topwin.refresh(0, 0, 1, barwidth+10, height-1, width-1)
