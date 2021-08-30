@@ -147,7 +147,7 @@ def rndo(curr="", out=False):
         except IndexError:
             gmod = None
 
-        if random.randint(0, 1) == 0 and gmod != None:
+        if random.randint(0, 2) != 0 and gmod != None:
             output[0] += f" ({gmod})"
 
     os.append(diff)
@@ -163,6 +163,7 @@ def progress(count, total, bar_len, focus = False):
     percents = round(100.0 * count / float(total), 1)
 
     return ('=' * filled_len + '-' * (bar_len - filled_len), filled_len)
+
 def gennum(pro, score):
     retr = f"{str(score).rjust(4)} / {pro}"
 
@@ -174,12 +175,15 @@ def gennum(pro, score):
     return retr
 
 
-def printbar(data, focus=None):
+def printbar(data, focus=None, coun = 0):
+
+    cur = 0
+    total = 0
 
     l = len(max(pro_badge.keys(), key=len))
     fstr = Template('${lb}$pb {${bar}} $cnt $newlbl')
-    newlbl = "<--"
-    barlen = int(width/2) - (l + len(fstr.substitute(lb="", pb=""*l, bar="9999/9999", cnt="", newlbl=""))) - 5
+    newlbl = "<-- NEW"
+    barlen = int(width/2) - (l + len(fstr.substitute(lb="", pb=""*l, bar="9999/9999", cnt="", newlbl=""))) - 20
     
     for n, (pb, (pro, game)) in enumerate(pro_badge.items()):
 
@@ -197,9 +201,50 @@ def printbar(data, focus=None):
                 break
         else: barmax = i + 1 #getting the furthest num bar display
 
-        n = f"{n} "
+        n = f"{n + 1} "
         bar, count = progress(score, barmax, barlen)
-        yield fstr.substitute(lb=n.rjust(3), pb=pb.rjust(l), bar=bar, cnt=cnt, newlbl=newlbl if focus == pb else "")
+
+        bar = list(bar) #converts it to a list to make it editable
+        for x, y in zip(lev, [pro, *levcount]): #gets the list of badges
+            try:
+                ind = int(math.floor(barlen * y / float(barmax)))
+                try: nextv = bar[ind + 1]
+                except KeyError: nextv = "-"
+                if bar[ind] == "=" and nextv == "-": x = x.lower()
+                bar[ind] = x[0]  #sets the corresponding part in str to the first letter of badge
+            except IndexError: pass #pass if its not shown in the bar
+        bar = "".join(bar) #converts it back into a string
+
+        cur += score
+        total += barmax - 1
+
+        yield (fstr.substitute(lb=n.rjust(3), pb=pb.rjust(l, "-"), bar=bar, cnt=cnt.ljust(20), newlbl=newlbl if focus == pb else ""), pb)
+
+    bar, *_ = progress(cur, total, barlen)
+    
+    #n = f"\n{str(int(n) + 1)}"
+    pb = "total"
+    per = str(round(cur / total, 2))
+    addin = f" ( +{round(coun / total, 6)}%)" if coun > 0 else ""
+    yield (fstr.substitute(lb="\n", pb=pb.rjust(l+3), bar=bar, cnt=f"{str(cur).rjust(4)} / {total}", newlbl=f"\n\n{per.rjust(l+3)}%{addin}"), pb)
+
+
+def numjump(screen, st):
+    jump = st
+    screen.addstr(height - 1, width - 2, st)
+    c = chr(screen.getch())
+    if not c.isnumeric(): return
+
+    jump = int(f"{jump}{c}")
+
+    try:
+        ret = list(pro_badge.keys())[jump - 1]
+        screen.addstr(0, 0, ret)
+        return ret
+        #curses.napms(2000)
+    except:
+        return
+
 
 
 
@@ -213,16 +258,19 @@ def main(screen):
 
     height, width = screen.getmaxyx()
     curses.init_pair(1, curses.COLOR_WHITE, curses.COLOR_BLUE) #filled bar
-    curses.init_pair(2, curses.COLOR_CYAN, curses.COLOR_BLACK) #unfocused bar
+    curses.init_pair(2, curses.COLOR_MAGENTA, curses.COLOR_BLACK) #unfocused bar
     curses.init_pair(3, curses.COLOR_YELLOW, curses.COLOR_BLACK)
     curses.init_pair(4, curses.COLOR_BLUE, curses.COLOR_BLACK)
     curses.init_pair(5, curses.COLOR_RED, curses.COLOR_BLACK)
+    curses.init_pair(6, curses.COLOR_BLACK, curses.COLOR_GREEN) #the bar foc
+    curses.init_pair(7, curses.COLOR_GREEN, curses.COLOR_BLACK) #curos in the leaderboards
+    l = len(max(pro_badge.keys(), key=len))
 
     print_center("Press any key to start or q to close", screen, curses.COLOR_BLUE)
 
     try:
         with open("pb95.json", "r") as f:
-            data = json.load(f)
+            data = org = json.load(f)
         for x in pro_badge.keys():
             if x not in data.keys():
                 data[x] = 0
@@ -234,7 +282,7 @@ def main(screen):
 
     dif = 0
     num = 0
-    numcase = 0
+    count = 0
     pb = ""
     pbtm = None
 
@@ -246,16 +294,26 @@ def main(screen):
         if c == " ":
             try:
                 data[pb] += 1
+                count += 1
+            except KeyError:
+                pass
+        if c == "-":
+            try:
+                data[pb] -= 1
+                count -= 1
             except KeyError:
                 pass
         if c == "r":
             pb = ""
 
 
-        elif c.isnumeric() and c != "0":
-            numcase = c
-            screen.addstr(height-1, width-2, c)
-            continue
+
+        elif c.isnumeric():
+            tmp = numjump(screen, c)
+            if tmp:
+                pb = tmp
+                x = 0
+            else: continue
 
         screen.addstr(0, 0, c)
 
@@ -273,13 +331,14 @@ def main(screen):
             num = 0
         else: num += 1
         
-        for n, x in enumerate(printbar(data)):
-            for y in list(filter(lambda x:x!=None and not x.isspace() and x!="", re.split(r"(=+)|(-+)(<--)", x))):
+        for n, (x, cur) in enumerate(printbar(data, pb, count), 1):
+            for y in list(filter(lambda x:x!=None and not x.isspace() and x!="", re.split(r"((?:P|p)?=+\w*(?:=|[a-z]))|(=)|(p|P)", x))):
                 
-                if re.match(r"^=+$", y):
-                    barwin.addstr(str(y), curses.color_pair(1))
-                elif re.match(r"^-+$", y):
-                    barwin.addstr(str(y), curses.color_pair(2))
+                if re.match(r"(=+(?:\w*=+|=|[a-z]))", y):
+                    if pb == cur: barwin.addstr(str(y), curses.color_pair(6))
+                    else: barwin.addstr(str(y), curses.color_pair(1))
+                #elif re.match(r"^-+$", y):
+                #    barwin.addstr(str(y), curses.color_pair(2))
                 else:
                     barwin.addstr(str(y))
             barwin.addstr("\n")
@@ -291,13 +350,14 @@ def main(screen):
 
         topwin = curses.newpad(9900, barwidth)
         topwin.addstr("Top Levels\n")
+
+
         tmp = dict(sorted(data.items(), key=lambda m: data[m[0]], reverse=True))
         try:
             del tmp["achivements"]
         except: pass
 
-        l = len(max(pro_badge.keys(), key=len))
-        for x in tmp:
+        if True:
             iterate = itertools.zip_longest(tmp.items(), (curses.color_pair(3), curses.color_pair(4), curses.color_pair(5)), fillvalue=0) #making it iterable
             y = list(tmp.keys())
             try:
@@ -315,6 +375,8 @@ def main(screen):
             
             u = 0
             for (x, y), c in iterate:
+                if pb == x and not c:
+                    c = curses.color_pair(7)
                 if key == x:
                     u = 1
                     d_next = f"(Only {val - tmp[pb]} levels to go!)" if topent != 1 else ""
@@ -328,3 +390,7 @@ def main(screen):
                     pass
                 except: pass
         topwin.refresh(0, 0, 1, barwidth+10, height-1, width-1)
+        screen.addstr(height - 1, 0, "Press ? for help (not implemented)")
+        if c == "?":
+            screen.addstr(height - 1, 0, "Havn't implemented this yet, don't forget future me :)")
+        screen.refresh()
