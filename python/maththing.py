@@ -30,8 +30,8 @@ for a, b, c, d, e, f, g in getnum():
         solv = float(solv)
     except:
         pass
-    solv = round(solv, 2)
-    print(f"{n} - {str(solv).ljust(5)} {a} {b} {c} {d} {e} {f} {g}", end="\r")
+    solv = round(solv, 4)
+    print(f"{n} - {str(solv).ljust(9)} {a} {b} {c} {d} {e} {f} {g}", end="\r")
     ans[solv] = [a, b, c, d, e, f, g]
     
 
@@ -44,5 +44,5 @@ with open("mathsort.txt", "w") as file:
         
         dist = f"{a} {b} {c} {d} {e} {f} {g}"
         print(f"{dist.rjust(20)} - {x}")
-        file.write(f"{str(x).ljust(6)} - {a} {b} {c} {d} {e} {f} {g}")
+        file.write(f"{str(x).ljust(6)} - {a} {b} {c} {d} {e} {f} {g}\n")
     
