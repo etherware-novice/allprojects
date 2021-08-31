@@ -5,7 +5,7 @@ from string import Template
 import itertools
 import re
 
-global pro_badge
+global pro_badge, backup_badge
 
 global height, width
 
@@ -67,10 +67,47 @@ pro_badge = {
     #60
 }
 
+backup_badge = pro_badge
+
 lev = ["Pro", "Expert", "Master", "Adept", "Grand"] #the badges
 levcount = [100, 250, 500, 1000] #the amt you need for each (excluding pro)
 
-    
+
+class unlocked:
+    def __init__(self, *inputs):
+       self.index = {
+            "hw": ["PB95", "PB95+", "PB98", "MEME", "PB2000", "XB", "Wista", "7", "81", "10", "1X", "11"],
+            "beta": ["Largehorn", "Whisper", "Chitown"],
+            "pro": ["PB 3.14", "PB2", "PB1", "PB-DOS"],
+            "exp": ["PB NOT 4.0", "PB NOT 3.60"],
+            "bar": ["B1", "B2", "B3", "B4", "B5", "B6", "B7", "B8", "B9", "B10", "B10.2", "B10.3", "B11"],
+        }
+       
+       self.list = self.generate(*inputs)
+       self.filter = lambda m: {x:y for x, y in m.items() if x in self.list}
+
+    def generate(self, *inputs):
+        retr = []
+        for un, (_, os) in zip(inputs, self.index.items()):
+                try:
+                    retr.extend(os[:un])
+                except:
+                    pass
+        self.list = retr
+        return retr
+
+
+cursav = unlocked(2, 0, 1)
+sav = [cursav]
+
+pro_badge = cursav.filter(pro_badge)
+
+"""
+print(cursav.list)
+print(cursav.generate(3, 3, 1, 2, 7))
+print(cursav.list)
+input()
+"""
 
 # Make a function to print a line in the center of screen
 def print_center(message, screen, *kwargs):
@@ -277,6 +314,8 @@ def main(screen):
     except Exception as e:
         data = {x: 0 for x in pro_badge.keys()}
 
+
+
     #with open("pb95.json", "w") as f:
     #    json.dump(data, f, indent=4)
 
@@ -353,6 +392,7 @@ def main(screen):
 
 
         tmp = dict(sorted(data.items(), key=lambda m: data[m[0]], reverse=True))
+        tmp = {x: y for x, y in data.items() if x in pro_badge.keys()}
         try:
             del tmp["achivements"]
         except: pass
