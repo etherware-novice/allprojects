@@ -100,7 +100,7 @@ class unlocked:
 cursav = unlocked(2, 0, 1)
 sav = [cursav]
 
-pro_badge = cursav.filter(pro_badge)
+#pro_badge = cursav.filter(pro_badge)
 
 """
 print(cursav.list)
@@ -316,8 +316,7 @@ def main(screen):
 
 
 
-    #with open("pb95.json", "w") as f:
-    #    json.dump(data, f, indent=4)
+    
 
     dif = 0
     num = 0
@@ -346,6 +345,7 @@ def main(screen):
             pb = ""
 
 
+    
 
         elif c.isnumeric():
             tmp = numjump(screen, c)
@@ -356,6 +356,8 @@ def main(screen):
 
         screen.addstr(0, 0, c)
 
+        with open("pb95.json", "w") as f:
+                json.dump(data, f, indent=4)
 
 
         screen.clear()
@@ -392,7 +394,7 @@ def main(screen):
 
 
         tmp = dict(sorted(data.items(), key=lambda m: data[m[0]], reverse=True))
-        tmp = {x: y for x, y in data.items() if x in pro_badge.keys()}
+        #tmp = {x: y for x, y in data.items() if x in pro_badge.keys()}
         try:
             del tmp["achivements"]
         except: pass
