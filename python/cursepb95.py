@@ -73,8 +73,8 @@ lev = ["Pro", "Expert", "Master", "Adept", "Grand"] #the badges
 levcount = [100, 250, 500, 1000] #the amt you need for each (excluding pro)
 
 
-class unlocked:
-    def __init__(self, *inputs):
+class save:
+    def __init__(self, filen, new=False):
        self.index = {
             "hw": ["PB95", "PB95+", "PB98", "MEME", "PB2000", "XB", "Wista", "7", "81", "10", "1X", "11"],
             "beta": ["Largehorn", "Whisper", "Chitown"],
@@ -83,7 +83,18 @@ class unlocked:
             "bar": ["B1", "B2", "B3", "B4", "B5", "B6", "B7", "B8", "B9", "B10", "B10.2", "B10.3", "B11"],
         }
        
-       self.list = self.generate(*inputs)
+       self.file = filen
+       try:
+           with open(filen, "r") as f:
+               self.data = json.load(f)
+       except Exception as e:
+            if not new: raise(e)
+            self.data = {"lock": [1]}
+
+       try:
+           self.list = self.generate(*self.data["lock"])
+       except:
+           self.list = self.generate(1)
        self.filter = lambda m: {x:y for x, y in m.items() if x in self.list}
 
     def generate(self, *inputs):
@@ -97,8 +108,9 @@ class unlocked:
         return retr
 
 
-cursav = unlocked(2, 0, 1)
+cursav = save("pb95.json")
 sav = [cursav]
+sav.append("atext")
 
 #pro_badge = cursav.filter(pro_badge)
 
