@@ -32,8 +32,8 @@ def main(screen):
     row, col = screen.getmaxyx()
     spw_cord, bar_cord = comwindow(screen)
 
-    seg = ["Blue", "Blue x2", "Blue x3", "Yellow", "Pink", "RED"]
-    weight = [10, 5, 2, 10, 7, 5]
+    seg = ["Blue", "Blue x2", "Blue x3", "Yellow", "Pink", "RED", "Green"]
+    weight = [50, 20, 10, 50, 30, 35, 5]
 
     screen.refresh()
 
@@ -76,6 +76,9 @@ def main(screen):
                     screen.refresh()
                     curses.napms(500)
 
+                if curseg == "Green":
+                    curbar = ["Blue"] * 20
+
             else:
                 screen.addstr(cury, spw_cord[1] + 1, "000".center(17))
 
@@ -93,15 +96,15 @@ def main(screen):
             screen.addstr(bar_cord[2] - n - 1, bar_cord[1] + 1, f"{x}_{20-n}".center(17))
 
         #if timedely != 4000 * 2: 
-        if timedely != 500000:
+        if timedely != 50000:
             timedely += 1
             continue
         else: timedely = 0
         
-        screen.clear()
+        screen.erase()
         comwindow(screen)
         if curseg == "": 
-            curseg, *_ = random.choices(seg, weights=weight)
+            curseg, *_ = random.choices(seg, weights=weight, k=2)
             cury = spw_cord[0] - 1
 
         cury += 1
