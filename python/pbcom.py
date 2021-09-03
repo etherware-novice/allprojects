@@ -110,9 +110,9 @@ def main(screen):
         cury += 1
 
         tmp = cury - spw_cord[0]
-        screen.addstr(0, 0, str(21 - tmp))
-        screen.addstr(1, 0, str(tmp))
-        screen.addstr(2, 0, str(len(curbar)))
+        #screen.addstr(0, 0, str(21 - tmp))
+        #screen.addstr(1, 0, str(tmp))
+        #screen.addstr(2, 0, str(len(curbar)))
 
         if cury >= spw_cord[2]:
             curseg = ""
