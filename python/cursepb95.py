@@ -24,7 +24,7 @@ bonusBAR = baselineBAR + [colr, jig]
 flatten = lambda m: [item for sublist in m for item in sublist]
 
 #the index of what each sys has
-pro_badge = {
+backup_badge = pro_badge = {
     "PB-DOS": [10, baseline + [tetris, cmd]],
     "PB1": [10, default],
     "PB2": [10, default],
@@ -301,7 +301,7 @@ def numjump(screen, st):
 
 @curses.wrapper
 def main(screen):
-    global height, width
+    global height, width, pro_badge
     screen.clear()
     screen.refresh()
 
@@ -334,7 +334,7 @@ def main(screen):
     num = 0
     count = 0
     pb = ""
-    pbtm = None
+    sort = 0
 
     while True:
 
@@ -356,7 +356,27 @@ def main(screen):
         if c == "r":
             pb = ""
 
+        if c == "m":
+            if sort == 1:
+                pro_badge = backup_badge
+                sort = 0
+                pb = ""
+            else:
+                sort = 1
 
+        if sort == 1:
+            dif = {}
+            for n, (pb, (pro, *_)) in enumerate(pro_badge.items()):
+                try:
+                    s_data = data[pb]
+                except KeyError: s_data = 0
+                for y in (pro, *levcount):
+                    dif[pb] = y - s_data
+                    if dif[pb] > 0: break
+
+            pro_badge = dict(sorted(pro_badge.items(), key= lambda m: dif[m[0]]))
+            pb = list(pro_badge.keys())[0]
+            num = 0
     
 
         elif c.isnumeric():
@@ -405,6 +425,15 @@ def main(screen):
         topwin.addstr("Top Levels\n")
 
 
+
+        sp = 0
+        for x, y in zip((pro_badge[pb][0], *levcount), lev):
+            if data[pb] >= x: continue
+            sp = (x, y)
+            break
+
+
+            
         tmp = dict(sorted(data.items(), key=lambda m: data[m[0]], reverse=True))
         #tmp = {x: y for x, y in data.items() if x in pro_badge.keys()}
         try:
@@ -435,7 +464,16 @@ def main(screen):
                     u = 1
                     d_next = f"(Only {val - tmp[pb]} levels to go!)" if topent != 1 else ""
                 else: d_next = ""
+
+                if x in lev:
+                    topwin.addstr(f"(Only {y - data[pb]} levels to {x})\n", curses.color_pair(2))
+                    continue
+
+                #
                 #print(color(f"{x.rjust(l)} - {y} {d_next}", fore=c))
+                if y < sp[0]:
+                    topwin.addstr(f"Only {sp[0] - data[pb]} levels to {sp[1]}\n", curses.color_pair(2))
+                    sp = (0, 0)
                 topwin.addstr(f"{x.rjust(l)} - {y} {d_next}\n", c)
                 #if pb.startswith("PB NOT") and n == 1: break
             else:

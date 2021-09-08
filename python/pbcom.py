@@ -87,7 +87,7 @@ def main(screen):
 
         if c == 97: #lowercase a
             curseg = ""
-            curbar = ["Blue", "Blue", "Blue", "Blue", "Blue", "Blue", "Blue", "Blue", "Blue", "Blue", "Blue", "Blue", "Blue", "Blue", "Blue", "Blue", "Blue", "Blue", "Blue"]
+            curbar = ["Blue"] * 19
 
         if c == 98:
             curseg = ""
@@ -95,8 +95,8 @@ def main(screen):
         for n, x in enumerate(curbar):
             screen.addstr(bar_cord[2] - n - 1, bar_cord[1] + 1, f"{x}_{20-n}".center(17))
 
-        #if timedely != 4000 * 2: 
-        if timedely != 50000:
+        if timedely != 4000 * 2: 
+        #if timedely != 50000:
             timedely += 1
             continue
         else: timedely = 0
