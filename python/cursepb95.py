@@ -5,7 +5,21 @@ from string import Template
 import itertools
 import re
 
-global pro_badge, backup_badge
+def zip_first(a, b): 
+  
+  b = list(b)
+  if len(a) == len(b):
+    return zip(a, b)
+  elif len(a) > len(b):
+    [b.append(0) for x in a]
+  else:
+    pass
+    #b = [x for x in b for _ in a]
+
+  return zip(a, b)
+
+
+global pro_badge, backup_badge, cursav
 
 global height, width
 
@@ -74,7 +88,7 @@ levcount = [100, 250, 500, 1000] #the amt you need for each (excluding pro)
 
 
 class save:
-    def __init__(self, filen, new=False):
+    def __init__(self, filen, new=True):
        self.index = {
             "hw": ["PB95", "PB95+", "PB98", "MEME", "PB2000", "XB", "Wista", "7", "81", "10", "1X", "11"],
             "beta": ["Largehorn", "Whisper", "Chitown"],
@@ -87,14 +101,22 @@ class save:
        try:
            with open(filen, "r") as f:
                self.data = json.load(f)
+               for x in pro_badge.keys():
+                   if x not in self.data.keys(): self.data[x] = 0
+
        except Exception as e:
             if not new: raise(e)
-            self.data = {"lock": [1]}
+            self.data = {x: 0 for x in pro_badge.keys()}
+            self.write()
+            
 
        try:
+           if self.data["lock"] == True:
+               self.list = [z for x, sl in self.index.items() for z in sl]
+           else: self.list = self.generate(*self.data["lock"])
+       except Exception as e:
+           self.data["lock"] = [2, 0, 4]
            self.list = self.generate(*self.data["lock"])
-       except:
-           self.list = self.generate(1)
        self.filter = lambda m: {x:y for x, y in m.items() if x in self.list}
 
     def generate(self, *inputs):
@@ -107,12 +129,34 @@ class save:
         self.list = retr
         return retr
 
+    def add(self, ent):
+        self.data[ent] += 1
+        self.write()
 
-cursav = save("pb95.json")
-sav = [cursav]
-sav.append("atext")
+    def subt(self, ent):
+        self.data[ent] -= 1
+        self.write()
 
-#pro_badge = cursav.filter(pro_badge)
+    def write(self):
+        with open(self.file, "w") as f:
+            json.dump(self.data, f, indent=4)
+
+    def ints(self):
+        return [x for x in self.data.values() if isinstance(x, int)]
+
+    def itemints(self):
+        return [(x, y) for x, y in self.data.items() if isinstance(y, int) and x in self.list]
+
+
+
+
+sav = ["pb95.json", "pbmob.json"]
+
+sav = [save(x) for x in sav]
+
+cursav = sav[0]
+
+pro_badge = cursav.filter(pro_badge)
 
 """
 print(cursav.list)
@@ -243,7 +287,8 @@ def printbar(data, focus=None, coun = 0):
 
         cnt = gennum(pro, score)
 
-        i = max(data.values())
+
+        i = max(cursav.ints())
         for x in [70, *levcount]:
             if i <= x-1:
                 barmax = x + 1
@@ -301,7 +346,7 @@ def numjump(screen, st):
 
 @curses.wrapper
 def main(screen):
-    global height, width, pro_badge
+    global height, width, pro_badge, cursav
     screen.clear()
     screen.refresh()
 
@@ -317,15 +362,16 @@ def main(screen):
 
     print_center("Press any key to start or q to close", screen, curses.COLOR_BLUE)
 
-    try:
-        with open("pb95.json", "r") as f:
-            data = org = json.load(f)
-        for x in pro_badge.keys():
-            if x not in data.keys():
-                data[x] = 0
-    except Exception as e:
-        data = {x: 0 for x in pro_badge.keys()}
-
+#"""
+#    try:
+#        with open("pb95.json", "r") as f:
+#            data = org = json.load(f)
+#        for x in pro_badge.keys():
+#            if x not in data.keys():
+#                data[x] = 0
+#    except Exception as e:
+#        data = {x: 0 for x in pro_badge.keys()}
+#"""
 
 
     
@@ -336,22 +382,24 @@ def main(screen):
     pb = ""
     sort = 0
 
+
     while True:
 
+        #pro_badge = cursav.filter(pro_badge)
         c = chr(screen.getch())
         if c == "q": break
 
         if c == " ":
             try:
-                data[pb] += 1
+                cursav.add(pb)
                 count += 1
-            except KeyError:
+            except:
                 pass
         if c == "-":
             try:
-                data[pb] -= 1
+                cursav.subt(pb)
                 count -= 1
-            except KeyError:
+            except:
                 pass
         if c == "r":
             pb = ""
@@ -368,7 +416,7 @@ def main(screen):
             dif = {}
             for n, (pb, (pro, *_)) in enumerate(pro_badge.items()):
                 try:
-                    s_data = data[pb]
+                    s_data = cursav.data[pb]
                 except KeyError: s_data = 0
                 for y in (pro, *levcount):
                     dif[pb] = y - s_data
@@ -388,8 +436,8 @@ def main(screen):
 
         screen.addstr(0, 0, c)
 
-        with open("pb95.json", "w") as f:
-                json.dump(data, f, indent=4)
+#        with open("pb95.json", "w") as f:
+#                json.dump(data, f, indent=4)
 
 
         screen.clear()
@@ -404,7 +452,7 @@ def main(screen):
             num = 0
         else: num += 1
         
-        for n, (x, cur) in enumerate(printbar(data, pb, count), 1):
+        for n, (x, cur) in enumerate(printbar(cursav.data, pb, count), 1):
             for y in list(filter(lambda x:x!=None and not x.isspace() and x!="", re.split(r"((?:P|p)?=+\w*(?:=|[a-z]))|(=)|(p|P)", x))):
                 
                 if re.match(r"(=+(?:\w*=+|=|[a-z]))", y):
@@ -428,20 +476,21 @@ def main(screen):
 
         sp = 0
         for x, y in zip((pro_badge[pb][0], *levcount), lev):
-            if data[pb] >= x: continue
+            if cursav.data[pb] >= x: continue
             sp = (x, y)
             break
 
 
-            
-        tmp = dict(sorted(data.items(), key=lambda m: data[m[0]], reverse=True))
+            #cursav.itemints()
+        tmp = dict(sorted(cursav.itemints(), key=lambda m: cursav.data[m[0]], reverse=True))
         #tmp = {x: y for x, y in data.items() if x in pro_badge.keys()}
         try:
             del tmp["achivements"]
         except: pass
 
         if True:
-            iterate = itertools.zip_longest(tmp.items(), (curses.color_pair(3), curses.color_pair(4), curses.color_pair(5)), fillvalue=0) #making it iterable
+            topent = 0
+            iterate = zip_first(list(tmp.items()), (curses.color_pair(3), curses.color_pair(4), curses.color_pair(5)) ) #making it iterable
             y = list(tmp.keys())
             try:
                 pbindex = list(tmp.keys()).index(pb)
@@ -451,12 +500,13 @@ def main(screen):
                     if val != tmp[pb]: break
 
                     topent = 1 if list(tmp.values())[0] == tmp[pb] else 0
-            except:
+            except Exception as e:
                 key = y[-1]
                 val = 0
             
             
             u = 0
+
             for (x, y), c in iterate:
                 if pb == x and not c:
                     c = curses.color_pair(7)
@@ -466,21 +516,24 @@ def main(screen):
                 else: d_next = ""
 
                 if x in lev:
-                    topwin.addstr(f"(Only {y - data[pb]} levels to {x})\n", curses.color_pair(2))
+                    topwin.addstr(f"(Only {y - cursav.data[pb]} levels to {x})\n", curses.color_pair(2))
                     continue
 
                 #
                 #print(color(f"{x.rjust(l)} - {y} {d_next}", fore=c))
                 if y < sp[0]:
-                    topwin.addstr(f"Only {sp[0] - data[pb]} levels to {sp[1]}\n", curses.color_pair(2))
+                    topwin.addstr(f"Only {sp[0] - cursav.data[pb]} levels to {sp[1]}\n", curses.color_pair(2))
                     sp = (0, 0)
                 topwin.addstr(f"{x.rjust(l)} - {y} {d_next}\n", c)
                 #if pb.startswith("PB NOT") and n == 1: break
-            else:
-                try:
-                    #if u == 0 and topent != 1 : topwin.addstr(f"{key.rjust(l)} - {val} (Only {val - tmp[pb]} levels to go!)\n")
-                    pass
-                except: pass
+
+
+
+            #else:
+            #    try:
+            #        #if u == 0 and topent != 1 : topwin.addstr(f"{key.rjust(l)} - {val} (Only {val - tmp[pb]} levels to go!)\n")
+            #        pass
+            #    except: pass
         topwin.refresh(0, 0, 1, barwidth+10, height-1, width-1)
         screen.addstr(height - 1, 0, "Press ? for help (not implemented)")
         if c == "?":
