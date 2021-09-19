@@ -385,7 +385,7 @@ def main(screen):
 
     while True:
 
-        #pro_badge = cursav.filter(pro_badge)
+        pro_badge = cursav.filter(pro_badge)
         c = chr(screen.getch())
         if c == "q": break
 
@@ -411,6 +411,10 @@ def main(screen):
                 pb = ""
             else:
                 sort = 1
+
+        if c == "p":
+            cursav = sav[1]
+            pro_badge = cursav.filter(backup_badge)
 
         if sort == 1:
             dif = {}
